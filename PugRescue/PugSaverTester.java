@@ -4,13 +4,13 @@ public class PugSaverTester {
     public static void main(String[] args) {
         // Create a dog list that alternates golden and non golden dogs
         ArrayList<Dog> dogs = new ArrayList<Dog>();
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 6; i++) {
             if (i % 3 == 0) {
                 dogs.add(new Dog("Bobby", "Pug"));
             } else if (i % 3 == 1) {
                 dogs.add(new Dog("Jeremy", "Golden Retriever"));
             } else {
-                
+                dogs.add(new Dog("John", "Golden-Doodle"));
             }
         }
         printDogs(dogs);
