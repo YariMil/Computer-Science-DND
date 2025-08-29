@@ -3,14 +3,14 @@ import java.util.ArrayList;
 public class PugSaverTester {
     public static void main(String[] args) {
         // Create a dog list that alternates golden and non golden dogs
-        ArrayList<Dog> dogs = new ArrayList<Dog>();
-        for (int i = 0; i < 6; i++) {
+        MyArrayList<Dog> dogs = new MyArrayList<Dog>();
+        for (int i = 0; i < 3; i++) {
             if (i % 3 == 0) {
-                dogs.add(new Dog("Bobby", "Pug"));
+                dogs.add(new Dog("P"));
             } else if (i % 3 == 1) {
-                dogs.add(new Dog("Jeremy", "Golden Retriever"));
+                dogs.add(new Dog("P"));
             } else {
-                dogs.add(new Dog("John", "Golden-Doodle"));
+                dogs.add(new Dog("G", "Golden-Doodle"));
             }
         }
         printDogs(dogs);
@@ -19,10 +19,10 @@ public class PugSaverTester {
 
     }
 
-    public static void printDogs(ArrayList<Dog> dog) {
+    public static void printDogs(MyArrayList<Dog> dog) {
         String s = "";
-        for (Dog d : dog) {
-            s += d.getName() + " ";
+        for (int i = 0; i < dog.size(); i++) {
+            s += dog.get(i).getName() + " ";
         }
         System.out.println(s);
     }
