@@ -46,6 +46,9 @@ public class MyArrayList<E> {
 
 	/* Replace the object at index with obj. returns object that was replaced. */
 	public E set(int index, E obj) {
+		if (index > objectCount || index < 0) {
+			throw new IndexOutOfBoundsException("Index " + index + "out of range for length " + size());
+		}
 		E setObj = get(index);
 		internalArray[index] = obj;
 		return setObj;
@@ -66,19 +69,28 @@ public class MyArrayList<E> {
 	/* Insert an object at index */
 	@SuppressWarnings("unchecked")
 	public void add(int index, E obj) {
-		/* ---- YOUR CODE HERE ---- */
+		if (index > objectCount || index < 0) {
+			throw new IndexOutOfBoundsException("Index " + index + "out of range for length " + size());
+		}
+		E temp = obj;
+		for (int i = index; i < objectCount; i++) {
+			temp = set(i, temp);
+		}
+		add(temp);
 	}
 
 	/* Add an object to the end of the list; returns true */
 	@SuppressWarnings("unchecked")
 	public boolean add(E obj) {
 		if (objectCount == internalArray.length) {
+			// We're at capacity, expand arraylist
 			E[] newArray = (E[]) new Object[objectCount * 2];
 			for (int i = 0; i < internalArray.length; i++) {
 				newArray[i] = internalArray[i];
 				internalArray = newArray;
 			}
 		} else {
+			// Add it to the end
 			internalArray[objectCount] = obj;
 		}
 		objectCount++;
@@ -87,8 +99,15 @@ public class MyArrayList<E> {
 
 	/* Remove the object at index and shift. Returns removed object. */
 	public E remove(int index) {
-		/* ---- YOUR CODE HERE ---- */
-		return null;
+		if (index > objectCount || index < 0) {
+			throw new IndexOutOfBoundsException("Index " + index + "out of range for length " + size());
+		}
+		E temp = null;
+		for (int i = objectCount - 1; i >= index; i--) {
+			temp = set(i, temp);
+		}
+		objectCount--;
+		return temp;
 	}
 
 	/*
@@ -99,8 +118,23 @@ public class MyArrayList<E> {
 	 * if this list changed as a result of the call).
 	 */
 	public boolean remove(E obj) {
-		/* ---- YOUR CODE HERE ---- */
-		return true;
+		if (obj == null) {
+			// Remove nulls
+			for (int i = 0; i < objectCount; i++) {
+				if (get(i) == null) {
+					remove(i);
+					return true;
+				}
+			}
+		} else {
+			for (int i = 0; i < objectCount; i++) {
+				if (obj.equals(get(i))) {
+					remove(i);
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 
@@ -111,7 +145,18 @@ public class MyArrayList<E> {
 	 */
 	public String toString() {
 		/* ---- YOUR CODE HERE ---- */
-		return null;
+		String s = "[";
+		for (int i = 0; i < objectCount; i++) {
+			if (get(i) != null) {
+				s += get(i).toString();
+			} else {
+				s += "null";
+			}
+			if (i != objectCount - 1) {
+				s += ", ";
+			}
+		}
+		return s + "]";
 	}
 
 }

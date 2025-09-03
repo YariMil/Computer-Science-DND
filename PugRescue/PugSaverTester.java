@@ -16,7 +16,11 @@ public class PugSaverTester {
         printDogs(dogs);
         PugSaver.rescuePugs(dogs);
         printDogs(dogs);
-
+        ArrayList<String> s = new ArrayList<String>();
+        s.add(null);
+        System.out.println(s);
+        s.remove(null);
+        System.out.println(s);
     }
 
     public static void printDogs(MyArrayList<Dog> dog) {
