@@ -4,7 +4,7 @@ public class PugSaverTester {
     public static void main(String[] args) {
         // Create a dog list that alternates golden and non golden dogs
         MyArrayList<Dog> dogs = new MyArrayList<Dog>();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 100; i++) {
             if (i % 3 == 0) {
                 dogs.add(new Dog("P"));
             } else if (i % 3 == 1) {
@@ -13,20 +13,20 @@ public class PugSaverTester {
                 dogs.add(new Dog("G", "Golden-Doodle"));
             }
         }
-        printDogs(dogs);
+        // printDogs(dogs);
         PugSaver.rescuePugs(dogs);
         printDogs(dogs);
-        ArrayList<String> s = new ArrayList<String>();
-        s.add(null);
-        System.out.println(s);
-        s.remove(null);
-        System.out.println(s);
     }
 
     public static void printDogs(MyArrayList<Dog> dog) {
+        System.out.println(dog.size());
         String s = "";
         for (int i = 0; i < dog.size(); i++) {
-            s += dog.get(i).getName() + " ";
+            try {
+                s += dog.get(i).getName() + " ";
+            } catch (Exception e) {
+                System.out.println();
+            }
         }
         System.out.println(s);
     }

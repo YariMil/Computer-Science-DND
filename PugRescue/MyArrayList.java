@@ -29,25 +29,34 @@ public class MyArrayList<E> {
 		this.objectCount = 0;
 	}
 
-	/* Return the number of active slots in the array list */
+	/*
+	 * Return the number of active slots in the array list O(1)
+	 */
 	public int size() {
 		return objectCount;
 	}
 
-	/* Are there zero objects in the array list? */
+	/*
+	 * Are there zero objects in the array list? O(1)
+	 */
 	public boolean isEmpty() {
 		return objectCount == 0;
 	}
 
-	/* Get the index-th object in the list. */
+	/*
+	 * Get the index-th object in the list. O(1)
+	 */
 	public E get(int index) {
 		return internalArray[index];
 	}
 
-	/* Replace the object at index with obj. returns object that was replaced. */
+	/*
+	 * Replace the object at index with obj. returns object that was replaced. O(1)
+	 */
 	public E set(int index, E obj) {
 		if (index > objectCount || index < 0) {
-			throw new IndexOutOfBoundsException("Index " + index + "out of range for length " + size());
+			throw new IndexOutOfBoundsException(
+					"Index " + index + "out of range for length " + size());
 		}
 		E setObj = get(index);
 		internalArray[index] = obj;
@@ -55,7 +64,7 @@ public class MyArrayList<E> {
 	}
 
 	/*
-	 * Returns true if this list contains an element equal to obj; otherwise returns false.
+	 * Returns true if this list contains an element equal to obj; otherwise returns false. O(n)
 	 */
 	public boolean contains(E obj) {
 		for (int i = 0; i < objectCount; i++) {
@@ -66,11 +75,14 @@ public class MyArrayList<E> {
 		return false;
 	}
 
-	/* Insert an object at index */
+	/*
+	 * Insert an object at index O(1)
+	 */
 	@SuppressWarnings("unchecked")
 	public void add(int index, E obj) {
 		if (index > objectCount || index < 0) {
-			throw new IndexOutOfBoundsException("Index " + index + "out of range for length " + size());
+			throw new IndexOutOfBoundsException(
+					"Index " + index + "out of range for length " + size());
 		}
 		E temp = obj;
 		for (int i = index; i < objectCount; i++) {
@@ -87,12 +99,13 @@ public class MyArrayList<E> {
 			E[] newArray = (E[]) new Object[objectCount * 2];
 			for (int i = 0; i < internalArray.length; i++) {
 				newArray[i] = internalArray[i];
-				internalArray = newArray;
+
 			}
-		} else {
-			// Add it to the end
-			internalArray[objectCount] = obj;
+
+			internalArray = newArray;
 		}
+		// Add it to the end
+		internalArray[objectCount] = obj;
 		objectCount++;
 		return true;
 	}
@@ -100,7 +113,8 @@ public class MyArrayList<E> {
 	/* Remove the object at index and shift. Returns removed object. */
 	public E remove(int index) {
 		if (index > objectCount || index < 0) {
-			throw new IndexOutOfBoundsException("Index " + index + "out of range for length " + size());
+			throw new IndexOutOfBoundsException(
+					"Index " + index + "out of range for length " + size());
 		}
 		E temp = null;
 		for (int i = objectCount - 1; i >= index; i--) {
@@ -158,5 +172,4 @@ public class MyArrayList<E> {
 		}
 		return s + "]";
 	}
-
 }
