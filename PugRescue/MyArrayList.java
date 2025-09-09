@@ -47,6 +47,10 @@ public class MyArrayList<E> {
 	 * Get the index-th object in the list. O(1)
 	 */
 	public E get(int index) {
+		if (index > objectCount || index < 0) {
+			throw new IndexOutOfBoundsException(
+					"Index " + index + "out of range for length " + size());
+		}
 		return internalArray[index];
 	}
 
@@ -64,7 +68,8 @@ public class MyArrayList<E> {
 	}
 
 	/*
-	 * Returns true if this list contains an element equal to obj; otherwise returns false. O(n)
+	 * Returns true if this list contains an element equal to obj; otherwise returns false. O(1) in
+	 * best case, O(n) in the worst case
 	 */
 	public boolean contains(E obj) {
 		for (int i = 0; i < objectCount; i++) {
@@ -76,7 +81,7 @@ public class MyArrayList<E> {
 	}
 
 	/*
-	 * Insert an object at index O(1)
+	 * Insert an object at index O(1) in the best case, O(n) in the worst case
 	 */
 	@SuppressWarnings("unchecked")
 	public void add(int index, E obj) {
@@ -91,7 +96,10 @@ public class MyArrayList<E> {
 		add(temp);
 	}
 
-	/* Add an object to the end of the list; returns true */
+	/*
+	 * Add an object to the end of the list; returns true O(1) in the best case, O(n) in the worst
+	 * case
+	 */
 	@SuppressWarnings("unchecked")
 	public boolean add(E obj) {
 		if (objectCount == internalArray.length) {
@@ -110,7 +118,10 @@ public class MyArrayList<E> {
 		return true;
 	}
 
-	/* Remove the object at index and shift. Returns removed object. */
+	/*
+	 * Remove the object at index and shift. Returns removed object. O(1) in the best case, O(n) in
+	 * the worst case
+	 */
 	public E remove(int index) {
 		if (index > objectCount || index < 0) {
 			throw new IndexOutOfBoundsException(
@@ -130,6 +141,8 @@ public class MyArrayList<E> {
 	 * with the lowest index i such that (o==null ? get(i)==null : o.equals(get(i))) (if such an
 	 * element exists). Returns true if this list contained the specified element (or equivalently,
 	 * if this list changed as a result of the call).
+	 * 
+	 * O(1) in the best case, O(n) in the worst case
 	 */
 	public boolean remove(E obj) {
 		if (obj == null) {
@@ -156,20 +169,21 @@ public class MyArrayList<E> {
 	 * For testing; your string should output as "[X, X, X, X, ...]" where X, X, X, X, ... are the
 	 * elements in the ArrayList. If the array is empty, it should return "[]". If there is one
 	 * element, "[X]", etc. Elements are separated by a comma and a space.
+	 * O(n) always
 	 */
 	public String toString() {
-		/* ---- YOUR CODE HERE ---- */
-		String s = "[";
+		StringBuilder str = new StringBuilder("[");
 		for (int i = 0; i < objectCount; i++) {
 			if (get(i) != null) {
-				s += get(i).toString();
+				str.append(get(i).toString());
 			} else {
-				s += "null";
+				str.append("null");
 			}
 			if (i != objectCount - 1) {
-				s += ", ";
+				str.append(", ");
 			}
 		}
-		return s + "]";
+		str.append("]");
+		return str.toString();
 	}
 }
