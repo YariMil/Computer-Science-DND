@@ -13,7 +13,7 @@ public class PugSaverTester {
         }
         // printDogs(dogs);
         PugSaver.rescuePugs(dogs);
-        printDogs(dogs);
+        // printDogs(dogs);
     }
 
     // This method is for accuracy testing, makes it easier to see accuracy errors
