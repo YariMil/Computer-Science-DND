@@ -28,24 +28,31 @@ public class SinglyLinkedList<E> {
 
 	// Returns true if this list is empty; otherwise returns false.
 	public boolean isEmpty() {
-		return false;
+		return nodeCount == 0;
 	}
 
 	// Returns the number of elements in this list.
 	public int size() {
-		return 1;
+		return nodeCount;
 	}
 
 	// Returns true if this list contains an element equal to obj;
 	// otherwise returns false.
 	public boolean contains(E obj) {
-		return false;
+		return indexOf(obj) != -1;
 	}
 
 	// Returns the index of the first element in equal to obj;
 	// if not found, returns -1.
 	public int indexOf(E obj) {
-		return 1;
+		ListNode<E> temp = head;
+		for (int i = 0; i < nodeCount; i++) {
+			if (temp.getValue().equals(obj)) {
+				return i;
+			}
+			temp = temp.getNext();
+		}
+		return -1;
 	}
 
 	// Adds obj to this collection. Returns true if successful;
@@ -61,48 +68,90 @@ public class SinglyLinkedList<E> {
 		 * means the head's next is set to the new node because the tail points to the head). The
 		 * tail is now set to the new node, pointing at it.
 		 */
-		if (nodeCount == 0) {
-			head = new ListNode<E>(obj, tail);
-			tail = head;
-		} else {
-			// create new node first
-			// This is now the new tail node
-			ListNode<E> addition = new ListNode<E>(obj);
-			// Set the next node of the tail node to new node
-			tail.setNext(addition);
-			// new node = tail node
-			tail = addition;
-		}
-		nodeCount++;
+		add(nodeCount, obj);
 		return true;
 	}
 
 	// Removes the first element that is equal to obj, if any.
 	// Returns true if successful; otherwise returns false.
 	public boolean remove(E obj) {
+		int index = indexOf(obj);
+		if (index != -1) {
+			remove(index);
+			return true;
+		}
 		return false;
 
 	}
 
 	// Returns the i-th element.
 	public E get(int i) {
-		return null;
+		ListNode<E> temp = getNode(i);
+		return temp.getValue();
 	}
 
 	// Replaces the i-th element with obj and returns the old value.
 	public E set(int i, Object obj) {
-		return null;
+		ListNode<E> temp = getNode(i);
+		E val = temp.getValue();
+		temp.setValue((E) obj);
+		return val;
 	}
 
 	// Inserts obj to become the i-th element. Increments the size
 	// of the list by one.
 	public void add(int i, Object obj) {
+		/*
+		 * At the start, nodeCount will be 0. This means that the head will BE the tail Therefore,
+		 * the tail will point to the head and both will have a null next value because there is no
+		 * next value to call.
+		 * 
+		 * If nodeCount is not 0, the add method will iterate through the linked list, stopping at
+		 * the node right before the actual index where the object will be added. It makes a new
+		 * node with the next node being the temp.getNext() node. The next node of temp then gets
+		 * set to the new node.
+		 */
+		if (nodeCount == 0) {
+			head = new ListNode<E>((E) obj, tail);
+			tail = head;
+		} else {
+			ListNode<E> temp = getNode(i - 1);
+			ListNode<E> newObj = new ListNode<E>((E) obj, temp.getNext());
+			temp.setNext(newObj);
+		}
+		nodeCount++;
+	}
+
+	public ListNode<E> getNode(int i) {
+		ListNode<E> temp = head;
+		for (int j = 0; j < i; j++) {
+			temp = temp.getNext();
+		}
+		return temp;
 	}
 
 	// Removes the i-th element and returns its value.
 	// Decrements the size of the list by one.
 	public E remove(int i) {
-		return null;
+		/*
+		 * Go to the index - 1 Set the next node of the list to the index + 2
+		 */
+		// Edge case when i == 0
+		ListNode<E> temp = head;
+		if (i == 0) {
+			head = head.getNext();
+		} else {
+			ListNode<E> previous = null;
+			for (int j = 0; j < i; j++) {
+				previous = temp;
+				temp = temp.getNext();
+
+			}
+			previous.setNext(temp.getNext());
+		}
+		nodeCount--;
+		return temp.getValue();
+
 
 	}
 
@@ -111,11 +160,12 @@ public class SinglyLinkedList<E> {
 		StringBuilder str = new StringBuilder("[");
 		// While we haven't reached the tail node (next node isn't null)
 		ListNode<E> temp = head;
-		while (temp.getNext() != null) {
+		for (int i = 0; i < nodeCount - 1; i++) {
 			str.append(temp.getValue() + ", ");
 			temp = temp.getNext();
 
 		}
+		// Last node has no "next," needs to be added manually
 		str.append(temp.getValue() + "]");
 		return str.toString();
 
