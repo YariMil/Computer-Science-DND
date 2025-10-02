@@ -1,24 +1,42 @@
+import java.util.LinkedList;
+
 public class LinkedListTester {
     public static void main(String[] args) {
-        String[] test = new String[] {"a", "b", "c", "d", "e", "d"};
-        SinglyLinkedList<String> l = new SinglyLinkedList<String>(test);
-        System.out.println(l.toString());
-        System.out.println(l.contains("d"));
-        System.out.println(l.indexOf("a"));
-        System.out.println(l.indexOf("c"));
-        System.out.println(l.indexOf("aaaa"));
-        System.out.println(l.remove(4));
-        System.out.println(l.toString());
-        System.out.println(l.remove("d"));
-        System.out.println(l.toString());
-        l.add(0, "a");
-        System.out.println(l.toString());
-        l.add(2, "t");
-        System.out.println(l.toString());
-        System.out.println(l.set(5, "B"));
-        System.out.println(l.toString());
-        System.out.println(l.size());
-        System.out.println(l.remove(5));
-        System.out.println(l.toString());
+        LinkedList list = new LinkedList();
+        SinglyLinkedList mylist = new SinglyLinkedList();
+        mylist.add("A");
+        mylist.add("B");
+        mylist.add("C");
+        list.add("A");
+        list.add("B");
+        list.add("C");
+        int i = 0;
+        for (ListNode node = mylist.getHead(); node != null; node = node.getNext()) {
+            if (!list.get(i).equals(node.getValue())) {
+                System.out.println(list.get(i) + " does not equal " + node.getValue());
+            }
+            i++;
+            if (node.getNext() == null) {
+                if (!node.equals(mylist.getTail())) {
+                    System.out.println(node.getValue());
+                    System.out.println(mylist.getTail().getValue());
+                    System.out.println("Tail is missing!");
+                }
+            }
+        }
+        if (i != list.size()) {
+            System.out.println("Not the same size list!");
+        }
+        mylist.add(null);
+        System.out.println(mylist.toString());
+        mylist.remove(null);
+        System.out.println(mylist.toString());
+        // list.set(3, "A");
+        i = 0;
+        mylist.remove(0);
+        System.out.println(mylist.toString());
+        System.out.println(mylist.getHead().getValue());
+        System.out.println(mylist.get(0));
+
     }
 }

@@ -13,6 +13,9 @@ public class SinglyLinkedList<E> {
 	// all elements from the array values, in the same order
 	@SuppressWarnings("unchecked")
 	public SinglyLinkedList(Object[] values) {
+		if (values == null) {
+			throw new IllegalArgumentException("Values array can't be null!");
+		}
 		for (int i = 0; i < values.length; i++) {
 			add((E) values[i]);
 		}
@@ -47,8 +50,14 @@ public class SinglyLinkedList<E> {
 	public int indexOf(E obj) {
 		ListNode<E> temp = head;
 		for (int i = 0; i < nodeCount; i++) {
-			if (temp.getValue().equals(obj)) {
-				return i;
+			if (obj != null) {
+				if (temp.getValue().equals(obj)) {
+					return i;
+				}
+			} else {
+				if (temp.getValue() == null) {
+					return i;
+				}
 			}
 			temp = temp.getNext();
 		}
@@ -86,12 +95,18 @@ public class SinglyLinkedList<E> {
 
 	// Returns the i-th element.
 	public E get(int i) {
+		if (i < 0 || i >= nodeCount) {
+			throw new IndexOutOfBoundsException();
+		}
 		ListNode<E> temp = getNode(i);
 		return temp.getValue();
 	}
 
 	// Replaces the i-th element with obj and returns the old value.
 	public E set(int i, Object obj) {
+		if (i < 0 || i >= nodeCount) {
+			throw new IndexOutOfBoundsException();
+		}
 		ListNode<E> temp = getNode(i);
 		E val = temp.getValue();
 		temp.setValue((E) obj);
@@ -111,12 +126,18 @@ public class SinglyLinkedList<E> {
 		 * node with the next node being the temp.getNext() node. The next node of temp then gets
 		 * set to the new node.
 		 */
+		if (i < 0 || i > nodeCount) {
+			throw new IndexOutOfBoundsException();
+		}
 		if (nodeCount == 0) {
 			head = new ListNode<E>((E) obj, tail);
 			tail = head;
 		} else {
 			ListNode<E> temp = getNode(i - 1);
 			ListNode<E> newObj = new ListNode<E>((E) obj, temp.getNext());
+			if (temp.getNext() == null) {
+				tail = newObj;
+			}
 			temp.setNext(newObj);
 		}
 		nodeCount++;
@@ -137,6 +158,9 @@ public class SinglyLinkedList<E> {
 		 * Go to the index - 1 Set the next node of the list to the index + 2
 		 */
 		// Edge case when i == 0
+		if (i < 0 || i >= nodeCount) {
+			throw new IndexOutOfBoundsException();
+		}
 		ListNode<E> temp = head;
 		if (i == 0) {
 			head = head.getNext();
@@ -146,6 +170,9 @@ public class SinglyLinkedList<E> {
 				previous = temp;
 				temp = temp.getNext();
 
+			}
+			if (temp.getNext() == null) {
+				previous = tail;
 			}
 			previous.setNext(temp.getNext());
 		}
@@ -163,7 +190,6 @@ public class SinglyLinkedList<E> {
 		for (int i = 0; i < nodeCount - 1; i++) {
 			str.append(temp.getValue() + ", ");
 			temp = temp.getNext();
-
 		}
 		// Last node has no "next," needs to be added manually
 		str.append(temp.getValue() + "]");
