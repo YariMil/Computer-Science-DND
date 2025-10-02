@@ -64,7 +64,8 @@ public class LinkedListTester {
         System.out.println(mylist.getHead().getValue());
         System.out.println(mylist.remove(0));
         System.out.println(mylist.toString());
-        mylist.set(0, "V");
+        System.out.println("================");
+        System.out.println(mylist.set(0, "V"));
         System.out.println(mylist.toString());
         System.out.println(mylist.getHead().getValue());
         System.out.println(mylist.set(4, "Y"));
@@ -73,6 +74,17 @@ public class LinkedListTester {
         System.out.println(mylist.indexOf(mylist.getTail().getValue()));
         System.out.println(mylist.getTail().getValue());
         System.out.println(mylist.remove(5));
+        System.out.println(mylist.toString());
+        System.out.println(mylist.getTail().getValue());
+        System.out.println(mylist.remove(0));
+        System.out.println(mylist.toString());
+        System.out.println(mylist.getHead().getValue());
+        SinglyLinkedList<String> lo = new SinglyLinkedList<String>();
+        System.out.println(lo.toString());
+        lo.add(0, "A");
+        System.out.println(lo.toString());
+        System.out.println(lo.getHead().getValue());
+        System.out.println(lo.getTail().getValue());
 
     }
 }

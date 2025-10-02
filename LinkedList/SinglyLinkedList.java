@@ -211,7 +211,11 @@ public class SinglyLinkedList<E> {
 			temp = temp.getNext();
 		}
 		// Last node has no "next," needs to be added manually
-		str.append(temp.getValue() + "]");
+		if (temp != null ) {
+			str.append(temp.getValue());
+		}
+		str.append("]");
+		
 		return str.toString();
 	}
 
