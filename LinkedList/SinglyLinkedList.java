@@ -14,7 +14,7 @@ public class SinglyLinkedList<E> {
 	@SuppressWarnings("unchecked")
 	public SinglyLinkedList(Object[] values) {
 		if (values == null) {
-			throw new IllegalArgumentException("Values array can't be null!");
+			throw new NullPointerException();
 		}
 		for (int i = 0; i < values.length; i++) {
 			add((E) values[i]);
@@ -77,7 +77,16 @@ public class SinglyLinkedList<E> {
 		 * means the head's next is set to the new node because the tail points to the head). The
 		 * tail is now set to the new node, pointing at it.
 		 */
-		add(nodeCount, obj);
+		// add(nodeCount, obj); <-- less efficient code
+		if (nodeCount == 0) {
+			head = new ListNode<E>(obj, tail);
+			tail = head;
+		} else {
+			ListNode<E> addition = new ListNode<E>(obj, null);
+			tail.setNext(addition);
+			tail = addition;
+		}
+		nodeCount++;
 		return true;
 	}
 
@@ -133,12 +142,22 @@ public class SinglyLinkedList<E> {
 			head = new ListNode<E>((E) obj, tail);
 			tail = head;
 		} else {
-			ListNode<E> temp = getNode(i - 1);
-			ListNode<E> newObj = new ListNode<E>((E) obj, temp.getNext());
-			if (temp.getNext() == null) {
-				tail = newObj;
+			ListNode<E> temp = head;
+			ListNode<E> previous = null;
+			for (int j = 0; j < i; j++) {
+				previous = temp;
+				temp = temp.getNext();
 			}
-			temp.setNext(newObj);
+			if (previous == null) {
+				ListNode<E> newObj = new ListNode<E>((E) obj, temp);
+				head = newObj;
+			} else {
+				ListNode<E> newObj = new ListNode<E>((E) obj, temp);
+				if (newObj.getNext() == null) {
+					tail = newObj;
+				}
+				previous.setNext(newObj);;
+			}
 		}
 		nodeCount++;
 	}
@@ -172,7 +191,7 @@ public class SinglyLinkedList<E> {
 
 			}
 			if (temp.getNext() == null) {
-				previous = tail;
+				tail = previous;
 			}
 			previous.setNext(temp.getNext());
 		}
@@ -194,7 +213,6 @@ public class SinglyLinkedList<E> {
 		// Last node has no "next," needs to be added manually
 		str.append(temp.getValue() + "]");
 		return str.toString();
-
 	}
 
 
