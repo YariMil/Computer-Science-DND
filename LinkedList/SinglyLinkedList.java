@@ -176,25 +176,27 @@ public class SinglyLinkedList<E> {
 		/*
 		 * Go to the index - 1 Set the next node of the list to the index + 2
 		 */
-		// Edge case when i == 0
 		if (i < 0 || i >= nodeCount) {
 			throw new IndexOutOfBoundsException();
 		}
 		ListNode<E> temp = head;
-		if (i == 0) {
+
+		ListNode<E> previous = null;
+		for (int j = 0; j < i; j++) {
+			previous = temp;
+			temp = temp.getNext();
+
+		}
+		if (temp.getNext() == null) {
+			tail = previous;
+		}
+		if (previous == null) {
+			// We're at the head (i = 0)
 			head = head.getNext();
 		} else {
-			ListNode<E> previous = null;
-			for (int j = 0; j < i; j++) {
-				previous = temp;
-				temp = temp.getNext();
-
-			}
-			if (temp.getNext() == null) {
-				tail = previous;
-			}
 			previous.setNext(temp.getNext());
 		}
+
 		nodeCount--;
 		return temp.getValue();
 
@@ -211,11 +213,11 @@ public class SinglyLinkedList<E> {
 			temp = temp.getNext();
 		}
 		// Last node has no "next," needs to be added manually
-		if (temp != null ) {
+		if (temp != null) {
 			str.append(temp.getValue());
 		}
 		str.append("]");
-		
+
 		return str.toString();
 	}
 

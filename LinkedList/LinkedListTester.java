@@ -79,12 +79,17 @@ public class LinkedListTester {
         System.out.println(mylist.remove(0));
         System.out.println(mylist.toString());
         System.out.println(mylist.getHead().getValue());
+        System.out.println("_________________________________");
         SinglyLinkedList<String> lo = new SinglyLinkedList<String>();
         System.out.println(lo.toString());
         lo.add(0, "A");
         System.out.println(lo.toString());
         System.out.println(lo.getHead().getValue());
         System.out.println(lo.getTail().getValue());
+        lo.remove(0);
+        System.out.println(lo.toString());
+        System.out.println(lo.getHead());
+        System.out.println(lo.getTail());
 
     }
 }
