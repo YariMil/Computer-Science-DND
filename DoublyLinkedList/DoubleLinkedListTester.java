@@ -31,12 +31,13 @@ public class DoubleLinkedListTester {
         DoublyLinkedList secondTest = new DoublyLinkedList(additionalTest);
         DoublyLinkedList thirdTest = new DoublyLinkedList();
         thirdTest.add(Nucleotide.A);
+        thirdTest.add(Nucleotide.A);
         for (int i = 0; i < 20; i++) {
             thirdTest.add(Nucleotide.C);
         }
         System.out.println(thirdTest.toString());
         System.out.println("Removing!");
-        thirdTest.removeCCCCCCCCGGGGGGGG(thirdTest.getHead());
+        thirdTest.removeCCCCCCCCGGGGGGGG(thirdTest.getHead().getNext());
         System.out.println(thirdTest.toString());
         // System.out.println(thirdTest.limitedToString(2));
         System.out.println("=== Testing deleteSegment ===");
@@ -60,8 +61,21 @@ public class DoubleLinkedListTester {
         d.addSegmentToEnd(secondTest);
         System.out.println(d.toString());
         System.out.println(d.getTail().getValue());
+        System.out.println("== Testing removeThree ==");
+        System.out.println(d.deleteLastThree());
+        System.out.println(d.toString());
+        deleteT.remove(Nucleotide.C);
+        System.out.println(deleteT.toString());
+        System.out.println(deleteT.deleteLastThree());
+        System.out.println(deleteT.toString());
+        DoublyLinkedList badDelete = new DoublyLinkedList();
+        badDelete.add(Nucleotide.A);
+        badDelete.add(Nucleotide.A);
+        System.out.println(badDelete.deleteLastThree());
+        System.out.println(badDelete.toString());
         System.out.println("======= Testing with empty lists now =======");
         DoublyLinkedList emptyTest = new DoublyLinkedList();
+
 
     }
 }

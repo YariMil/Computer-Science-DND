@@ -169,7 +169,9 @@ public class DoublyLinkedList {
 			sb.append(", ");
 			temp = temp.getNext();
 		}
-		sb.append(temp.getValue());
+		if (temp != SENTINEL) {
+			sb.append(temp.getValue());
+		}
 		sb.append("]");
 		return sb.toString();
 	}
@@ -196,6 +198,7 @@ public class DoublyLinkedList {
 		removeMultiple(nodeBefore, 16);
 	}
 
+	// Removes next num nodes
 	public void removeMultiple(ListNode2<Nucleotide> nodeBefore, int num) {
 		ListNode2<Nucleotide> temp = nodeBefore.getNext();
 		for (int i = 0; i < num; i++) {
@@ -238,7 +241,7 @@ public class DoublyLinkedList {
 		String segToString = seg.toString();
 		for (int i = 0; i < nodeCount; i++) {
 			if (limitedToString(i, size).equals(segToString)) {
-				removeMultiple(getHead(), size);
+				removeMultiple(getNode(i).getPrevious(), size);
 				return true;
 			}
 		}
@@ -250,7 +253,14 @@ public class DoublyLinkedList {
 	// Delete the last three nodes in the list
 	// If there are not enough nodes, return false
 	public boolean deleteLastThree() {
-		return false;
+		ListNode2<Nucleotide> nodeThreeAway = null;
+		try {
+			nodeThreeAway = getNode(size() - 3);
+		} catch (Exception e) {
+			return false;
+		}
+		removeMultiple(nodeThreeAway.getPrevious(), 3);
+		return true;
 
 	}
 
