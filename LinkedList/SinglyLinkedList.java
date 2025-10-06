@@ -11,6 +11,7 @@ public class SinglyLinkedList<E> {
 
 	// Constructor: creates a list that contains
 	// all elements from the array values, in the same order
+	// O(n)
 	@SuppressWarnings("unchecked")
 	public SinglyLinkedList(Object[] values) {
 		if (values == null) {
@@ -21,26 +22,31 @@ public class SinglyLinkedList<E> {
 		}
 	}
 
+	// O(1)
 	public ListNode<E> getHead() {
 		return head;
 	}
 
+	// O(1)
 	public ListNode<E> getTail() {
 		return tail;
 	}
 
 	// Returns true if this list is empty; otherwise returns false.
+	// O(1)
 	public boolean isEmpty() {
 		return nodeCount == 0;
 	}
 
 	// Returns the number of elements in this list.
+	// O(1)
 	public int size() {
 		return nodeCount;
 	}
 
 	// Returns true if this list contains an element equal to obj;
 	// otherwise returns false.
+	// Best case: O(1), Worst case: O(n)
 	public boolean contains(E obj) {
 		return indexOf(obj) != -1;
 	}
@@ -66,6 +72,7 @@ public class SinglyLinkedList<E> {
 
 	// Adds obj to this collection. Returns true if successful;
 	// otherwise returns false.
+	// O(1)
 	public boolean add(E obj) {
 		/*
 		 * At the start, nodeCount will be 0. This means that the head will BE the tail Therefore,
@@ -91,7 +98,9 @@ public class SinglyLinkedList<E> {
 	}
 
 	// Removes the first element that is equal to obj, if any.
-	// Returns true if successful; otherwise returns false.
+	// Returns true if successful; otherwise returns false.\
+	// Best case: O(1) if its the first object 
+	// Worst case: O(n)
 	public boolean remove(E obj) {
 		int index = indexOf(obj);
 		if (index != -1) {
@@ -103,6 +112,7 @@ public class SinglyLinkedList<E> {
 	}
 
 	// Returns the i-th element.
+	// Best case O(1) worst case O(n)
 	public E get(int i) {
 		if (i < 0 || i >= nodeCount) {
 			throw new IndexOutOfBoundsException();
@@ -112,6 +122,7 @@ public class SinglyLinkedList<E> {
 	}
 
 	// Replaces the i-th element with obj and returns the old value.
+	// Best case O(1), worst case O(n)
 	public E set(int i, Object obj) {
 		if (i < 0 || i >= nodeCount) {
 			throw new IndexOutOfBoundsException();
@@ -124,6 +135,7 @@ public class SinglyLinkedList<E> {
 
 	// Inserts obj to become the i-th element. Increments the size
 	// of the list by one.
+	// Best case O(1) worst case O(n)
 	public void add(int i, Object obj) {
 		/*
 		 * At the start, nodeCount will be 0. This means that the head will BE the tail Therefore,
@@ -162,6 +174,7 @@ public class SinglyLinkedList<E> {
 		nodeCount++;
 	}
 
+	// Best case O(1) worst case O(n)
 	public ListNode<E> getNode(int i) {
 		ListNode<E> temp = head;
 		for (int j = 0; j < i; j++) {
@@ -172,6 +185,7 @@ public class SinglyLinkedList<E> {
 
 	// Removes the i-th element and returns its value.
 	// Decrements the size of the list by one.
+	// Best case O(1) worst case O(n)
 	public E remove(int i) {
 		/*
 		 * Go to the index - 1 Set the next node of the list to the index + 2
@@ -204,6 +218,7 @@ public class SinglyLinkedList<E> {
 	}
 
 	// Returns a string representation of this list exactly like that for MyArrayList.
+	// O(n)
 	public String toString() {
 		StringBuilder str = new StringBuilder("[");
 		// While we haven't reached the tail node (next node isn't null)
