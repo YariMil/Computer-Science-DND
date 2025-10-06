@@ -73,6 +73,14 @@ public class DoubleLinkedListTester {
         badDelete.add(Nucleotide.A);
         System.out.println(badDelete.deleteLastThree());
         System.out.println(badDelete.toString());
+        System.out.println("== Testing replaceA ==");
+        DoublyLinkedList aTest = new DoublyLinkedList();
+        for (int i = 0; i < 4; i++) {
+            aTest.add(Nucleotide.A);
+        }
+        System.out.println(aTest.toString());
+        aTest.replaceEveryAWithTAC();
+        System.out.println(aTest.toString());
         System.out.println("======= Testing with empty lists now =======");
         DoublyLinkedList emptyTest = new DoublyLinkedList();
 

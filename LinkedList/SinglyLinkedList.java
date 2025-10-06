@@ -99,7 +99,7 @@ public class SinglyLinkedList<E> {
 
 	// Removes the first element that is equal to obj, if any.
 	// Returns true if successful; otherwise returns false.\
-	// Best case: O(1) if its the first object 
+	// Best case: O(1) if its the first object
 	// Worst case: O(n)
 	public boolean remove(E obj) {
 		int index = indexOf(obj);
