@@ -58,7 +58,7 @@ public class DoublyLinkedList {
 
 	public void checkForIndexOutOfBounds(int i) {
 		if (i < 0 || i > size()) {
-			throw new IllegalArgumentException();
+			throw new IndexOutOfBoundsException();
 		}
 	}
 
@@ -156,6 +156,10 @@ public class DoublyLinkedList {
 		ListNode2<Nucleotide> temp = getNode(i);
 		temp.getPrevious().setNext(temp.getNext());
 		temp.getNext().setPrevious(temp.getPrevious());
+		if (getHead() == SENTINEL && getTail() == SENTINEL) {
+			SENTINEL.setNext(null);
+			SENTINEL.setPrevious(null);
+		}
 		nodeCount--;
 		return temp.getValue();
 	}
@@ -169,7 +173,7 @@ public class DoublyLinkedList {
 			sb.append(", ");
 			temp = temp.getNext();
 		}
-		if (temp != SENTINEL) {
+		if (temp != null) {
 			sb.append(temp.getValue());
 		}
 		sb.append("]");
@@ -203,12 +207,16 @@ public class DoublyLinkedList {
 		ListNode2<Nucleotide> temp = nodeBefore.getNext();
 		for (int i = 0; i < num; i++) {
 			if (temp == SENTINEL) {
-				throw new IllegalArgumentException();
+				throw new IndexOutOfBoundsException();
 			}
 			temp = temp.getNext();
 		}
 		nodeBefore.setNext(temp);
 		temp.setPrevious(nodeBefore);
+		if (getHead() == SENTINEL && getTail() == SENTINEL) {
+			SENTINEL.setNext(null);
+			SENTINEL.setPrevious(null);
+		}
 		nodeCount -= num;
 
 	}
@@ -237,6 +245,9 @@ public class DoublyLinkedList {
 		// Go through list, take a limited toString()
 		// Compare the two toStrings
 		// If they're equal, slice out the segment
+		if (seg == null) {
+			throw new IllegalArgumentException();
+		}
 		int size = seg.size();
 		String segToString = seg.toString();
 		for (int i = 0; i < nodeCount; i++) {

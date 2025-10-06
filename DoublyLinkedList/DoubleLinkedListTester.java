@@ -83,6 +83,31 @@ public class DoubleLinkedListTester {
         System.out.println(aTest.toString());
         System.out.println("======= Testing with empty lists now =======");
         DoublyLinkedList emptyTest = new DoublyLinkedList();
+        System.out.println(emptyTest.toString());
+        System.out.println(emptyTest.getHead());
+        System.out.println(emptyTest.getTail());
+        emptyTest.add(Nucleotide.A);
+        System.out.println(emptyTest.getHead());
+        System.out.println(emptyTest.getTail());
+        System.out.println(emptyTest.toString());
+        System.out.println(emptyTest.remove(0));
+        System.out.println(emptyTest.toString());
+        System.out.println(emptyTest.getHead());
+        System.out.println(emptyTest.getTail());
+        System.out.println(emptyTest.getSentinel());
+        emptyTest.add(0, Nucleotide.A);
+        System.out.println(emptyTest.getHead().getValue());
+        System.out.println(emptyTest.getTail().getValue());
+        System.out.println(emptyTest.toString());
+        emptyTest.add(1, Nucleotide.C);
+        System.out.println(emptyTest.getHead().getValue());
+        System.out.println(emptyTest.getTail().getValue());
+        System.out.println(emptyTest.toString());
+        emptyTest.add(0, Nucleotide.T);
+        System.out.println(emptyTest.getHead().getValue());
+        System.out.println(emptyTest.getTail().getValue());
+        System.out.println(emptyTest.toString());
+
 
 
     }
