@@ -107,6 +107,17 @@ public class DoubleLinkedListTester {
         System.out.println(emptyTest.getHead().getValue());
         System.out.println(emptyTest.getTail().getValue());
         System.out.println(emptyTest.toString());
+        System.out.println(secondTest.contains(null));
+        System.out.println(secondTest.indexOf(null));
+        System.out.println(emptyTest.remove(0));
+        System.out.println(emptyTest.remove(0));
+        System.out.println(emptyTest.remove(0));
+        System.out.println(emptyTest.toString());
+        System.out.println(emptyTest.getHead());
+        System.out.println(emptyTest.getTail());
+        System.out.println(thirdTest.toString());
+        System.out.println(thirdTest.deleteSegment(new DoublyLinkedList(new Nucleotide[] {Nucleotide.A, Nucleotide.A, Nucleotide.A})));
+        System.out.println(thirdTest.toString());
 
 
 

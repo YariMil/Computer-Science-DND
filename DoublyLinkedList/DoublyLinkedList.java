@@ -65,7 +65,6 @@ public class DoublyLinkedList {
 	// Returns the index of the first element in equal to obj;
 	// if not found, returns -1.
 	public int indexOf(Nucleotide obj) {
-		checkForIllegalArgument(obj);
 		ListNode2<Nucleotide> temp = getHead();
 		for (int i = 0; i < nodeCount; i++) {
 			if (temp.getValue().equals(obj)) {
@@ -156,10 +155,6 @@ public class DoublyLinkedList {
 		ListNode2<Nucleotide> temp = getNode(i);
 		temp.getPrevious().setNext(temp.getNext());
 		temp.getNext().setPrevious(temp.getPrevious());
-		if (getHead() == SENTINEL && getTail() == SENTINEL) {
-			SENTINEL.setNext(null);
-			SENTINEL.setPrevious(null);
-		}
 		nodeCount--;
 		return temp.getValue();
 	}
@@ -173,7 +168,7 @@ public class DoublyLinkedList {
 			sb.append(", ");
 			temp = temp.getNext();
 		}
-		if (temp != null) {
+		if (temp != null && temp != SENTINEL) {
 			sb.append(temp.getValue());
 		}
 		sb.append("]");
@@ -213,10 +208,6 @@ public class DoublyLinkedList {
 		}
 		nodeBefore.setNext(temp);
 		temp.setPrevious(nodeBefore);
-		if (getHead() == SENTINEL && getTail() == SENTINEL) {
-			SENTINEL.setNext(null);
-			SENTINEL.setPrevious(null);
-		}
 		nodeCount -= num;
 
 	}
