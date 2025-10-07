@@ -30,8 +30,19 @@ public class ArrayListTester {
         System.out.println(stringTest.contains("Hi!"));
 
         MyArrayList<String> h = new MyArrayList<String>();
-        h.add(null);
+        System.out.println(h.toString());
+        h.add("s");
         System.out.println(h.contains(null));
-
+        System.out.println(h.toString());
+        System.out.println(h.remove(0));
+        ArrayList<String> s = new ArrayList<String>();
+        s.add(0, "h");
+        s.add(1, "B");
+        System.out.println(s.toString());
+        s.add(2, "H");
+        System.out.println(s.toString());
+        // h.remove(2);
+        // h.set(2, "C");
+        // h.get(2);
     }
 }

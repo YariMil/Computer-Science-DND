@@ -25,32 +25,32 @@ public class MyArrayList<E> {
 	/* Constructor with initial capacity */
 	@SuppressWarnings("unchecked")
 	public MyArrayList(int initialCapacity) {
+		if (initialCapacity <= 0) {
+			throw new IllegalArgumentException();
+		}
 		this.internalArray = (E[]) new Object[initialCapacity];
 		this.objectCount = 0;
 	}
 
 	/*
-	 * Return the number of active slots in the array list 
-	 * O(1)
+	 * Return the number of active slots in the array list O(1)
 	 */
 	public int size() {
 		return objectCount;
 	}
 
 	/*
-	 * Are there zero objects in the array list? 
-	 * O(1)
+	 * Are there zero objects in the array list? O(1)
 	 */
 	public boolean isEmpty() {
 		return objectCount == 0;
 	}
 
 	/*
-	 * Get the index-th object in the list. 
-	 * O(1)
+	 * Get the index-th object in the list. O(1)
 	 */
 	public E get(int index) {
-		if (index > objectCount || index < 0) {
+		if (index >= objectCount || index < 0) {
 			throw new IndexOutOfBoundsException(
 					"Index " + index + "out of range for length " + size());
 		}
@@ -58,11 +58,10 @@ public class MyArrayList<E> {
 	}
 
 	/*
-	 * Replace the object at index with obj. returns object that was replaced. 
-	 * O(1)
+	 * Replace the object at index with obj. returns object that was replaced. O(1)
 	 */
 	public E set(int index, E obj) {
-		if (index > objectCount || index < 0) {
+		if (index >= objectCount || index < 0) {
 			throw new IndexOutOfBoundsException(
 					"Index " + index + "out of range for length " + size());
 		}
@@ -72,8 +71,8 @@ public class MyArrayList<E> {
 	}
 
 	/*
-	 * Returns true if this list contains an element equal to obj; otherwise returns false. 
-	 * O(1) in best case, O(n) in the worst case
+	 * Returns true if this list contains an element equal to obj; otherwise returns false. O(1) in
+	 * best case, O(n) in the worst case
 	 */
 	public boolean contains(E obj) {
 		for (int i = 0; i < objectCount; i++) {
@@ -91,8 +90,7 @@ public class MyArrayList<E> {
 	}
 
 	/*
-	 * Insert an object at index 
-	 * O(1) in the best case, O(n) in the worst case
+	 * Insert an object at index O(1) in the best case, O(n) in the worst case
 	 */
 	@SuppressWarnings("unchecked")
 	public void add(int index, E obj) {
@@ -108,8 +106,8 @@ public class MyArrayList<E> {
 	}
 
 	/*
-	 * Add an object to the end of the list; returns true 
-	 * O(1) in the best case, O(n) in the worst case
+	 * Add an object to the end of the list; returns true O(1) in the best case, O(n) in the worst
+	 * case
 	 */
 	@SuppressWarnings("unchecked")
 	public boolean add(E obj) {
@@ -130,11 +128,11 @@ public class MyArrayList<E> {
 	}
 
 	/*
-	 * Remove the object at index and shift. Returns removed object. 
-	 * O(1) in the best case, O(n) in the worst case
+	 * Remove the object at index and shift. Returns removed object. O(1) in the best case, O(n) in
+	 * the worst case
 	 */
 	public E remove(int index) {
-		if (index > objectCount || index < 0) {
+		if (index >= objectCount || index < 0) {
 			throw new IndexOutOfBoundsException(
 					"Index " + index + "out of range for length " + size());
 		}
@@ -179,8 +177,7 @@ public class MyArrayList<E> {
 	/*
 	 * For testing; your string should output as "[X, X, X, X, ...]" where X, X, X, X, ... are the
 	 * elements in the ArrayList. If the array is empty, it should return "[]". If there is one
-	 * element, "[X]", etc. Elements are separated by a comma and a space.
-	 * O(n) always
+	 * element, "[X]", etc. Elements are separated by a comma and a space. O(n) always
 	 */
 	public String toString() {
 		StringBuilder str = new StringBuilder("[");
