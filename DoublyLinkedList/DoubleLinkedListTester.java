@@ -142,11 +142,16 @@ public class DoubleLinkedListTester {
         System.out.println("==================");
         DoublyLinkedList newTest = new DoublyLinkedList();
         newTest.add(Nucleotide.A);
-        newTest.add(Nucleotide.C);
+        newTest.add(1, Nucleotide.C);
+        System.out.println(funTest.toString());
         System.out.println(newTest.toString());
-        newTest.addSegmentToEnd(newTest);
-        System.out.println(newTest);
-        newTest.deleteSegment(newTest);
-        System.out.println(newTest.toString());
+        System.out.println(newTest.getHead().getPrevious().getValue());
+        System.out.println(newTest.getTail().getNext().getValue());
+        newTest.addSegmentToEnd(funTest);
+        System.out.println(newTest.getHead().getPrevious());
+        System.out.println(newTest.getTail().getNext());
+        // System.out.println(newTest);
+        // newTest.deleteSegment(newTest);
+        // System.out.println(newTest.toString());
     }
 }

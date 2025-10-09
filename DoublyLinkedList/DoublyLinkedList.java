@@ -185,6 +185,7 @@ public class DoublyLinkedList {
 			getTail().setNext(seg.getHead());
 			seg.getHead().setPrevious(getTail());
 			SENTINEL.setPrevious(seg.getTail());
+			seg.getTail().setNext(SENTINEL);
 			nodeCount += seg.size();
 		}
 	}
