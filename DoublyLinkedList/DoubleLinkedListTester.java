@@ -116,10 +116,37 @@ public class DoubleLinkedListTester {
         System.out.println(emptyTest.getHead());
         System.out.println(emptyTest.getTail());
         System.out.println(thirdTest.toString());
-        System.out.println(thirdTest.deleteSegment(new DoublyLinkedList(new Nucleotide[] {Nucleotide.A, Nucleotide.A, Nucleotide.A})));
+        System.out.println(thirdTest.deleteSegment(
+                new DoublyLinkedList(new Nucleotide[] {Nucleotide.A, Nucleotide.A})));
         System.out.println(thirdTest.toString());
+        System.out.println(thirdTest.getTail());
+        System.out.println(thirdTest.getHead());
+        System.out.println(thirdTest.getSentinel());
 
 
 
+        System.out.println("== Lets see ==");
+        DoublyLinkedList funTest = new DoublyLinkedList();
+        funTest.add(Nucleotide.A);
+        for (int i = 0; i < 1; i++) {
+            funTest.replaceEveryAWithTAC();
+            System.out.println("Done with iteration " + i);
+        }
+
+        // System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAA  ");
+        // System.out.println(emptyTest.toString());
+        // for (int i = 0; i < 10000000; i++) {
+        //     emptyTest.add(Nucleotide.A);
+        // }
+
+        System.out.println("==================");
+        DoublyLinkedList newTest = new DoublyLinkedList();
+        newTest.add(Nucleotide.A);
+        newTest.add(Nucleotide.C);
+        System.out.println(newTest.toString());
+        newTest.addSegmentToEnd(newTest);
+        System.out.println(newTest);
+        newTest.deleteSegment(newTest);
+        System.out.println(newTest.toString());
     }
 }

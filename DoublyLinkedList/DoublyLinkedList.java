@@ -198,7 +198,7 @@ public class DoublyLinkedList {
 	}
 
 	// Removes next num nodes
-	public void removeMultiple(ListNode2<Nucleotide> nodeBefore, int num) {
+	private void removeMultiple(ListNode2<Nucleotide> nodeBefore, int num) {
 		ListNode2<Nucleotide> temp = nodeBefore.getNext();
 		for (int i = 0; i < num; i++) {
 			if (temp == SENTINEL) {
@@ -212,7 +212,7 @@ public class DoublyLinkedList {
 
 	}
 
-	public String limitedToString(int start, int size) {
+	private String limitedToString(int start, int size) {
 		if (start + size <= nodeCount) {
 			StringBuilder sb = new StringBuilder("[");
 			ListNode2<Nucleotide> temp = getNode(start);
