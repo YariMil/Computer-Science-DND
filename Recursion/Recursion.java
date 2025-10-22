@@ -20,8 +20,8 @@ public class Recursion {
 	// Trying to infect outside the confines of the grid also has no effect
 	// Precondition: grid has no null entries
 	public static void infect(String[][] grid, int r, int c) {
-		if (!grid[r][c].equals("v") && !grid[r][c].equals("i")) {
-			grid[r][c] = "i";
+		if (!grid[r][c].equals("vaccinated") && !grid[r][c].equals("infected")) {
+			grid[r][c] = "infected";
 			for (int row = -1; row < 2; row += 2) {
 				if (r + row >= 0 && r + row < grid.length) {
 					infect(grid, r + row, c);
@@ -45,9 +45,22 @@ public class Recursion {
 	// {1,2}, {2,3}, {3,4}, {1,2,3}, {1,2,4}, {1,3,4}, {1,2,3,4}
 	// Precondition: n > 0
 	public static long countNonConsecutiveSubsets(int n) {
-		// Base case: length = 1, in which case return 1
-		// 
-		return 1;
+		// Base case: length = 0, in which case return 1 ({})
+		// For 1, additional is {1}. Total 2
+		// For 2, additional is {2}. Total 3
+		// For 3, additional is {1, 3} and {3}. Total 5
+		// For 4 additional is {4}, {1, 4}, {2, 4}. Total 8
+		// For 5 additional is {5}, {1, 3, 5}, {1, 5}, {2, 5}, {3, 5}. Total is 13
+		// For 6, additional is {6}, {1, 6}, {2, 6}, {3,6}, {4,6} Total is 17
+		if (n == 0) {
+			return 1;
+		}
+		if (n == 1) {
+			return 2;
+		}
+		long oneStageDown = countNonConsecutiveSubsets(n - 1);
+		long twoStagesDown = countNonConsecutiveSubsets(n - 2);
+		return oneStageDown + twoStagesDown;
 
 	}
 
@@ -56,7 +69,25 @@ public class Recursion {
 	// Jumping 1-1-2 is considered different than jumping 1-2-1
 	// Precondition: n > 0
 	public static long countWaysToJumpUpStairs(int n) {
-		return 1;
+		// Base case, 1 stair return 1
+		// 2 stairs, 1-1, 2 -> return 2
+		// 3 stairs, 1-1-1, 1-2, 2-1, 3 --> 4
+		// 4 stairs, 1-1-1-1, 1-1-2, 2-1-1, 1-2-1, 2-2, 1-3, 3-1 -> 7
+		// 5 stairs, 1-1-1-1-1, 2-1-1-1, 1-2-1-1, 1-1-2-1, 1-1-1-2, 1-1-3, 1-3-1, 3-1-1, 2-3, 3-2 ->
+		// 13
+		// 6 stairs, 1-1-1-1-1-1, 2-1-1-1-1, 1-2-1-1-1, 1-1-2-1-1, 1-1-1-2-1, 1-1-1-1-2, 3-1-1-1,
+		// 1-3-1-1, 1-1-3-1, 1-1-1-3, 1-2-3, 1-3-2, 2-1-3, 2-3-1, 3-2-1, 3-1-2, 24
+		// 1, 2, 3, 4, 5, 6
+		// 1, 2, 4, 7, 13, 24
+		// 1, 2, 3, 6, 11
+		// ITS JUST FIBONACCI AGAIN WHAT IS THIS
+		if (n == 1) {
+			return 1;
+		}
+		if (n == 2) {
+			return 2;
+		}
+		return countNonConsecutiveSubsets(n - 1) + countNonConsecutiveSubsets(n - 2);
 	}
 
 	// Everything above this line does NOT require a recursive helper method

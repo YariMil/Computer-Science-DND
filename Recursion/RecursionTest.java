@@ -5,10 +5,12 @@ public class RecursionTest {
         ListNode c = new ListNode(1, b);
         Recursion.printListInReverse(c);
 
-        String[][] gridTest = new String[][] {{"a", "a", "a"}, {"v", "a", "v"}, {"a", "a", "v"}}; //{"a, a, a"}, {"v, a, v"}, {"a, v, a"}
-        printGrid(gridTest);
-        Recursion.infect(gridTest, 0, 0);
-        printGrid(gridTest);
+        // String[][] gridTest = new String[][] {{"a", "a", "a"}, {"v", "a", "v"}, {"a", "a", "v"}}; //{"a, a, a"}, {"v, a, v"}, {"a, v, a"}
+        // printGrid(gridTest);
+        // Recursion.infect(gridTest, 0, 0);
+        // printGrid(gridTest);
+        System.out.println(Recursion.countNonConsecutiveSubsets(5));
+        System.out.println(Recursion.countWaysToJumpUpStairs(4));
         
     }
 
