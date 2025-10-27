@@ -87,7 +87,11 @@ public class Recursion {
 		if (n == 2) {
 			return 2;
 		}
-		return countNonConsecutiveSubsets(n - 1) + countNonConsecutiveSubsets(n - 2);
+		if (n == 3) {
+			return 4;
+		}
+		return countWaysToJumpUpStairs(n - 1) + countWaysToJumpUpStairs(n - 2)
+				+ countWaysToJumpUpStairs(n - 3);
 	}
 
 	// Everything above this line does NOT require a recursive helper method
@@ -102,8 +106,33 @@ public class Recursion {
 	// For example, subsets("abc") would print out "", "a", "b", "c", "ab", "ac",
 	// "bc", "abc"
 	// Order is your choice
-	public static void printSubsets(String str) {
 
+	public static void printSubsets(String str) {
+		// Base case, empty string, just print that
+		// For each string, have a subset length. Print out the subsets of that length
+		// go down
+		printSubsetsHelper(str, str.length());
+	}
+
+	public static void printSubsetsHelper(String str, int length) {
+		/*
+		 * This helper method takes in a String which is the string passed into printSubsets and an
+		 * integer representing length The helper method prints out all the subsets of the string
+		 * that have the length of the length passed in Basically, it starts at the first character
+		 * and prints out a substring of length length. If it can, it moves to the next character
+		 * and tries to print out a substring of length length starting from that character now If
+		 * that substring does not exist, it calls itself recursively with length - 1 instead of
+		 * length. This shortens the length of the substrings more and more until length is 0, in
+		 * which case an empty string is printed and the method ends.
+		 */
+		if (length == 0) {
+			System.out.println("");
+			return;
+		}
+		for (int i = 0; i + length < str.length() + 1; i++) {
+			System.out.println(str.substring(i, i + length));
+		}
+		printSubsetsHelper(str, length - 1);
 	}
 
 	// List contains a single String to start.

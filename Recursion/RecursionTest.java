@@ -9,8 +9,9 @@ public class RecursionTest {
         // printGrid(gridTest);
         // Recursion.infect(gridTest, 0, 0);
         // printGrid(gridTest);
-        System.out.println(Recursion.countNonConsecutiveSubsets(5));
-        System.out.println(Recursion.countWaysToJumpUpStairs(4));
+        // System.out.println(Recursion.countNonConsecutiveSubsets(5));
+        System.out.println(Recursion.countWaysToJumpUpStairs(7));
+        Recursion.printSubsets("abc");
         
     }
 
