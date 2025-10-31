@@ -12,6 +12,9 @@ public class RecursionTest {
         // System.out.println(Recursion.countNonConsecutiveSubsets(5));
         System.out.println(Recursion.countWaysToJumpUpStairs(7));
         Recursion.printSubsets("abc");
+        System.out.println("A".substring(0, 0));
+        Recursion.printPermutations("abc");
+        Recursion.mergeSort(new int[] {3, 2, 1});
         
     }
 

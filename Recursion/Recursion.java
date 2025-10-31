@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Recursion {
 
 	// Prints the value of every node in the singly linked list with the given head,
@@ -141,14 +143,71 @@ public class Recursion {
 	// For example, permute("abc") could print out "abc", "acb", "bac", "bca",
 	// "cab", "cba"
 	// Order is your choice
-	public static void printPermutations(String str) {
 
+	public static ArrayList<String> permutationsHelper(String str, char addChar) {
+		if (str.length() == 0) {
+			ArrayList<String> newPermutations = new ArrayList<String>();
+			newPermutations.add("" + addChar);
+			return newPermutations;
+		}
+		ArrayList<String> permutations = permutationsHelper(str.substring(1), str.charAt(0));
+		ArrayList<String> newPermutations = new ArrayList<String>();
+		for (String permutation : permutations) {
+			for (int i = 0; i < permutation.length() + 1; i++) {
+				String s = permutation.substring(0, i) + addChar + permutation.substring(i);
+				newPermutations.add(s);
+			}
+		}
+		return newPermutations;
+	}
+
+	public static void printPermutations(String str) {
+		System.out.println(permutationsHelper(str.substring(1), str.charAt(0)).toString());
+
+	}
+
+	public static int[] mergeHelper(int[] ints) {
+		if (ints.length == 1) {
+			return ints;
+		}
+		int mid = ints.length / 2;
+		int[] leftHalf = new int[mid];
+		int[] rightHalf = new int[ints.length - mid];
+		int leftSplit = 0;
+		int rightSplit = 0;
+		for (int i = 0; i < ints.length; i++) {
+			if (i < mid) {
+				leftHalf[leftSplit] = ints[i];
+				leftSplit++;
+			} else {
+				rightHalf[rightSplit] = ints[i];
+				rightSplit++;
+			}
+		}
+		leftHalf = mergeHelper(leftHalf);
+		rightHalf = mergeHelper(rightHalf);
+		int[] sorted = new int[ints.length];
+		int mergeIndex = 0;
+		int rightMerge = 0;
+		int leftMerge = 0;
+		while (leftMerge < leftHalf.length || rightMerge < rightHalf.length) {
+			if (leftHalf[leftMerge] < rightHalf[rightMerge]) {
+				sorted[mergeIndex] = leftHalf[leftMerge];
+				leftMerge++;
+			} else {
+				sorted[mergeIndex] = rightHalf[rightMerge];
+				rightMerge++;
+			}
+			mergeIndex++;
+		}
+		return sorted;
 	}
 
 	// Performs a mergeSort on the given array of ints
 	// Precondition: you may assume there are NO duplicates!!!
 	public static void mergeSort(int[] ints) {
-
+		int[] sorted = mergeHelper(ints);
+		System.out.println("AA");
 	}
 
 	// Performs a quickSort on the given array of ints
