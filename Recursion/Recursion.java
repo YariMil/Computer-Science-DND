@@ -191,7 +191,13 @@ public class Recursion {
 		int rightMerge = 0;
 		int leftMerge = 0;
 		while (leftMerge < leftHalf.length || rightMerge < rightHalf.length) {
-			if (leftHalf[leftMerge] < rightHalf[rightMerge]) {
+			if (leftMerge >= leftHalf.length) {
+				sorted[mergeIndex] = rightHalf[rightMerge];
+				rightMerge++;
+			} else if (rightMerge >= rightHalf.length) {
+				sorted[mergeIndex] = leftHalf[leftMerge];
+				leftMerge++;
+			} else if (leftHalf[leftMerge] < rightHalf[rightMerge]) {
 				sorted[mergeIndex] = leftHalf[leftMerge];
 				leftMerge++;
 			} else {
@@ -207,14 +213,29 @@ public class Recursion {
 	// Precondition: you may assume there are NO duplicates!!!
 	public static void mergeSort(int[] ints) {
 		int[] sorted = mergeHelper(ints);
-		System.out.println("AA");
+		for (int i = 0; i < ints.length; i++) {
+			System.out.print(sorted[i] + " ");
+		}
 	}
 
 	// Performs a quickSort on the given array of ints
 	// Use the middle element (index n/2) as the pivot
 	// Precondition: you may assume there are NO duplicates!!!
 	public static void quickSort(int[] ints) {
+		int[] sorted = quickSortHelper(ints);
+		// sorted = quickSortHelper(sorted, 3, ints.length);
+		for (int i = 0; i < sorted.length; i++) {
+			System.out.print(sorted[i]);
+		}
+	}
 
+	public static int[] quickSortHelper(int[] ints) {
+		int pivotIndex = (ints.length / 2);
+		int numHigher = 0;
+		int numSmaller = 0;
+		int smallerIndex = 0;
+		int higherIndex = 0;
+		return new int[0];
 	}
 
 	// Prints a sequence of moves (one on each line)

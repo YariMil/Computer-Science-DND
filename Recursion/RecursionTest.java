@@ -14,7 +14,9 @@ public class RecursionTest {
         Recursion.printSubsets("abc");
         System.out.println("A".substring(0, 0));
         Recursion.printPermutations("abc");
-        Recursion.mergeSort(new int[] {3, 2, 1});
+        System.out.println();
+        int[] ints = new int[] {3, 2, 6, 4, 7, 1};
+        Recursion.quickSort(ints);
         
     }
 
