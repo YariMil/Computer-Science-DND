@@ -290,7 +290,7 @@ public class Recursion {
 	// the form "1 -> 2", meaning "take the top disk of tower 1 and
 	// put it on tower 2" etc.
 	public static void solveHanoi(int startingDisks) {
-		solveHanoiHelper(startingDisks, 0, 2, 0);
+		solveHanoiHelper(startingDisks, 0, 2);
 	}
 
 	/*
@@ -301,6 +301,7 @@ public class Recursion {
 	public static void solveHanoiHelper(int discs, int currentTower, int targetTower) {
 		if (discs == 1) {
 			System.out.println(currentTower + " -> " + targetTower);
+			return;
 		}
 		int[] towerOptions = new int[] {0, 1, 2};
 		// Determine the nonTargetTower
