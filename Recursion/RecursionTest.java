@@ -17,6 +17,12 @@ public class RecursionTest {
         System.out.println();
         int[] ints = new int[] {3, 2, 6, 4, 7, 1};
         Recursion.quickSort(ints);
+        Recursion.solveHanoi(8);
+
+        int[] times = new int[] {3, 7, 9}; // 2, 6, 7, 20, 21, 40, 41, 43, 45, 47, 51, 53, 62, 63, 64
+        int[] points = new int[] {10, 15, 10}; // 1000000, 4, 7, 300, 8, 20, 251, 23, 21, 1220, 8, 9, 14, 81, 82
+        int p = Recursion.scavHunt(times, points);
+        System.out.println(p);
         
     }
 

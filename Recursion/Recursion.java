@@ -235,6 +235,24 @@ public class Recursion {
 		int numSmaller = 0;
 		int smallerIndex = 0;
 		int higherIndex = 0;
+		for (int i = 0; i < ints.length; i++) {
+			if (ints[i] > ints[pivotIndex]) {
+				numHigher++;
+			} else {
+				numSmaller++;
+			}
+		}
+		int[] lowerPivot = new int[numSmaller];
+		int[] higherPivot = new int[numHigher];
+		for (int i = 0; i < ints.length; i++) {
+			if (ints[i] > ints[pivotIndex]) {
+				lowerPivot[smallerIndex] = ints[i];
+				smallerIndex++;
+			} else {
+				higherPivot[higherIndex] = ints[i];
+				higherIndex++;
+			}
+		}
 		return new int[0];
 	}
 
@@ -245,6 +263,33 @@ public class Recursion {
 	// the form "1 -> 2", meaning "take the top disk of tower 1 and
 	// put it on tower 2" etc.
 	public static void solveHanoi(int startingDisks) {
+		solveHanoiHelper(startingDisks, 0, 2, 0);
+	}
+
+	/*
+	 * This method takes in an int representing the starting disk amount, an int representing the
+	 * tower from which the discs need to be moved from (currentTower), an int representing the
+	 * tower to which the discs need to be moved (targetTower).
+	 */
+	public static int solveHanoiHelper(int discs, int currentTower, int targetTower, int numMoves) {
+		if (discs == 1) {
+			numMoves++;
+			System.out.println("" + numMoves + ": " + currentTower + " -> " + targetTower);
+			return numMoves;
+		}
+		int[] towerOptions = new int[] {0, 1, 2};
+		// Determine the nonTargetTower
+		int nonTargetTower = 0;
+		for (int i = 0; i < 3; i++) {
+			if (towerOptions[i] != currentTower && towerOptions[i] != targetTower) {
+				nonTargetTower = towerOptions[i];
+			}
+		}
+		numMoves = solveHanoiHelper(discs - 1, currentTower, nonTargetTower, numMoves);
+		numMoves++;
+		System.out.println("" + numMoves + ": " + currentTower + " -> " + targetTower);
+		numMoves = solveHanoiHelper(discs - 1, nonTargetTower, targetTower, numMoves);
+		return numMoves;
 
 	}
 
@@ -268,7 +313,39 @@ public class Recursion {
 	// time 9
 	// for a total of 20 points, so it would return 20.
 	public static int scavHunt(int[] times, int[] points) {
-		return 0;
+		return scavHuntHelper(times, points, 0);
+	}
+
+	public static int scavHuntHelper(int[] times, int[] points, int currentTime) {
+		int fiveMinutesAfter = -1;
+		for (int i = currentTime; i < times.length; i++) {
+			if (times[i] >= (times[currentTime] + 5)) {
+				fiveMinutesAfter = i;
+				break;
+			}
+		}
+		int pointsWithReward = 0;
+		int pointsWithoutReward = 0;
+		// Option 1: Choose the reward at current time
+		// Edge case, there are no more rewards 5 minutes after this
+		if (fiveMinutesAfter != -1) {
+			pointsWithReward = points[currentTime] + scavHuntHelper(times, points, fiveMinutesAfter);
+		} else {
+			// This is the base case
+			pointsWithReward = points[currentTime];
+		}
+		// Option 2: Don't choose the reward, advance to the next reward
+		// Base case: No more points without reward
+		if (currentTime != times.length - 1) {
+			pointsWithoutReward = scavHuntHelper(times, points, currentTime + 1);
+		}
+		// Do nothing if base case it's 0 anyway.
+
+		if (pointsWithReward > pointsWithoutReward) {
+			return pointsWithReward;
+		} else {
+			return pointsWithoutReward;
+		}
 	}
 
 }
