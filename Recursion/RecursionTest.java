@@ -5,7 +5,8 @@ public class RecursionTest {
         ListNode c = new ListNode(1, b);
         Recursion.printListInReverse(c);
 
-        // String[][] gridTest = new String[][] {{"a", "a", "a"}, {"v", "a", "v"}, {"a", "a", "v"}}; //{"a, a, a"}, {"v, a, v"}, {"a, v, a"}
+        // String[][] gridTest = new String[][] {{"a", "a", "a"}, {"v", "a", "v"}, {"a", "a", "v"}};
+        // //{"a, a, a"}, {"v, a, v"}, {"a, v, a"}
         // printGrid(gridTest);
         // Recursion.infect(gridTest, 0, 0);
         // printGrid(gridTest);
@@ -15,15 +16,18 @@ public class RecursionTest {
         System.out.println("A".substring(0, 0));
         Recursion.printPermutations("abc");
         System.out.println();
-        int[] ints = new int[] {3, 2, 6, 4, 7, 1};
+        int[] ints = new int[] {7, 3, 4, 5, 2, 1, 6, 10};
         Recursion.quickSort(ints);
+        System.out.println();
         Recursion.solveHanoi(8);
 
-        int[] times = new int[] {3, 7, 9}; // 2, 6, 7, 20, 21, 40, 41, 43, 45, 47, 51, 53, 62, 63, 64
-        int[] points = new int[] {10, 15, 10}; // 1000000, 4, 7, 300, 8, 20, 251, 23, 21, 1220, 8, 9, 14, 81, 82
+        int[] times = new int[] {3, 7, 9}; // 2, 6, 7, 20, 21, 40, 41, 43, 45, 47, 51, 53, 62, 63,
+                                           // 64
+        int[] points = new int[] {10, 15, 10}; // 1000000, 4, 7, 300, 8, 20, 251, 23, 21, 1220, 8,
+                                               // 9, 14, 81, 82
         int p = Recursion.scavHunt(times, points);
         System.out.println(p);
-        
+
     }
 
     public static void printGrid(String[][] grid) {

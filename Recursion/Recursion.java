@@ -230,6 +230,9 @@ public class Recursion {
 	}
 
 	public static int[] quickSortHelper(int[] ints) {
+		if (ints.length <= 1) {
+			return ints;
+		}
 		int pivotIndex = (ints.length / 2);
 		int numHigher = 0;
 		int numSmaller = 0;
@@ -238,22 +241,46 @@ public class Recursion {
 		for (int i = 0; i < ints.length; i++) {
 			if (ints[i] > ints[pivotIndex]) {
 				numHigher++;
-			} else {
+			} else if (ints[i] < ints[pivotIndex]) {
 				numSmaller++;
 			}
 		}
 		int[] lowerPivot = new int[numSmaller];
 		int[] higherPivot = new int[numHigher];
 		for (int i = 0; i < ints.length; i++) {
-			if (ints[i] > ints[pivotIndex]) {
-				lowerPivot[smallerIndex] = ints[i];
-				smallerIndex++;
-			} else {
-				higherPivot[higherIndex] = ints[i];
-				higherIndex++;
+			if (i != pivotIndex) {
+
+
+				if (smallerIndex >= lowerPivot.length) {
+					higherPivot[higherIndex] = ints[i];
+					higherIndex++;
+				} else if (higherIndex >= higherPivot.length) {
+					lowerPivot[smallerIndex] = ints[i];
+					smallerIndex++;
+				} else if (ints[i] < ints[pivotIndex]) {
+					lowerPivot[smallerIndex] = ints[i];
+					smallerIndex++;
+				} else {
+					higherPivot[higherIndex] = ints[i];
+					higherIndex++;
+				}
 			}
 		}
-		return new int[0];
+		lowerPivot = quickSortHelper(lowerPivot);
+		higherPivot = quickSortHelper(higherPivot);
+		int[] sorted = new int[ints.length];
+		int sortIndex = 0;
+		for (int i = 0; i < lowerPivot.length; i++) {
+			sorted[sortIndex] = lowerPivot[i];
+			sortIndex++;
+		}
+		sorted[sortIndex] = ints[pivotIndex];
+		sortIndex++;
+		for (int i = 0; i < higherPivot.length; i++) {
+			sorted[sortIndex] = higherPivot[i];
+			sortIndex++;
+		}
+		return sorted;
 	}
 
 	// Prints a sequence of moves (one on each line)
@@ -271,11 +298,9 @@ public class Recursion {
 	 * tower from which the discs need to be moved from (currentTower), an int representing the
 	 * tower to which the discs need to be moved (targetTower).
 	 */
-	public static int solveHanoiHelper(int discs, int currentTower, int targetTower, int numMoves) {
+	public static void solveHanoiHelper(int discs, int currentTower, int targetTower) {
 		if (discs == 1) {
-			numMoves++;
-			System.out.println("" + numMoves + ": " + currentTower + " -> " + targetTower);
-			return numMoves;
+			System.out.println(currentTower + " -> " + targetTower);
 		}
 		int[] towerOptions = new int[] {0, 1, 2};
 		// Determine the nonTargetTower
@@ -285,11 +310,9 @@ public class Recursion {
 				nonTargetTower = towerOptions[i];
 			}
 		}
-		numMoves = solveHanoiHelper(discs - 1, currentTower, nonTargetTower, numMoves);
-		numMoves++;
-		System.out.println("" + numMoves + ": " + currentTower + " -> " + targetTower);
-		numMoves = solveHanoiHelper(discs - 1, nonTargetTower, targetTower, numMoves);
-		return numMoves;
+		solveHanoiHelper(discs - 1, currentTower, nonTargetTower);
+		System.out.println(currentTower + " -> " + targetTower);
+		solveHanoiHelper(discs - 1, nonTargetTower, targetTower);
 
 	}
 
@@ -329,7 +352,8 @@ public class Recursion {
 		// Option 1: Choose the reward at current time
 		// Edge case, there are no more rewards 5 minutes after this
 		if (fiveMinutesAfter != -1) {
-			pointsWithReward = points[currentTime] + scavHuntHelper(times, points, fiveMinutesAfter);
+			pointsWithReward =
+					points[currentTime] + scavHuntHelper(times, points, fiveMinutesAfter);
 		} else {
 			// This is the base case
 			pointsWithReward = points[currentTime];
