@@ -113,10 +113,13 @@ public class Recursion {
 		// Base case, empty string, just print that
 		// For each string, have a subset length. Print out the subsets of that length
 		// go down
-		printSubsetsHelper(str, str.length());
+		ArrayList<String> subsets = printSubsetsHelper(str, new ArrayList<String>());
+		for (int i = 0; i < subsets.size(); i++) {
+			System.out.println(subsets.get(i));
+		}
 	}
 
-	public static void printSubsetsHelper(String str, int length) {
+	public static ArrayList<String> printSubsetsHelper(String str, ArrayList<String> subsetList) {
 		/*
 		 * This helper method takes in a String which is the string passed into printSubsets and an
 		 * integer representing length The helper method prints out all the subsets of the string
@@ -127,14 +130,27 @@ public class Recursion {
 		 * length. This shortens the length of the substrings more and more until length is 0, in
 		 * which case an empty string is printed and the method ends.
 		 */
-		if (length == 0) {
-			System.out.println("");
-			return;
+		// if (length == 0) {
+		// System.out.println("");
+		// return subsetList;
+		// }
+		// for (int i = 0; i + length < str.length() + 1; i++) {
+		// System.out.println(str.substring(i, i + length));
+		// }
+		// printSubsetsHelper(str, length - 1, subsetList);
+		// return subsetList;
+		// Second way of doing it
+		if (str.equals("")) {
+			subsetList.add("");
+			return subsetList;
 		}
-		for (int i = 0; i + length < str.length() + 1; i++) {
-			System.out.println(str.substring(i, i + length));
+		subsetList = printSubsetsHelper(str.substring(0, str.length() - 1), subsetList);
+		int initialSubsetsize = subsetList.size();
+		for (int i = 0; i < initialSubsetsize; i++) {
+			String currentChar = str.charAt(str.length() - 1) + "";
+			subsetList.add(subsetList.get(i) + currentChar);
 		}
-		printSubsetsHelper(str, length - 1);
+		return subsetList;
 	}
 
 	// List contains a single String to start.
@@ -162,8 +178,10 @@ public class Recursion {
 	}
 
 	public static void printPermutations(String str) {
-		System.out.println(permutationsHelper(str.substring(1), str.charAt(0)).toString());
-
+		ArrayList<String> permutations = permutationsHelper(str.substring(1), str.charAt(0));
+		for (int i = 0; i < permutations.size(); i++) {
+			System.out.println(permutations.get(i));
+		}
 	}
 
 	public static int[] mergeHelper(int[] ints) {
@@ -213,8 +231,8 @@ public class Recursion {
 	// Precondition: you may assume there are NO duplicates!!!
 	public static void mergeSort(int[] ints) {
 		int[] sorted = mergeHelper(ints);
-		for (int i = 0; i < ints.length; i++) {
-			System.out.print(sorted[i] + " ");
+		for (int i = 0; i < sorted.length; i++) {
+			ints[i] = sorted[i];
 		}
 	}
 
@@ -223,10 +241,14 @@ public class Recursion {
 	// Precondition: you may assume there are NO duplicates!!!
 	public static void quickSort(int[] ints) {
 		int[] sorted = quickSortHelper(ints);
-		// sorted = quickSortHelper(sorted, 3, ints.length);
 		for (int i = 0; i < sorted.length; i++) {
-			System.out.print(sorted[i]);
+			ints[i] = sorted[i];
 		}
+
+	}
+
+	public static void changeAThing(int[] ints) {
+		ints[1] = 10000000;
 	}
 
 	public static int[] quickSortHelper(int[] ints) {

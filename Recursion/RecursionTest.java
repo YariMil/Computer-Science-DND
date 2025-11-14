@@ -12,13 +12,16 @@ public class RecursionTest {
         // printGrid(gridTest);
         // System.out.println(Recursion.countNonConsecutiveSubsets(5));
         System.out.println(Recursion.countWaysToJumpUpStairs(7));
-        Recursion.printSubsets("abc");
-        System.out.println("A".substring(0, 0));
+        Recursion.printSubsets("hum");
         Recursion.printPermutations("abc");
         System.out.println();
-        int[] ints = new int[] {7, 3, 4, 5, 2, 1, 6, 10};
-        Recursion.quickSort(ints);
+        int[] arr = { 3, 7, 18, 2, 1, 20, 5, 8, 16, 0 };
+		Recursion.quickSort(arr);
+		int[] arr2 = { 0, 1, 2, 3, 5, 7, 8, 16, 18, 20 };
         System.out.println();
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i]);
+        }
         Recursion.solveHanoi(8);
 
         int[] times = new int[] {3, 7, 9}; // 2, 6, 7, 20, 21, 40, 41, 43, 45, 47, 51, 53, 62, 63,
