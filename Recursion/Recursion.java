@@ -5,6 +5,9 @@ public class Recursion {
 	// Prints the value of every node in the singly linked list with the given head,
 	// but in reverse
 	public static void printListInReverse(ListNode head) {
+		if (head == null) {
+			throw new IllegalArgumentException("List node can't be null");
+		}
 		if (head.getNext() == null) {
 			System.out.println(head.getValue());
 			return;
@@ -22,6 +25,13 @@ public class Recursion {
 	// Trying to infect outside the confines of the grid also has no effect
 	// Precondition: grid has no null entries
 	public static void infect(String[][] grid, int r, int c) {
+		if (grid == null) {
+			throw new IllegalArgumentException("Grid can't be null");
+		} else if (r < 0 || r >= grid.length) {
+			throw new IllegalArgumentException("Row must be in bounds");
+		} else if (c < 0 || c >= grid[r].length) {
+			throw new IllegalArgumentException("Column must be in bounds");
+		}
 		if (!grid[r][c].equals("vaccinated") && !grid[r][c].equals("infected")) {
 			grid[r][c] = "infected";
 			for (int row = -1; row < 2; row += 2) {
@@ -54,6 +64,9 @@ public class Recursion {
 		// For 4 additional is {4}, {1, 4}, {2, 4}. Total 8
 		// For 5 additional is {5}, {1, 3, 5}, {1, 5}, {2, 5}, {3, 5}. Total is 13
 		// For 6, additional is {6}, {1, 6}, {2, 6}, {3,6}, {4,6} Total is 17
+		if (n < 0) {
+			throw new IllegalArgumentException("n must be greater than or equal to 0");
+		}
 		if (n == 0) {
 			return 1;
 		}
@@ -83,6 +96,9 @@ public class Recursion {
 		// 1, 2, 4, 7, 13, 24
 		// 1, 2, 3, 6, 11
 		// ITS JUST FIBONACCI AGAIN WHAT IS THIS
+		if (n <= 0) {
+			throw new IllegalArgumentException("Can't jump up 0 stairs buddy.");
+		}
 		if (n == 1) {
 			return 1;
 		}
@@ -110,9 +126,10 @@ public class Recursion {
 	// Order is your choice
 
 	public static void printSubsets(String str) {
+		if (str == null) {
+			throw new IllegalArgumentException("String must be not null");
+		}
 		// Base case, empty string, just print that
-		// For each string, have a subset length. Print out the subsets of that length
-		// go down
 		ArrayList<String> subsets = printSubsetsHelper(str, new ArrayList<String>());
 		for (int i = 0; i < subsets.size(); i++) {
 			System.out.println(subsets.get(i));
@@ -121,26 +138,18 @@ public class Recursion {
 
 	public static ArrayList<String> printSubsetsHelper(String str, ArrayList<String> subsetList) {
 		/*
-		 * This helper method takes in a String which is the string passed into printSubsets and an
-		 * integer representing length The helper method prints out all the subsets of the string
-		 * that have the length of the length passed in Basically, it starts at the first character
-		 * and prints out a substring of length length. If it can, it moves to the next character
-		 * and tries to print out a substring of length length starting from that character now If
-		 * that substring does not exist, it calls itself recursively with length - 1 instead of
-		 * length. This shortens the length of the substrings more and more until length is 0, in
-		 * which case an empty string is printed and the method ends.
+		 * This helper method takes in a String representing the string printSubsets is perfomed on
+		 * and an ArrayList of Strings repsenting the list of subsets we have already found. The
+		 * method recursively calls itself using the subsetList past in and the String passed in
+		 * without the last character. This continues until the string is reduced to an empty
+		 * string, at which point it is added to the ArrayList. From there, the method adds the last
+		 * letter of the string that was passed into the previous recursion iteration to every
+		 * element in subsetList (the new subsets are added as elements separate from the previously
+		 * found subsets). The method returns an ArrayList of Strings representing all the subsets
+		 * currently found.
 		 */
-		// if (length == 0) {
-		// System.out.println("");
-		// return subsetList;
-		// }
-		// for (int i = 0; i + length < str.length() + 1; i++) {
-		// System.out.println(str.substring(i, i + length));
-		// }
-		// printSubsetsHelper(str, length - 1, subsetList);
-		// return subsetList;
-		// Second way of doing it
-		if (str.equals("")) {
+
+		if (str.length() <= 0) {
 			subsetList.add("");
 			return subsetList;
 		}
@@ -160,6 +169,30 @@ public class Recursion {
 	// "cab", "cba"
 	// Order is your choice
 
+	public static void printPermutations(String str) {
+		if (str == null) {
+			throw new IllegalArgumentException("Thought you were slick huh. String can't be null.");
+		} else if (str.isEmpty()) {
+			System.out.println("");
+			return;
+		}
+		ArrayList<String> permutations = permutationsHelper(str.substring(1), str.charAt(0));
+		for (int i = 0; i < permutations.size(); i++) {
+			System.out.println(permutations.get(i));
+		}
+	}
+
+	/*
+	 * This helper method takes in a string representing the string permutations are to be performed
+	 * on and a character representing a character that will be added to elements of an ArrayList.
+	 * The method returns an ArrayList of Strings. The method recursively calls itself with one
+	 * character cut off from the end (the cut character is passed in as the addChar variable) until
+	 * the str parameter is an empty string. At that point, an ArrayList is created with a string
+	 * that solely contains the addChar variable. From there, the method receives an ArrayList of
+	 * incomplete permutations of the str parameter gotten from the recursive returns. Then the
+	 * method creates a new ArrayList of Strings and adds to it all the elements from the
+	 * permutations ArrayList with the addChar parameter added at each index.
+	 */
 	public static ArrayList<String> permutationsHelper(String str, char addChar) {
 		if (str.length() == 0) {
 			ArrayList<String> newPermutations = new ArrayList<String>();
@@ -170,6 +203,7 @@ public class Recursion {
 		ArrayList<String> newPermutations = new ArrayList<String>();
 		for (String permutation : permutations) {
 			for (int i = 0; i < permutation.length() + 1; i++) {
+				// Adding the character in between all the letters individually
 				String s = permutation.substring(0, i) + addChar + permutation.substring(i);
 				newPermutations.add(s);
 			}
@@ -177,13 +211,15 @@ public class Recursion {
 		return newPermutations;
 	}
 
-	public static void printPermutations(String str) {
-		ArrayList<String> permutations = permutationsHelper(str.substring(1), str.charAt(0));
-		for (int i = 0; i < permutations.size(); i++) {
-			System.out.println(permutations.get(i));
-		}
-	}
-
+	/*
+	 * This helper method takes in an array of ints. The method splits the given array down the
+	 * middle into two, then calls itself on the split arrays, which splits them into two. That
+	 * happens until the array passed in only has one element, at which point it is returned (since
+	 * it's sorted by default). Once the method has received two sorted arrays from its two
+	 * recursive calls and combines them together by comparing values in the arrays and adding them
+	 * one by one into one big array. What emerges at the end is one sorted array that is hen
+	 * returned by the method.
+	 */
 	public static int[] mergeHelper(int[] ints) {
 		if (ints.length == 1) {
 			return ints;
@@ -230,6 +266,9 @@ public class Recursion {
 	// Performs a mergeSort on the given array of ints
 	// Precondition: you may assume there are NO duplicates!!!
 	public static void mergeSort(int[] ints) {
+		if (ints == null) {
+			throw new IllegalArgumentException("Array can't be null");
+		}
 		int[] sorted = mergeHelper(ints);
 		for (int i = 0; i < sorted.length; i++) {
 			ints[i] = sorted[i];
@@ -240,6 +279,9 @@ public class Recursion {
 	// Use the middle element (index n/2) as the pivot
 	// Precondition: you may assume there are NO duplicates!!!
 	public static void quickSort(int[] ints) {
+		if (ints == null) {
+			throw new IllegalArgumentException("Array can't be null");
+		}
 		int[] sorted = quickSortHelper(ints);
 		for (int i = 0; i < sorted.length; i++) {
 			ints[i] = sorted[i];
@@ -247,10 +289,15 @@ public class Recursion {
 
 	}
 
-	public static void changeAThing(int[] ints) {
-		ints[1] = 10000000;
-	}
-
+	/*
+	 * This method takes in an array of ints representing the array to be sorted. The method
+	 * designates a pivot element (index at n/2) and then separates the array into two arrays: One
+	 * comprised of elements larger than the pivot, and one containing elements smaller than the
+	 * pivot. The array then recursively calls itself on the two sub arrays. This continues until an
+	 * array that is passed in has 1 or no elements. At that point, the method returns the array it
+	 * has been passed in. Once the method has been returned two sorted arrays from its recrusive
+	 * calls, it then splices the two arrays into one big array. That array is then returned.
+	 */
 	public static int[] quickSortHelper(int[] ints) {
 		if (ints.length <= 1) {
 			return ints;
@@ -312,13 +359,21 @@ public class Recursion {
 	// the form "1 -> 2", meaning "take the top disk of tower 1 and
 	// put it on tower 2" etc.
 	public static void solveHanoi(int startingDisks) {
+		if (startingDisks <= 0) {
+			throw new IllegalArgumentException("Disc number must be greater than 0.");
+		}
 		solveHanoiHelper(startingDisks, 0, 2);
 	}
 
 	/*
 	 * This method takes in an int representing the starting disk amount, an int representing the
-	 * tower from which the discs need to be moved from (currentTower), an int representing the
-	 * tower to which the discs need to be moved (targetTower).
+	 * tower from which the discs need to be moved from (currentTower), and an int representing the
+	 * tower to which the discs need to be moved (targetTower). The method figures out which is the
+	 * tower remaining of the 3, then moves discs-1 discs to the nonTargetTower. It then moves a
+	 * disc from the currentTower to the targetTower, then moves the discs-1 discs it moved to the
+	 * nonTargetTower to the targetTower. If the discs int passed in is 1 (as is bound to happen due
+	 * to recursive calls), the method just moves the disc from the currentTower to the targetTower
+	 * and returns nothing. The method itself returns nothing.
 	 */
 	public static void solveHanoiHelper(int discs, int currentTower, int targetTower) {
 		if (discs == 1) {
@@ -359,9 +414,27 @@ public class Recursion {
 	// time 9
 	// for a total of 20 points, so it would return 20.
 	public static int scavHunt(int[] times, int[] points) {
+		if (times == null || points == null) {
+			throw new IllegalArgumentException("Times and points can't be negative");
+		} else if (times.length == 0 || points.length == 0) {
+			throw new IllegalArgumentException("Times and points must be nonempty");
+		} else if (times.length != points.length) {
+			throw new IllegalArgumentException("Times and points have to be the same length!");
+		}
 		return scavHuntHelper(times, points, 0);
 	}
 
+	/*
+	 * This method takes in an two int arrays representing times and points respectively, as well as
+	 * the current time the scavenger hunt is on right now. The method figures out the reward that
+	 * would be available five minutes after currentTime. The method then calls itself to figure out
+	 * the maximum points that could be obtained if the reward available at the current time is
+	 * picked, and also the maximum points if it isn't picked. If there are no rewards five minutes
+	 * after or if there are no more rewards at all, the method doesn't call itself and assigns the
+	 * pointsWithReward and pointsWithoutReward variables to the points at the current time and 0,
+	 * respectively. The method compares pointsWithReward and pointsWithoutReward and returns the
+	 * greater value.
+	 */
 	public static int scavHuntHelper(int[] times, int[] points, int currentTime) {
 		int fiveMinutesAfter = -1;
 		for (int i = currentTime; i < times.length; i++) {
