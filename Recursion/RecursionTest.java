@@ -1,9 +1,7 @@
 public class RecursionTest {
     public static void main(String[] args) {
-        ListNode a = new ListNode(3);
-        ListNode b = new ListNode(2, a);
-        ListNode c = new ListNode(1, b);
-        Recursion.printListInReverse(c);
+        ListNode a = new ListNode(1);
+        Recursion.printListInReverse(a);
 
         // String[][] gridTest = new String[][] {{"a", "a", "a"}, {"v", "a", "v"}, {"a", "a", "v"}};
         // //{"a, a, a"}, {"v, a, v"}, {"a, v, a"}
