@@ -80,11 +80,13 @@ public class FolderNode extends FileSystemNode {
         if (childFolder != null) {
             System.out.println(childFolder.toString());
             return true;
-        }
+        } 
         for (FileSystemNode child : children) {
             if (child.isFolder()) {
                 FolderNode childCheck = (FolderNode) (child);
-                return childCheck.containsNameRecursive(searchName);
+                if (childCheck.containsNameRecursive(searchName)) {
+                    return true;
+                }
             }
         }
 
@@ -94,18 +96,37 @@ public class FolderNode extends FileSystemNode {
     @Override
     public int getHeight() {
         // TODO: compute the maximum height among children; empty folders have value 0
-        return 0;
+        if (children.size() == 0) {
+            return 0;
+        }
+        ArrayList<Integer> heights = new ArrayList<Integer>();
+        for (FileSystemNode child : children) {
+            heights.add(child.getHeight());
+        }
+        int max = -1;
+        for (Integer i : heights) {
+            if (i > max) {
+                max = i;
+            }
+        }
+        return max + 1;
     }
 
     @Override
     public int getSize() {
-        // TODO: sum the sizes of all files contained in this directory and its descendants
-        return 0;
+        int sum = 0;
+        for (int i = 0; i < children.size(); i++) {
+            sum += children.get(i).getSize();
+        }
+        return sum;
     }
 
     @Override
     public int getTotalNodeCount() {
-        // TODO: count this directory plus all descendant files and folders
-        return 0;
+        int totalCount = 0;
+        for (FileSystemNode child : children) {
+            totalCount += child.getTotalNodeCount();
+        }
+        return totalCount + 1;
     }
 }

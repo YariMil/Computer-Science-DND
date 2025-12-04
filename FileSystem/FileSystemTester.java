@@ -35,13 +35,22 @@ public class FileSystemTester {
         System.out.println("\n=== Building tree structure under root ===");
         boolean addedDocs = root.addFolder("docs");
         boolean addedSrc = root.addFolder("src");
+        FolderNode docs = (FolderNode) root.getChildByName("docs");
+        docs.addFolder("Hello");
+        FolderNode hello = (FolderNode) docs.getChildByName("Hello");
+        hello.addFile("Test", 2);
+        // System.out.println(hello.addFolder("Test"));
         boolean addedMainJava = root.addFile("main.java", 120);
         boolean addedReadme = root.addFile("README.md", 80);
-        boolean yes = root.containsNameRecursive("main.java");
+        boolean yes = root.containsNameRecursive("Hello");
         System.out.println(yes);
+        System.out.println(docs.getHeight());
         int depthRoot = root.getDepth();
         int heightRoot = root.getHeight();
         int sizeRoot = root.getSize();
         int totalNodesRoot = root.getTotalNodeCount();
+        System.out.println(totalNodesRoot);
+        Navigator navigator = new Navigator(tree);
+        navigator.run();
     }
 }
