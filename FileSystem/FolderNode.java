@@ -50,7 +50,7 @@ public class FolderNode extends FileSystemNode {
      */
     public boolean addFile(String fileName, int size) {
         if (getChildByName(fileName) == null) {
-            FileNode newFile = new FileNode(this, fileName, size);
+            FileNode newFile = new FileNode(fileName, this, size);
             children.add(newFile);
             return true;
         }
@@ -80,7 +80,7 @@ public class FolderNode extends FileSystemNode {
         if (childFolder != null) {
             System.out.println(childFolder.toString());
             return true;
-        } 
+        }
         for (FileSystemNode child : children) {
             if (child.isFolder()) {
                 FolderNode childCheck = (FolderNode) (child);
