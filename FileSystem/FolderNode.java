@@ -49,6 +49,9 @@ public class FolderNode extends FileSystemNode {
      * new file is added and true is returned.
      */
     public boolean addFile(String fileName, int size) {
+        if (size <= 0) {
+            throw new IllegalArgumentException();
+        }
         if (getChildByName(fileName) == null) {
             FileNode newFile = new FileNode(fileName, this, size);
             children.add(newFile);
@@ -63,6 +66,9 @@ public class FolderNode extends FileSystemNode {
      * new folder is added and true is returned.
      */
     public boolean addFolder(String folderName) {
+        if (folderName == null) {
+            throw new IllegalArgumentException();
+        }
         if (getChildByName(folderName) == null) {
             FolderNode newFolder = new FolderNode(folderName, this);
             children.add(newFolder);

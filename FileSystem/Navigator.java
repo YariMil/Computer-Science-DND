@@ -45,8 +45,16 @@ public class Navigator {
      * - Other paths are interpreted relative to the current directory.
      */
     private void cd(String[] args) {
+        FolderNode originalDirectory = currentDirectory;
+        if (args.length == 0) {
+            return;
+        }
         if (args[0].equals("..") && currentDirectory.getParent() != null) {
             currentDirectory = currentDirectory.getParent();
+            return;
+        }
+        if (args[0].equals("/")) {
+            currentDirectory = fileSystem.getRoot();
             return;
         }
         String directoryLine = args[0];
@@ -63,7 +71,8 @@ public class Navigator {
                 if (directoryChange != null && directoryChange.isFolder()) {
                     currentDirectory = (FolderNode) currentDirectory.getChildByName(directory);
                 } else {
-                    System.out.println("No directory found: " + directory);
+                    currentDirectory = originalDirectory;
+                    return;
                 }
             }
         }
@@ -95,6 +104,9 @@ public class Navigator {
      * Creates a new directory inside the current directory using the provided name.
      */
     private void mkdir(String[] args) {
+        if (args.length == 0) {
+            return;
+        }
         String folderName = args[0];
         currentDirectory.addFolder(folderName);
     }
@@ -103,6 +115,9 @@ public class Navigator {
      * Creates a new file inside the current directory with a given name and size.
      */
     private void touch(String[] args) {
+        if (args.length == 0) {
+            return;
+        }
         String fileName = args[0];
         int size = Integer.parseInt(args[1]);
         currentDirectory.addFile(fileName, size);
@@ -113,6 +128,9 @@ public class Navigator {
      * their paths.
      */
     private void find(String[] args) {
+        if (args.length == 0) {
+            return;
+        }
         findHelper(args[0], currentDirectory);
     }
 
@@ -146,7 +164,7 @@ public class Navigator {
             depthLimit = Integer.parseInt(args[0]);
         }
         StringBuilder tree = new StringBuilder();
-        tree = treeHelper(currentDirectory, tree, currentDirectory.getDepth(), depthLimit);
+        tree = treeHelper(currentDirectory, tree, 0, depthLimit);
         String returnedTree = tree.substring(1);
         System.out.println(returnedTree);
     }
@@ -281,3 +299,5 @@ public class Navigator {
         }
     }
 }
+
+

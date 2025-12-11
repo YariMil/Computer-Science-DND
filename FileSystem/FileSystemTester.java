@@ -42,7 +42,7 @@ public class FileSystemTester {
         // System.out.println(hello.addFolder("Test"));
         boolean addedMainJava = root.addFile("main.java", 120);
         boolean addedReadme = root.addFile("README.md", 80);
-        boolean yes = root.containsNameRecursive("Hello");
+        boolean yes = root.containsNameRecursive(null);
         System.out.println(yes);
         System.out.println(docs.getHeight());
         int depthRoot = root.getDepth();
