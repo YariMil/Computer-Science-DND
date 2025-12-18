@@ -44,8 +44,6 @@ public class ArrayListTester {
         // // h.remove(2);
         // // h.set(2, "C");
         // // h.get(2);
-        // int[] test = new int[] {1, 2, 3, 4, 5, 6, 7};
-        // System.out.println(SortedArrayList.binarySearch(test, 4));
 
         System.out.println("==== SORTED LIST ====");
         SortedArrayList<String> l = new SortedArrayList<String>();
@@ -59,6 +57,8 @@ public class ArrayListTester {
         l.add("A");
         System.out.println(l.toString());     
         System.out.println(l.contains("B"));  
-        System.out.println(l.contains("Abra")); 
+        System.out.println(l.contains("a")); 
+        l.add("a");
+        System.out.println(l.toString());
     }
 }
