@@ -8,8 +8,9 @@ public class SortedArrayList<E extends Comparable<E>> extends MyArrayList<E> {
 		super(initialCapacity);
 	}
 
-	public int binarySearch(Comparable<E> obj) {
-		int low = 0; 
+	// Regular binary search
+	private int binarySearch(Comparable<E> obj) {
+		int low = 0;
 		int high = size() - 1;
 		while (low <= high) {
 			int mid = (low + high) / 2;
@@ -24,8 +25,9 @@ public class SortedArrayList<E extends Comparable<E>> extends MyArrayList<E> {
 		return -1;
 	}
 
-	public int binarySpecific(Comparable<E> obj) {
-		int low = 0; 
+	// Finding an index to slot an object in to keep it sorted
+	private int binarySpecific(Comparable<E> obj) {
+		int low = 0;
 		int high = size() - 1;
 		while (low <= high) {
 			int mid = (low + high) / 2;
@@ -42,9 +44,6 @@ public class SortedArrayList<E extends Comparable<E>> extends MyArrayList<E> {
 
 	@Override
 	public boolean contains(E obj) {
-		if (obj == null) {
-			throw new IllegalArgumentException();
-		}
 		return binarySearch((Comparable<E>) obj) != -1;
 
 	}
@@ -52,18 +51,15 @@ public class SortedArrayList<E extends Comparable<E>> extends MyArrayList<E> {
 	// May not contain more than one of the same object
 	@Override
 	public boolean add(E obj) {
-		if (obj == null) {
-			throw new IllegalArgumentException();
-		}
 		if (contains(obj)) {
 			return false;
 		}
 		int index = binarySpecific((Comparable<E>) obj);
-		add(index, obj);
+		addAtIndex(index, obj);
 		return true;
 	}
 
-	public void add(int index, E obj) {
+	private void addAtIndex(int index, E obj) {
 		E temp = obj;
 		for (int i = index; i < objectCount; i++) {
 			temp = set(i, temp);
@@ -74,9 +70,6 @@ public class SortedArrayList<E extends Comparable<E>> extends MyArrayList<E> {
 
 	@Override
 	public boolean remove(E obj) {
-		if (obj == null) {
-			throw new IllegalArgumentException();
-		}
 		int removeIndex = binarySearch(obj);
 		if (removeIndex != -1) {
 			remove(removeIndex);
@@ -86,10 +79,10 @@ public class SortedArrayList<E extends Comparable<E>> extends MyArrayList<E> {
 	}
 
 	public E min() {
-		return internalArray[0];
+		return get(0);
 	}
 
 	public E max() {
-		return internalArray[size() - 1];
+		return get(size()-1);
 	}
 }

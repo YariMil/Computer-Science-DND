@@ -60,5 +60,18 @@ public class ArrayListTester {
         System.out.println(l.contains("a")); 
         l.add("a");
         System.out.println(l.toString());
+        l.remove("C");
+        System.out.println(l.toString());
+        l.remove("A");
+        l.remove("a");
+        System.out.println(l.toString());
+        System.out.println(l.remove("a"));
+        System.out.println(l.add("A"));
+        System.out.println(l.toString());
+        System.out.println(l.remove("B"));
+        System.out.println(l.add("A"));
+        System.out.println(l.toString());
+        System.out.println(l.min());
+        System.out.println(l.max());
     }
 }
