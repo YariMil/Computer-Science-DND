@@ -73,15 +73,46 @@ public class MyBST<E extends Comparable<E>> {
 				wentLeft = false;
 			} else {
 				// We're here. Let's get cracking.
-				// Case 1: The calm before the storm (ending node)
+				// Case 1: Well that was easy (Node has no children)
 				if (temp.getLeft() == null && temp.getRight() == null) {
 					if (wentLeft) {
 						previousNode.setLeft(null);
 					} else {
 						previousNode.setRight(null);
 					}
-					return true;
+
 				}
+				// Case 2: A clean straight line (Node has one child)
+				else if (temp.getLeft() == null || temp.getRight() == null) {
+					BinaryNode<E> child = null;
+					if (temp.getLeft() != null) {
+						child = temp.getLeft();
+					} else {
+						child = temp.getRight();
+					}
+					if (wentLeft) {
+						previousNode.setLeft(child);
+					} else {
+						previousNode.setRight(child);
+					}
+				}
+				// Case 3: Royal succession (Node has 2 children)
+				else {
+					boolean closestNodeIsLeft = false;
+					BinaryNode<E> leftClosest = temp.getLeft();
+					BinaryNode<E> rightClosest = temp.getRight();
+					while (leftClosest.getRight() != null) {
+						leftClosest = leftClosest.getRight();
+					}
+					while (rightClosest.getLeft() != null) {
+						rightClosest = rightClosest.getLeft();
+					}
+					// Check which one is closer 
+					if (Math.abs(leftClosest.getValue().compareTo(value)) < Math.abs(rightClosest.getValue().compareTo(value))) {
+						previousNode.setLeft(leftClosest);
+					}
+				}
+				return true;
 			}
 			previousNode = temp.getParent();
 		}
