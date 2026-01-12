@@ -5,5 +5,7 @@ public class BinaryTester {
         test.add(25);
         test.add(75);
         System.out.println(test.toString());
+        test.remove(25);
+        System.out.println(test.toString());
     }
 }

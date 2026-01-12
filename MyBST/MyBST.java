@@ -58,7 +58,33 @@ public class MyBST<E extends Comparable<E>> {
 	// If removing a node with two children: replace it with the
 	// largest node in the right subtree
 	public boolean remove(E value) {
-		return false;
+		// Before anything, go to the node
+		// Note: I'm creating as many variables as possible just in case I need them
+		BinaryNode<E> temp = root;
+		BinaryNode<E> previousNode = null;
+		boolean wentLeft = false;
+		while (true) {
+			if (value.compareTo(temp.getValue()) < 0) {
+				// Value < current node
+				temp = temp.getLeft();
+				wentLeft = true;
+			} else if (value.compareTo(temp.getValue()) > 0) {
+				temp = temp.getRight();
+				wentLeft = false;
+			} else {
+				// We're here. Let's get cracking.
+				// Case 1: The calm before the storm (ending node)
+				if (temp.getLeft() == null && temp.getRight() == null) {
+					if (wentLeft) {
+						previousNode.setLeft(null);
+					} else {
+						previousNode.setRight(null);
+					}
+					return true;
+				}
+			}
+			previousNode = temp.getParent();
+		}
 	}
 
 	// Returns the minimum in the tree
