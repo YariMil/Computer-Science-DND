@@ -72,45 +72,47 @@ public class MyBST<E extends Comparable<E>> {
 				temp = temp.getRight();
 				wentLeft = false;
 			} else {
-				// We're here. Let's get cracking.
-				// Case 1: Well that was easy (Node has no children)
-				if (temp.getLeft() == null && temp.getRight() == null) {
-					if (wentLeft) {
-						previousNode.setLeft(null);
-					} else {
-						previousNode.setRight(null);
-					}
-
-				}
-				// Case 2: A clean straight line (Node has one child)
-				else if (temp.getLeft() == null || temp.getRight() == null) {
-					BinaryNode<E> child = null;
-					if (temp.getLeft() != null) {
-						child = temp.getLeft();
-					} else {
-						child = temp.getRight();
-					}
-					if (wentLeft) {
-						previousNode.setLeft(child);
-					} else {
-						previousNode.setRight(child);
-					}
-				}
-				// Case 3: Royal succession (Node has 2 children)
-				else {
-					boolean closestNodeIsLeft = false;
-					BinaryNode<E> leftClosest = temp.getLeft();
+				if (temp.getRight() != null) {
+					// Two rights make a dead node
 					BinaryNode<E> rightClosest = temp.getRight();
-					while (leftClosest.getRight() != null) {
-						leftClosest = leftClosest.getRight();
-					}
+
 					while (rightClosest.getLeft() != null) {
 						rightClosest = rightClosest.getLeft();
 					}
-					// Check which one is closer 
-					if (Math.abs(leftClosest.getValue().compareTo(value)) < Math.abs(rightClosest.getValue().compareTo(value))) {
-						previousNode.setLeft(leftClosest);
+				} else if (temp.getLeft() != null) {
+					// Two lefts make a right
+					BinaryNode<E> leftClosest = temp.getLeft();
+					while (leftClosest.getRight() != null) {
+						leftClosest = leftClosest.getRight();
 					}
+					// The lefts, move everything to the left because we know that all values
+					// above leftCLosest will be less than it
+					// To Do: this could also be on the right so add an if statement
+					if (wentLeft) {
+						previousNode.setLeft(leftClosest);
+					} else {
+						previousNode.setRight(leftClosest);
+					}
+					BinaryNode<E> tFixMoving = leftClosest;
+					BinaryNode<E> tFixSet = leftClosest;
+					leftClosest = leftClosest.getParent();
+					leftClosest.setRight(null);
+
+					while (leftClosest != temp) {
+						BinaryNode<E> tFix = leftClosest;
+						leftClosest = leftClosest.getParent();
+						while (tFixMoving.getLeft() != null) {
+							tFixMoving = tFixMoving.getLeft();
+						}
+						tFixMoving.setLeft(tFix);
+						tFix.setParent(tFixMoving);
+						tFix.setRight(null);
+						tFixMoving = tFix;
+					}
+					// Going down one more time to set the remaining nodes
+					tFixSet.setParent(previousNode);
+				} else {
+					// Pick a lane buddy
 				}
 				return true;
 			}
