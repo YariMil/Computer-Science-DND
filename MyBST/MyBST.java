@@ -19,8 +19,22 @@ public class MyBST<E extends Comparable<E>> {
 
 	// Returns true if this BST contains value; otherwise returns false.
 	public boolean contains(E value) {
-		
-		return false;
+		BinaryNode<E> temp = root;
+		while (true) {
+			// Check to see if temp is null first
+			// If it is, that means at some point we ran out of nodes so it's not here
+			if (temp == null) {
+				return false;
+			}
+			if (value.compareTo(temp.getValue()) == 0) {
+				return true;
+			} else if (value.compareTo(temp.getValue()) < 0) {
+				// Value < current node
+				temp = temp.getLeft();
+			} else if (value.compareTo(temp.getValue()) > 0) {
+				temp = temp.getRight();
+			}
+		}
 	}
 
 	// Adds value to this BST, unless this tree already holds value.
@@ -28,6 +42,7 @@ public class MyBST<E extends Comparable<E>> {
 	public boolean add(E value) {
 		if (root == null) {
 			root = new BinaryNode<E>(value, null, 0);
+			return true;
 		}
 		BinaryNode<E> temp = root;
 		int height = 0;
@@ -68,9 +83,16 @@ public class MyBST<E extends Comparable<E>> {
 			if (value.compareTo(temp.getValue()) < 0) {
 				// Value < current node
 				temp = temp.getLeft();
+				if (temp == null) {
+					// No node here
+					return false;
+				}
 				wentLeft = true;
 			} else if (value.compareTo(temp.getValue()) > 0) {
 				temp = temp.getRight();
+				if (temp == null) {
+					return false;
+				}
 				wentLeft = false;
 			} else {
 				if (temp.getRight() != null) {
@@ -80,16 +102,17 @@ public class MyBST<E extends Comparable<E>> {
 					while (rightClosest.getLeft() != null) {
 						rightClosest = rightClosest.getLeft();
 					}
-					if (wentLeft) {
-						previousNode.setLeft(rightClosest);
-					} else {
-						previousNode.setRight(rightClosest);
+					if (previousNode != null) {
+						if (wentLeft) {
+							previousNode.setLeft(rightClosest);
+						} else {
+							previousNode.setRight(rightClosest);
+						}
 					}
 					BinaryNode<E> tFixMoving = rightClosest;
 					BinaryNode<E> tFixSet = rightClosest;
 					rightClosest = rightClosest.getParent();
 					rightClosest.setLeft(null);
-
 					while (rightClosest != temp) {
 						BinaryNode<E> tFix = rightClosest;
 						rightClosest = rightClosest.getParent();
@@ -101,8 +124,13 @@ public class MyBST<E extends Comparable<E>> {
 						tFix.setLeft(null);
 						tFixMoving = tFix;
 					}
+					if (previousNode != null) {
+						tFixSet.setParent(previousNode);
+					} else {
+						tFixSet.setParent(null);
+						root = tFixSet;
+					}
 
-					tFixSet.setParent(previousNode);
 
 					// Edge case: The node we removed had a left node we can just attach here
 					tFixSet.setLeft(temp.getLeft());
@@ -115,10 +143,12 @@ public class MyBST<E extends Comparable<E>> {
 					// The lefts, move everything to the left because we know that all values
 					// above leftCLosest will be less than it
 					// To Do: this could also be on the right so add an if statement
-					if (wentLeft) {
-						previousNode.setLeft(leftClosest);
-					} else {
-						previousNode.setRight(leftClosest);
+					if (previousNode != null) {
+						if (wentLeft) {
+							previousNode.setLeft(leftClosest);
+						} else {
+							previousNode.setRight(leftClosest);
+						}
 					}
 					BinaryNode<E> tFixMoving = leftClosest;
 					BinaryNode<E> tFixSet = leftClosest;
@@ -137,14 +167,23 @@ public class MyBST<E extends Comparable<E>> {
 						tFixMoving = tFix;
 					}
 					// Going down one more time to set the remaining nodes
-					tFixSet.setParent(previousNode);
+					if (previousNode != null) {
+						tFixSet.setParent(previousNode);
+					} else {
+						tFixSet.setParent(null);
+						root = tFixSet;
+					}
 					// Edge case doesn't exist because the node has no right anyway
 				} else {
 					// Pick a lane buddy
-					if (wentLeft) {
-						previousNode.setLeft(null);
+					if (previousNode != null) {
+						if (wentLeft) {
+							previousNode.setLeft(null);
+						} else {
+							previousNode.setRight(null);
+						}
 					} else {
-						previousNode.setRight(null);
+						root = null;
 					}
 				}
 				return true;
