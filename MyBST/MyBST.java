@@ -19,6 +19,7 @@ public class MyBST<E extends Comparable<E>> {
 
 	// Returns true if this BST contains value; otherwise returns false.
 	public boolean contains(E value) {
+		
 		return false;
 	}
 
@@ -79,6 +80,32 @@ public class MyBST<E extends Comparable<E>> {
 					while (rightClosest.getLeft() != null) {
 						rightClosest = rightClosest.getLeft();
 					}
+					if (wentLeft) {
+						previousNode.setLeft(rightClosest);
+					} else {
+						previousNode.setRight(rightClosest);
+					}
+					BinaryNode<E> tFixMoving = rightClosest;
+					BinaryNode<E> tFixSet = rightClosest;
+					rightClosest = rightClosest.getParent();
+					rightClosest.setLeft(null);
+
+					while (rightClosest != temp) {
+						BinaryNode<E> tFix = rightClosest;
+						rightClosest = rightClosest.getParent();
+						while (tFixMoving.getRight() != null) {
+							tFixMoving = tFixMoving.getRight();
+						}
+						tFixMoving.setRight(tFix);
+						tFix.setParent(tFixMoving);
+						tFix.setLeft(null);
+						tFixMoving = tFix;
+					}
+
+					tFixSet.setParent(previousNode);
+
+					// Edge case: The node we removed had a left node we can just attach here
+					tFixSet.setLeft(temp.getLeft());
 				} else if (temp.getLeft() != null) {
 					// Two lefts make a right
 					BinaryNode<E> leftClosest = temp.getLeft();
@@ -111,8 +138,14 @@ public class MyBST<E extends Comparable<E>> {
 					}
 					// Going down one more time to set the remaining nodes
 					tFixSet.setParent(previousNode);
+					// Edge case doesn't exist because the node has no right anyway
 				} else {
 					// Pick a lane buddy
+					if (wentLeft) {
+						previousNode.setLeft(null);
+					} else {
+						previousNode.setRight(null);
+					}
 				}
 				return true;
 			}

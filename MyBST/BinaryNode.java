@@ -7,7 +7,7 @@ public class BinaryNode<E extends Comparable<E>> {
 	private BinaryNode<E> parent;
 	private int height;
 	private int balanceFactor;
-	
+
 	public BinaryNode(E value) {
 		this.value = value;
 		this.left = null;
@@ -25,7 +25,7 @@ public class BinaryNode<E extends Comparable<E>> {
 		this.height = height;
 		this.balanceFactor = 0;
 	}
-	
+
 	public E getValue() {
 		return value;
 	}
@@ -45,44 +45,66 @@ public class BinaryNode<E extends Comparable<E>> {
 	public int getHeight() {
 		return height;
 	}
-	
+
 	public void setValue(E value) {
 		this.value = value;
 	}
 
 	public void setLeft(BinaryNode<E> left) {
 		this.left = left;
-		//YOU CODE: Update height
+		if (left == null) {
+			return;
+		}
+		int index = 0;
+		BinaryNode<E> temp = this;
+		while (temp.getLeft() != null) {
+			temp.setHeight(height + index);
+			index++;
+			temp = temp.getLeft();
+		}
+		temp.setHeight(height + index);
+		// YOU CODE: Update height
 	}
 
 	public void setRight(BinaryNode<E> right) {
 		this.right = right;
-		//YOU CODE: Update height
+		if (right == null) {
+			return;
+		}
+		int index = 0;
+		BinaryNode<E> temp = this;
+		while (temp.getRight() != null) {
+			temp.setHeight(height + index);
+			index++;
+			temp = temp.getRight();
+		}
+		temp.setHeight(height + index);
+		// YOU CODE: Update height
 	}
 
 	public void setParent(BinaryNode<E> parent) {
 		this.parent = parent;
 	}
-	
+
 	public void setHeight(int height) {
 		this.height = height;
 	}
-	
+
 	public boolean hasLeft() {
 		return left != null;
 	}
-	
+
 	public boolean hasRight() {
 		return right != null;
 	}
-	
+
 	public boolean isLeaf() {
 		return !hasLeft() && !hasRight();
 	}
 
 	public String toString() {
 		return value.toString();
-		
+
 	}
-	
+
 }
