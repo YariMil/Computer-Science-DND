@@ -1,7 +1,7 @@
 public class BinaryTester {
     public static void main(String[] args) {
         MyBST<Integer> test = new MyBST<Integer>();
-   
+
         System.out.println(test.add(50));
         System.out.println(test.add(25));
         System.out.println(test.add(25));
@@ -21,7 +21,7 @@ public class BinaryTester {
         System.out.println(test.contains(510));
         System.out.println("Ok here we go ==============");
         MyBST<String> t = new MyBST<String>();
-          System.out.println(t.contains("Hello!"));
+        System.out.println(t.contains("Hello!"));
         t.add("a");
         t.add("d");
         t.add("c");
@@ -29,62 +29,96 @@ public class BinaryTester {
         System.out.println(t.toString());
         t.remove("a");
         System.out.println(t.toString());
-    //     System.out.println("===== TIMMEEEE =======");
-    //     MyBST<Integer> timeTest = new MyBST<Integer>();
-    //     for (int i = 0; i < 100000; i++) {
-    //         timeTest.add(i/2);
-    //         timeTest.add(i*2);
-    //     }
-    //     System.out.println("Well that's one thing done");
-    //     timeTest.remove(198);
-    //     System.out.println("Remove done");
-    //     for (int i = 0; i < 100000; i++) {
-    //         timeTest.remove(i/2);
-    //         timeTest.remove(i*2);
-    //     }
-    //     System.out.println("Second, bigger remove is finished");
-    System.out.println("Big Tree");
-    MyBST<Integer> bigtest = new MyBST<Integer>();
-    bigtest.add(50);
-    bigtest.add(25);
-    bigtest.add(75);
-    bigtest.add(12);
-    bigtest.add(37);
-    bigtest.add(63);
-    bigtest.add(87);
-    bigtest.add(6);
-    bigtest.add(18);
-    bigtest.add(31);
-    bigtest.add(43);
-    bigtest.add(57);
-    bigtest.add(69);
-    bigtest.add(81);
-    bigtest.add(93);
-    bigtest.add(3);
-    bigtest.add(9);
-    bigtest.add(15);
-    bigtest.add(21);
-    bigtest.add(28);
-    bigtest.add(34);
-    bigtest.add(40);
-    bigtest.add(46);
-    bigtest.add(54);
-    bigtest.add(60);
-    bigtest.add(66);
-    bigtest.add(72);
-    bigtest.add(78);
-    bigtest.add(84);
-    bigtest.add(90);
-    bigtest.add(96);
-    bigtest.add(80);
-    bigtest.add(79);
-    bigtest.remove(75);
-    System.out.println(bigtest.toString());
-    System.out.println(bigtest.remove(63));
-    System.out.println(bigtest.toString());
-    System.out.println("Doing this");
-    System.out.println(bigtest.remove(63));
-    System.out.println("Did that");
-    System.out.println(bigtest.add(12));
+        // System.out.println("===== TIMMEEEE =======");
+        MyBST<Integer> timeTest = new MyBST<Integer>();
+        System.out.println(timeTest.toString());
+        timeTest.add(50);
+        System.out.println(timeTest.toString());
+        timeTest.remove(50);
+        System.out.println(timeTest.toString());
+        timeTest.remove(45);
+
+        // for (int i = 0; i < 100000; i++) {
+        // timeTest.add(i/2);
+        // timeTest.add(i*2);
+        // }
+        // System.out.println("Well that's one thing done");
+        // timeTest.remove(198);
+        // System.out.println("Remove done");
+        // for (int i = 0; i < 100000; i++) {
+        // timeTest.remove(i/2);
+        // timeTest.remove(i*2);
+        // }
+        // System.out.println("Second, bigger remove is finished");
+        System.out.println("Big Tree");
+        MyBST<Integer> bigtest = new MyBST<Integer>();
+        bigtest.add(50);
+        bigtest.add(25);
+        bigtest.add(75);
+        bigtest.add(12);
+        bigtest.add(37);
+        bigtest.add(63);
+        bigtest.add(87);
+        bigtest.add(6);
+        bigtest.add(18);
+        bigtest.add(31);
+        bigtest.add(43);
+        bigtest.add(57);
+        bigtest.add(69);
+        bigtest.add(81);
+        bigtest.add(93);
+        bigtest.add(3);
+        bigtest.add(9);
+        bigtest.add(15);
+        bigtest.add(21);
+        bigtest.add(28);
+        bigtest.add(34);
+        bigtest.add(40);
+        bigtest.add(46);
+        bigtest.add(54);
+        bigtest.add(60);
+        bigtest.add(66);
+        bigtest.add(72);
+        bigtest.add(78);
+        bigtest.add(84);
+        bigtest.add(90);
+        bigtest.add(96);
+        bigtest.add(80);
+        bigtest.add(79);
+        bigtest.remove(50);
+        System.out.println(bigtest.toString());
+        System.out.println(bigtest.remove(63));
+        System.out.println(bigtest.toString());
+        System.out.println("Doing this");
+        System.out.println(bigtest.remove(63));
+        System.out.println("Did that");
+        System.out.println(bigtest.add(12));
+
+
+
+        System.out.println("======== DOUBLES TEST AAAAAA ======");
+        MyBST<Double> bst = new MyBST<Double>();
+        bst.add(4.0);
+        bst.add(2.0);
+        bst.add(3.0);
+        bst.add(2.5);
+        bst.add(5.0);
+        bst.add(6.0);
+        bst.add(5.5);
+        bst.add(3.5);
+        bst.add(5.4);
+        bst.add(6.5);
+        bst.add(3.7);
+        bst.add(5.1);
+        bst.add(4.1);
+        bst.add(3.1);
+
+        System.out.println(bst);
+        bst.remove(4.0);
+        bst.remove(3.0);
+        bst.remove(2.5);
+        bst.remove(5.0);
+        bst.remove(6.0);
+        System.out.println(bst);
     }
 }

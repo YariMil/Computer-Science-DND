@@ -19,6 +19,9 @@ public class MyBST<E extends Comparable<E>> {
 
 	// Returns true if this BST contains value; otherwise returns false.
 	public boolean contains(E value) {
+		if (root == null) {
+			return false;
+		}
 		if (value == null) {
 			throw new IllegalArgumentException();
 		}
@@ -80,6 +83,9 @@ public class MyBST<E extends Comparable<E>> {
 	// If removing a node with two children: replace it with the
 	// largest node in the right subtree
 	public boolean remove(E value) {
+		if (root == null) {
+			return false;
+		}
 		if (value == null) {
 			throw new IllegalArgumentException();
 		}
@@ -118,6 +124,7 @@ public class MyBST<E extends Comparable<E>> {
 							previousNode.setRight(rightClosest);
 						}
 					}
+					rightClosest.setHeight(temp.getHeight());
 					BinaryNode<E> tFixMoving = rightClosest;
 					BinaryNode<E> tFixSet = rightClosest;
 					rightClosest = rightClosest.getParent();
@@ -163,6 +170,7 @@ public class MyBST<E extends Comparable<E>> {
 							previousNode.setRight(leftClosest);
 						}
 					}
+					leftClosest.setHeight(temp.getHeight());
 					BinaryNode<E> tFixMoving = leftClosest;
 					BinaryNode<E> tFixSet = leftClosest;
 					leftClosest = leftClosest.getParent();
@@ -207,6 +215,9 @@ public class MyBST<E extends Comparable<E>> {
 
 	// Returns the minimum in the tree
 	public E min() {
+		if (root == null) {
+			throw new IllegalArgumentException();
+		}
 		BinaryNode<E> temp = root;
 		while (temp.getLeft() != null) {
 			temp = temp.getLeft();
@@ -216,6 +227,9 @@ public class MyBST<E extends Comparable<E>> {
 
 	// Returns the maximum in the tree.
 	public E max() {
+		if (root == null) {
+			throw new IllegalArgumentException();
+		}
 		BinaryNode<E> temp = root;
 		while (temp.getRight() != null) {
 			temp = temp.getRight();
@@ -226,6 +240,9 @@ public class MyBST<E extends Comparable<E>> {
 	// Returns a bracket-surrounded, comma separated list of the contents of the nodes, in order
 	// e.g. [Apple, Cranberry, Durian, Mango]
 	public String toString() {
+		if (root == null) {
+			return "";
+		}
 		StringBuilder sb = toStringHelp(new StringBuilder(), root);
 		String str = sb.toString();
 		return str.substring(0, str.length() - 2);
