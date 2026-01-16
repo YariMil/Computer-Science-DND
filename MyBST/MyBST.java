@@ -142,7 +142,11 @@ public class MyBST<E extends Comparable<E>> {
 
 
 					// Edge case: The node we removed had a left node we can just attach here
-					tFixSet.setLeft(temp.getLeft());
+					if (temp.getLeft() != null) {
+						tFixSet.setLeft(temp.getLeft());
+						temp.getLeft().setParent(tFixSet);
+					}
+
 				} else if (temp.getLeft() != null) {
 					// Two lefts make a right
 					BinaryNode<E> leftClosest = temp.getLeft();
