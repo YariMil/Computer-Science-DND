@@ -19,6 +19,9 @@ public class MyBST<E extends Comparable<E>> {
 
 	// Returns true if this BST contains value; otherwise returns false.
 	public boolean contains(E value) {
+		if (value == null) {
+			throw new IllegalArgumentException();
+		}
 		BinaryNode<E> temp = root;
 		while (true) {
 			// Check to see if temp is null first
@@ -40,6 +43,9 @@ public class MyBST<E extends Comparable<E>> {
 	// Adds value to this BST, unless this tree already holds value.
 	// Returns true if value has been added; otherwise returns false.
 	public boolean add(E value) {
+		if (value == null) {
+			throw new IllegalArgumentException();
+		}
 		if (root == null) {
 			root = new BinaryNode<E>(value, null, 0);
 			return true;
@@ -74,6 +80,9 @@ public class MyBST<E extends Comparable<E>> {
 	// If removing a node with two children: replace it with the
 	// largest node in the right subtree
 	public boolean remove(E value) {
+		if (value == null) {
+			throw new IllegalArgumentException();
+		}
 		// Before anything, go to the node
 		// Note: I'm creating as many variables as possible just in case I need them
 		BinaryNode<E> temp = root;

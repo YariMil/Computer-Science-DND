@@ -39,7 +39,6 @@ public class BinaryTester {
         timeTest.remove(198);
         System.out.println("Remove done");
         for (int i = 0; i < 100000; i++) {
-            System.out.println(i);
             timeTest.remove(i/2);
             timeTest.remove(i*2);
         }
