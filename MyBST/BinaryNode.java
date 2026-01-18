@@ -6,7 +6,6 @@ public class BinaryNode<E extends Comparable<E>> {
 	private BinaryNode<E> right;
 	private BinaryNode<E> parent;
 	private int height;
-	private int balanceFactor;
 
 	public BinaryNode(E value) {
 		this.value = value;
@@ -14,7 +13,6 @@ public class BinaryNode<E extends Comparable<E>> {
 		this.right = null;
 		this.parent = null;
 		this.height = 0;
-		this.balanceFactor = 0;
 	}
 
 	public BinaryNode(E value, BinaryNode<E> parent, int height) {
@@ -23,7 +21,6 @@ public class BinaryNode<E extends Comparable<E>> {
 		this.right = null;
 		this.parent = parent;
 		this.height = height;
-		this.balanceFactor = 0;
 	}
 
 	public E getValue() {
@@ -55,15 +52,7 @@ public class BinaryNode<E extends Comparable<E>> {
 		if (left == null) {
 			return;
 		}
-		int index = 0;
-		BinaryNode<E> temp = this;
-		while (temp.getLeft() != null) {
-			temp.setHeight(height + index);
-			index++;
-			temp = temp.getLeft();
-		}
-		temp.setHeight(height + index);
-		// YOU CODE: Update height
+		updateHeight(height);
 	}
 
 	public void setRight(BinaryNode<E> right) {
@@ -71,15 +60,25 @@ public class BinaryNode<E extends Comparable<E>> {
 		if (right == null) {
 			return;
 		}
-		int index = 0;
-		BinaryNode<E> temp = this;
-		while (temp.getRight() != null) {
-			temp.setHeight(height + index);
-			index++;
-			temp = temp.getRight();
+		updateHeight(height);
+	}
+
+	public void updateHeight(int height) {
+		this.height = height;
+		if (left != null) {
+			left.updateHeight(height + 1);
 		}
-		temp.setHeight(height + index);
-		// YOU CODE: Update height
+		if (right != null) {
+			right.updateHeight(height + 1);
+		}
+	}
+
+	public void detachSelf() {
+		if (parent.getLeft() == this) {
+			parent.setLeft(null);
+		} else {
+			parent.setRight(null);
+		}
 	}
 
 	public void setParent(BinaryNode<E> parent) {

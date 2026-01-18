@@ -14,7 +14,25 @@ public class MyBST<E extends Comparable<E>> {
 	}
 
 	public int getHeight() {
-		return root.getHeight();
+		if (root == null) {
+			return -1;
+		}
+		return getHeightHelper(root);
+	}
+
+	public int getHeightHelper(BinaryNode<E> node) {
+		if (node.isLeaf()) {
+			return node.getHeight();
+		}
+		int leftHeight = 0;
+		int rightHeight = 0; 
+		if (node.getLeft() != null) {
+			leftHeight = getHeightHelper(node.getLeft());
+		}
+		if (node.getRight() != null) {
+			rightHeight = getHeightHelper(node.getRight());
+		}
+		return Math.max(leftHeight, rightHeight);
 	}
 
 	// Returns true if this BST contains value; otherwise returns false.
@@ -23,7 +41,7 @@ public class MyBST<E extends Comparable<E>> {
 			return false;
 		}
 		if (value == null) {
-			throw new IllegalArgumentException();
+			return false;
 		}
 		BinaryNode<E> temp = root;
 		while (true) {
@@ -87,7 +105,7 @@ public class MyBST<E extends Comparable<E>> {
 			return false;
 		}
 		if (value == null) {
-			throw new IllegalArgumentException();
+			return false;
 		}
 		// Before anything, go to the node
 		// Note: I'm creating as many variables as possible just in case I need them
@@ -124,17 +142,31 @@ public class MyBST<E extends Comparable<E>> {
 							previousNode.setRight(rightClosest);
 						}
 					}
-					rightClosest.setHeight(temp.getHeight());
+					rightClosest.updateHeight(temp.getHeight());
 					BinaryNode<E> tFixMoving = rightClosest;
 					BinaryNode<E> tFixSet = rightClosest;
 					rightClosest = rightClosest.getParent();
-					rightClosest.setLeft(null);
+					if (temp != rightClosest) {
+								rightClosest.setLeft(null);
+					}
+			
+					if (rightClosest == temp) {
+						// Really spaghetti code-y, but takes care of this one edgecase
+						while (tFixMoving.getRight() != null) {
+							tFixMoving = tFixMoving.getRight();
+						}
+						tFixMoving.setLeft(temp.getLeft());
+						if (temp.getLeft() != null) {
+							temp.getLeft().setParent(tFixMoving);
+						}
+					}
 					while (rightClosest != temp) {
 						BinaryNode<E> tFix = rightClosest;
 						rightClosest = rightClosest.getParent();
 						while (tFixMoving.getRight() != null) {
 							tFixMoving = tFixMoving.getRight();
 						}
+						tFix.detachSelf();
 						tFixMoving.setRight(tFix);
 						tFix.setParent(tFixMoving);
 						tFix.setLeft(null);
@@ -170,7 +202,7 @@ public class MyBST<E extends Comparable<E>> {
 							previousNode.setRight(leftClosest);
 						}
 					}
-					leftClosest.setHeight(temp.getHeight());
+					leftClosest.updateHeight(temp.getHeight());
 					BinaryNode<E> tFixMoving = leftClosest;
 					BinaryNode<E> tFixSet = leftClosest;
 					leftClosest = leftClosest.getParent();
@@ -182,6 +214,7 @@ public class MyBST<E extends Comparable<E>> {
 						while (tFixMoving.getLeft() != null) {
 							tFixMoving = tFixMoving.getLeft();
 						}
+						tFix.detachSelf();
 						tFixMoving.setLeft(tFix);
 						tFix.setParent(tFixMoving);
 						tFix.setRight(null);
@@ -194,7 +227,7 @@ public class MyBST<E extends Comparable<E>> {
 						tFixSet.setParent(null);
 						root = tFixSet;
 					}
-					// Edge case doesn't exist because the node has no right anyway
+					// Edge case resetting the heights just in case
 				} else {
 					// Pick a lane buddy
 					if (previousNode != null) {
@@ -216,7 +249,7 @@ public class MyBST<E extends Comparable<E>> {
 	// Returns the minimum in the tree
 	public E min() {
 		if (root == null) {
-			throw new IllegalArgumentException();
+			return null;
 		}
 		BinaryNode<E> temp = root;
 		while (temp.getLeft() != null) {
@@ -228,7 +261,7 @@ public class MyBST<E extends Comparable<E>> {
 	// Returns the maximum in the tree.
 	public E max() {
 		if (root == null) {
-			throw new IllegalArgumentException();
+			return null;
 		}
 		BinaryNode<E> temp = root;
 		while (temp.getRight() != null) {
@@ -241,7 +274,7 @@ public class MyBST<E extends Comparable<E>> {
 	// e.g. [Apple, Cranberry, Durian, Mango]
 	public String toString() {
 		if (root == null) {
-			return "";
+			return "[]";
 		}
 		StringBuilder sb = toStringHelp(new StringBuilder(), root);
 		String str = sb.toString();
