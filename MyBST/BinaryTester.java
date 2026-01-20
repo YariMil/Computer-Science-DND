@@ -174,6 +174,5 @@ public class BinaryTester {
         // bst.remove(45.0);
 
         // System.out.println(bst);
-        // System.out.println(bst.getRoot());
     }
 }
