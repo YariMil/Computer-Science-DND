@@ -106,4 +106,10 @@ public class BinaryNode<E extends Comparable<E>> {
 
 	}
 
+	public String toStringDetails() {
+		return "\n" + value + " believes its parent to be " + parent
+				+ ". It believes its children to be " + left + " on the left and " + right
+				+ " on the right. Its height is " + height + ".\n";
+	}
+
 }

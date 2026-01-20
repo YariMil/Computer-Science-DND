@@ -14,9 +14,6 @@ public class MyBST<E extends Comparable<E>> {
 	}
 
 	public int getHeight() {
-		if (root == null) {
-			return -1;
-		}
 		return getHeightHelper(root);
 	}
 
@@ -25,7 +22,7 @@ public class MyBST<E extends Comparable<E>> {
 			return node.getHeight();
 		}
 		int leftHeight = 0;
-		int rightHeight = 0; 
+		int rightHeight = 0;
 		if (node.getLeft() != null) {
 			leftHeight = getHeightHelper(node.getLeft());
 		}
@@ -71,25 +68,23 @@ public class MyBST<E extends Comparable<E>> {
 			root = new BinaryNode<E>(value, null, 0);
 			return true;
 		}
+		BinaryNode<E> addition = new BinaryNode<E>(value);
 		BinaryNode<E> temp = root;
-		int height = 0;
 		while (true) {
 			if (value.compareTo(temp.getValue()) < 0) {
 				if (temp.getLeft() == null) {
-					BinaryNode<E> addition = new BinaryNode<E>(value, temp, height);
+					addition.setParent(temp);
 					temp.setLeft(addition);
 					return true;
 				}
 				temp = temp.getLeft();
-				height++;
 			} else if (value.compareTo(temp.getValue()) > 0) {
 				if (temp.getRight() == null) {
-					BinaryNode<E> addition = new BinaryNode<E>(value, temp, height);
+					addition.setParent(temp);
 					temp.setRight(addition);
 					return true;
 				}
 				temp = temp.getRight();
-				height++;
 			} else {
 				return false;
 			}
@@ -131,7 +126,6 @@ public class MyBST<E extends Comparable<E>> {
 				if (temp.getRight() != null) {
 					// Two rights make a dead node
 					BinaryNode<E> rightClosest = temp.getRight();
-
 					while (rightClosest.getLeft() != null) {
 						rightClosest = rightClosest.getLeft();
 					}
@@ -141,93 +135,52 @@ public class MyBST<E extends Comparable<E>> {
 						} else {
 							previousNode.setRight(rightClosest);
 						}
-					}
-					rightClosest.updateHeight(temp.getHeight());
-					BinaryNode<E> tFixMoving = rightClosest;
-					BinaryNode<E> tFixSet = rightClosest;
-					rightClosest = rightClosest.getParent();
-					if (temp != rightClosest) {
-								rightClosest.setLeft(null);
-					}
-			
-					if (rightClosest == temp) {
-						// Really spaghetti code-y, but takes care of this one edgecase
-						while (tFixMoving.getRight() != null) {
-							tFixMoving = tFixMoving.getRight();
-						}
-						tFixMoving.setLeft(temp.getLeft());
-						if (temp.getLeft() != null) {
-							temp.getLeft().setParent(tFixMoving);
-						}
-					}
-					while (rightClosest != temp) {
-						BinaryNode<E> tFix = rightClosest;
-						rightClosest = rightClosest.getParent();
-						while (tFixMoving.getRight() != null) {
-							tFixMoving = tFixMoving.getRight();
-						}
-						tFix.detachSelf();
-						tFixMoving.setRight(tFix);
-						tFix.setParent(tFixMoving);
-						tFix.setLeft(null);
-						tFixMoving = tFix;
-					}
-					if (previousNode != null) {
-						tFixSet.setParent(previousNode);
 					} else {
-						tFixSet.setParent(null);
-						root = tFixSet;
+						rightClosest.updateHeight(0);
+						root = rightClosest;
 					}
-
-
-					// Edge case: The node we removed had a left node we can just attach here
+					boolean isChildOfRemoved = rightClosest == temp.getRight();
+					rightClosest.detachSelf();
+					rightClosest.setParent(previousNode);
+					BinaryNode<E> tFix = rightClosest;
+					while (tFix.getRight() != null) {
+						tFix = tFix.getRight();
+					}
+					if (!isChildOfRemoved) {
+						tFix.setRight(temp.getRight());
+						temp.getRight().setParent(tFix);
+					}
+					rightClosest.setLeft(temp.getLeft());
 					if (temp.getLeft() != null) {
-						tFixSet.setLeft(temp.getLeft());
-						temp.getLeft().setParent(tFixSet);
+						temp.getLeft().setParent(rightClosest);
 					}
-
 				} else if (temp.getLeft() != null) {
-					// Two lefts make a right
 					BinaryNode<E> leftClosest = temp.getLeft();
 					while (leftClosest.getRight() != null) {
 						leftClosest = leftClosest.getRight();
 					}
-					// The lefts, move everything to the left because we know that all values
-					// above leftCLosest will be less than it
-					// To Do: this could also be on the right so add an if statement
 					if (previousNode != null) {
 						if (wentLeft) {
 							previousNode.setLeft(leftClosest);
 						} else {
 							previousNode.setRight(leftClosest);
 						}
-					}
-					leftClosest.updateHeight(temp.getHeight());
-					BinaryNode<E> tFixMoving = leftClosest;
-					BinaryNode<E> tFixSet = leftClosest;
-					leftClosest = leftClosest.getParent();
-					leftClosest.setRight(null);
-
-					while (leftClosest != temp) {
-						BinaryNode<E> tFix = leftClosest;
-						leftClosest = leftClosest.getParent();
-						while (tFixMoving.getLeft() != null) {
-							tFixMoving = tFixMoving.getLeft();
-						}
-						tFix.detachSelf();
-						tFixMoving.setLeft(tFix);
-						tFix.setParent(tFixMoving);
-						tFix.setRight(null);
-						tFixMoving = tFix;
-					}
-					// Going down one more time to set the remaining nodes
-					if (previousNode != null) {
-						tFixSet.setParent(previousNode);
 					} else {
-						tFixSet.setParent(null);
-						root = tFixSet;
+						leftClosest.updateHeight(0);
+						root = leftClosest;
 					}
-					// Edge case resetting the heights just in case
+					boolean isChildOfRemoved = leftClosest == temp.getLeft();
+					leftClosest.detachSelf();
+					leftClosest.setParent(previousNode);
+					BinaryNode<E> tFix = leftClosest;
+					while (tFix.getLeft() != null) {
+						tFix = tFix.getLeft();
+					}
+					if (!isChildOfRemoved) {
+						tFix.setLeft(temp.getLeft());
+						temp.getLeft().setParent(tFix);
+						leftClosest.setRight(null);
+					}
 				} else {
 					// Pick a lane buddy
 					if (previousNode != null) {
@@ -281,13 +234,34 @@ public class MyBST<E extends Comparable<E>> {
 		return str.substring(0, str.length() - 2);
 	}
 
-	public StringBuilder toStringHelp(StringBuilder sb, BinaryNode<E> temp) {
+	private StringBuilder toStringHelp(StringBuilder sb, BinaryNode<E> temp) {
 		if (temp.getLeft() != null) {
 			sb = toStringHelp(sb, temp.getLeft());
 		}
 		sb.append(temp.getValue() + ", ");
 		if (temp.getRight() != null) {
 			sb = toStringHelp(sb, temp.getRight());
+		}
+		return sb;
+	}
+
+	public String toStringWithDetails() {
+		if (root == null) {
+			System.out.println("Empty");
+		}
+		StringBuilder sb = toStringDetailsHelper(new StringBuilder(), root);
+		String str = sb.toString();
+		return str;
+	}
+
+	private StringBuilder toStringDetailsHelper(StringBuilder sb, BinaryNode<E> temp) {
+		sb.append(temp.toStringDetails());
+		if (temp.getLeft() != null) {
+			sb = toStringDetailsHelper(sb, temp.getLeft());
+		}
+
+		if (temp.getRight() != null) {
+			sb = toStringDetailsHelper(sb, temp.getRight());
 		}
 		return sb;
 	}
