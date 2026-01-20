@@ -50,15 +50,15 @@ public class BinaryTester {
         // // timeTest.remove(45);
 
         // for (int i = 0; i < 1000; i++) {
-        //     timeTest.add(i / 2);
-        //     timeTest.add(i * 2);
+        // timeTest.add(i / 2);
+        // timeTest.add(i * 2);
         // }
         // System.out.println("Well that's one thing done");
         // timeTest.remove(198);
         // System.out.println("Remove done");
         // for (int i = 0; i < 1000; i++) {
-        //     timeTest.remove(i / 2);
-        //     timeTest.remove(i * 2);
+        // timeTest.remove(i / 2);
+        // timeTest.remove(i * 2);
         // }
         // System.out.println(timeTest.getRoot());
         // // System.out.println("Second, bigger remove is finished");
@@ -97,13 +97,14 @@ public class BinaryTester {
         bigtest.add(96);
         bigtest.add(80);
         bigtest.add(79);
-        // System.out.println(bigtest.toStringWithDetails());
         System.out.println(bigtest.toString());
+        // System.out.println(bigtest.toStringWithDetails());
+        // System.out.println(bigtest.toString());
         bigtest.remove(50);
         System.out.println(bigtest.toString());
-        bigtest.remove(63);
-        System.out.println(bigtest.toString());
-        System.out.println(bigtest.toStringWithDetails());
+        // bigtest.remove(63);
+        // System.out.println(bigtest.toString());
+        // System.out.println(bigtest.toStringWithDetails());
         // bigtest.remove(54);
         // bigtest.remove(57);
         // bigtest.remove(60);
@@ -111,7 +112,7 @@ public class BinaryTester {
         // bigtest.remove(66);
         // bigtest.remove(69);
         // while (bigtest.getRoot().getRight() != null) {
-        //     bigtest.remove(bigtest.getRoot().getValue());
+        // bigtest.remove(bigtest.getRoot().getValue());
         // }
         // bigtest.remove(96);
         // bigtest.remove(46);
@@ -153,13 +154,8 @@ public class BinaryTester {
         // bst.add(4.0);
         System.out.println(bst.toString());
         bst.add(8.0);
+        bst.add(9.0);
         bst.add(6.0);
-        bst.add(4.0);
-        bst.add(2.0);
-        bst.add(7.0);
-        bst.add(7.5);
-        bst.add(6.5);
-        bst.add(6.75);
         // bst.add(10.0);
         // bst.add(11.0);
         // bst.add(9.0);
@@ -170,7 +166,7 @@ public class BinaryTester {
         // bst.add(11.5);
         System.out.println(bst.toStringWithDetails());
         // System.out.println(bst.getHeight());
-        bst.remove(7.0);
+        bst.remove(8.0);
         System.out.println(bst.toStringWithDetails());
         // System.out.println(bst.getHeight());
 

@@ -229,9 +229,10 @@ public class MyBST<E extends Comparable<E>> {
 		if (root == null) {
 			return "[]";
 		}
-		StringBuilder sb = toStringHelp(new StringBuilder(), root);
+		StringBuilder sb = toStringHelp(new StringBuilder("["), root);
 		String str = sb.toString();
-		return str.substring(0, str.length() - 2);
+		str = str.substring(0, str.length() - 2);
+		return str + "]";
 	}
 
 	private StringBuilder toStringHelp(StringBuilder sb, BinaryNode<E> temp) {
