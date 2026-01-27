@@ -8,6 +8,9 @@ public class Arithmetic {
 		 * So We go through string each number we add on automatically operations we add to stack in
 		 * an increasing importance thingy if thing alredy here > thing added: GO
 		 */
+		if (exp == null || exp.length() == 0) {
+			throw new IllegalArgumentException();
+		}
 		String stout = convertClassicToStout(exp);
 		return evaluateStout(stout);
 	}
@@ -15,6 +18,9 @@ public class Arithmetic {
 	// Returns the result of doing operand1 operation operand2,
 	// e.g. operate(5, 2, "-") should return 3
 	public static int operate(int operand1, int operand2, String operation) {
+		if (operation == null || operation.length() != 1) {
+			throw new IllegalArgumentException();
+		}
 		if (operation.equals("+")) {
 			return operand1 + operand2;
 		} else if (operation.equals("-")) {
@@ -33,6 +39,9 @@ public class Arithmetic {
 
 	// Evaluates a String exp that has an arithmetic expression written in STOUT notation
 	public static int evaluateStout(String exp) {
+		if (exp == null || exp.length() == 0) {
+			throw new IllegalArgumentException();
+		}
 		String[] evaluationsToDo = exp.split(" ");
 		MyStack<Integer> evalStack = new MyStack<Integer>();
 		for (String str : evaluationsToDo) {
@@ -41,17 +50,29 @@ public class Arithmetic {
 			} catch (Exception e) {
 				// A little weird assigning, but the one currently on the stack is our operand 2.
 				// The one below is operand 1.
-				Integer operand2 = evalStack.peek();
-				evalStack.pop();
-				Integer operand1 = evalStack.peek();
-				evalStack.pop();
-				evalStack.push(operate(operand1, operand2, str));
+				if (isOperator(str)) {
+					try {
+						Integer operand2 = evalStack.peek();
+						evalStack.pop();
+						Integer operand1 = evalStack.peek();
+						evalStack.pop();
+						evalStack.push(operate(operand1, operand2, str));
+					} catch (Exception e2) {
+						// If we're here that means an incomplete expression was entered
+						throw new IllegalArgumentException();
+
+					}
+				}
 			}
 		}
 		return evalStack.peek();
+
 	}
 
 	public static String convertClassicToStout(String exp) {
+		if (exp == null || exp.length() == 0) {
+			throw new IllegalArgumentException();
+		}
 		MyStack<String> operatorStack = new MyStack<String>();
 		StringBuilder stoutNotation = new StringBuilder();
 		String[] operations = exp.split(" ");
@@ -61,42 +82,33 @@ public class Arithmetic {
 			} catch (Exception e) {
 				// We have an operator on our hands
 				// if thing already here >= thing added: GO
-				if (operatorStack.empty()) {
-					operatorStack.push(operations[i]);
+				if (isOperator(operations[i])) {
+					if (operatorStack.empty()) {
+						operatorStack.push(operations[i]);
 
-				} else if (operations[i].equals(")")) {
-					while (!operatorStack.peek().equals("(")) {
-						stoutNotation.append(operatorStack.peek() + " ");
+					} else if (operations[i].equals(")")) {
+						while (!operatorStack.peek().equals("(")) {
+							stoutNotation.append(operatorStack.peek() + " ");
+							operatorStack.pop();
+						}
 						operatorStack.pop();
+					} else {
+						if (compareStackToPush(operatorStack.peek(), operations[i])
+								&& !operatorStack.peek().equals("(")) {
+							// We shift the stack around
+							stoutNotation.append(operatorStack.peek() + " ");
+							operatorStack.pop();
+						}
+						operatorStack.push(operations[i]);
 					}
-					operatorStack.pop();
-				} else {
-					if (compareStackToPush(operatorStack.peek(), operations[i])
-							&& !operatorStack.peek().equals("(")) {
-						// We shift the stack around
-						stoutNotation.append(operatorStack.peek() + " ");
-						operatorStack.pop();
-					}
-					operatorStack.push(operations[i]);
 				}
 			}
 		}
 		while (!operatorStack.empty()) {
-			stoutNotation.append(operatorStack.peek());
+			stoutNotation.append(operatorStack.peek() + " ");
 			operatorStack.pop();
 		}
 		return stoutNotation.toString();
-	}
-
-	public static String autoFormatSpaces(String str) {
-		StringBuilder autoFormat = new StringBuilder();
-		for (int i = 0; i < str.length(); i++) {
-			if (str.charAt(i) != ' ') {
-				autoFormat.append(str.charAt(i));
-				autoFormat.append(' ');
-			}
-		}
-		return autoFormat.toString();
 	}
 
 	private static boolean compareStackToPush(String stackOperator, String operator2) {
@@ -110,6 +122,11 @@ public class Arithmetic {
 			return false;
 		}
 		return true;
+	}
+
+	private static boolean isOperator(String operator) {
+		String operators = "+-*/%^()";
+		return operators.indexOf(operator) != -1;
 	}
 
 
