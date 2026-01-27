@@ -128,6 +128,4 @@ public class Arithmetic {
 		String operators = "+-*/%^()";
 		return operators.indexOf(operator) != -1;
 	}
-
-
 }

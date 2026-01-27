@@ -6,7 +6,7 @@ public class ArithmeticTester {
         String stoutTest = "3 4 3 - 5 1 - + *";
         System.out.println(Arithmetic.evaluateStout(stoutTest));
         System.out.println(Arithmetic.evaluate(classic));
-        System.out.println(Arithmetic.evaluate("1 4 5 3 + + + + +"));
+        System.out.println(Arithmetic.evaluate("2 * ( -5 - 2 )"));
         // System.out.println(Arithmetic.evaluateStout(""));
     }
 }
