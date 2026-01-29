@@ -80,17 +80,56 @@ public class CookieMonster {
 		return cookiesHere + Math.max(cookiesDown, cookiesLeft);
 	}
 
-
 	/*
 	 * Calculate which route grants the most cookies using a QUEUE. Returns the maximum number of
 	 * cookies attainable.
 	 */
 	/* From any given position, always add the path right before adding the path down */
 	public int queueCookies() {
-		/* Plan of action:
-		Start  */
-		ArrayDeque<Integer> q = new ArrayDeque<Integer>();
-		return 0;
+		/*
+		 * Plan of action: Start with 1 guy Send out two guys right and down Check if any of them
+		 * died, if yes that guy doesn't get added Pop off the guy we just processed, add whichever
+		 * ones didn't die to the queue. We done now. End when everyone in the queue is on the
+		 * ending square
+		 */
+		// This only works for basic arrays. Need to fix this with dynamic max changing and also
+		// maybe end when the queue has nothing?
+		ArrayDeque<OrphanScout> q = new ArrayDeque<OrphanScout>();
+		q.add(new OrphanScout(0, 0, cookieGrid[0][0]));
+		int max = 0;
+		while (!q.isEmpty()) {
+			int processing = q.size();
+			for (int i = 0; i < processing; i++) {
+				int currRow = q.peek().getEndingRow();
+				int currCol = q.peek().getEndingCol();
+				int currCookies = q.peek().getCookiesDiscovered();
+				if (validPoint(currRow, currCol + 1)) {
+					OrphanScout orphanRight = new OrphanScout(currRow, currCol + 1,
+							currCookies + cookieGrid[currRow][currCol + 1]);
+					if (!(orphanRight.getCookiesDiscovered() < q.peek().getCookiesDiscovered())) {
+						// Orphan isn't dead yet! WOOOO
+						if (max < orphanRight.getCookiesDiscovered()) {
+							max = orphanRight.getCookiesDiscovered();
+						}
+						q.add(orphanRight);
+					}
+				}
+				if (validPoint(currRow + 1, currCol)) {
+					OrphanScout orphanDown = new OrphanScout(currRow + 1, currCol,
+							currCookies + cookieGrid[currRow + 1][currCol]);
+					if (!(orphanDown.getCookiesDiscovered() < q.peek().getCookiesDiscovered())) {
+						// Orphan isn't dead! WOOOO
+						q.add(orphanDown);
+						if (max < orphanDown.getCookiesDiscovered()) {
+							max = orphanDown.getCookiesDiscovered();
+						}
+					}
+
+				}
+				q.poll();
+			}
+		}
+		return max;
 	}
 
 
