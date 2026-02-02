@@ -64,6 +64,9 @@ public class CookieMonster {
 	// cookieGrid[row][col]
 	public int recursiveCookies(int row, int col) {
 		int cookiesHere = cookieGrid[row][col];
+		if (cookiesHere == -1) {
+			return 0;
+		}
 		int cookiesDown = 0;
 		int cookiesLeft = 0;
 		if (validPoint(row + 1, col)) {
@@ -92,40 +95,37 @@ public class CookieMonster {
 		 * ones didn't die to the queue. We done now. End when everyone in the queue is on the
 		 * ending square
 		 */
-		// This only works for basic arrays. Need to fix this with dynamic max changing and also
-		// maybe end when the queue has nothing?
 		ArrayDeque<OrphanScout> q = new ArrayDeque<OrphanScout>();
+		if (cookieGrid[0][0] == -1) {
+			return 0;
+		}
 		q.add(new OrphanScout(0, 0, cookieGrid[0][0]));
-		int max = 0;
+		int max = cookieGrid[0][0];
 		while (!q.isEmpty()) {
-			int processing = q.size();
-			for (int i = 0; i < processing; i++) {
-				OrphanScout removedOrphan = q.poll();
-				int currRow = removedOrphan.getEndingRow();
-				int currCol = removedOrphan.getEndingCol();
-				int currCookies = removedOrphan.getCookiesDiscovered();
-				if (validPoint(currRow, currCol + 1)) {
-					OrphanScout orphanRight = new OrphanScout(currRow, currCol + 1,
-							currCookies + cookieGrid[currRow][currCol + 1]);
-					if (!(orphanRight.getCookiesDiscovered() < currCookies)) {
-						// Orphan isn't dead yet! WOOOO
-						if (max < orphanRight.getCookiesDiscovered()) {
-							max = orphanRight.getCookiesDiscovered();
-						}
-						q.add(orphanRight);
+			OrphanScout removedOrphan = q.poll();
+			int currRow = removedOrphan.getEndingRow();
+			int currCol = removedOrphan.getEndingCol();
+			int currCookies = removedOrphan.getCookiesDiscovered();
+			if (validPoint(currRow, currCol + 1)) {
+				OrphanScout orphanRight = new OrphanScout(currRow, currCol + 1,
+						currCookies + cookieGrid[currRow][currCol + 1]);
+				if (!(orphanRight.getCookiesDiscovered() < currCookies)) {
+					// Orphan isn't dead yet! WOOOO
+					if (max < orphanRight.getCookiesDiscovered()) {
+						max = orphanRight.getCookiesDiscovered();
 					}
+					q.add(orphanRight);
 				}
-				if (validPoint(currRow + 1, currCol)) {
-					OrphanScout orphanDown = new OrphanScout(currRow + 1, currCol,
-							currCookies + cookieGrid[currRow + 1][currCol]);
-					if (!(orphanDown.getCookiesDiscovered() < currCookies)) {
-						// Orphan isn't dead! WOOOO
-						q.add(orphanDown);
-						if (max < orphanDown.getCookiesDiscovered()) {
-							max = orphanDown.getCookiesDiscovered();
-						}
+			}
+			if (validPoint(currRow + 1, currCol)) {
+				OrphanScout orphanDown = new OrphanScout(currRow + 1, currCol,
+						currCookies + cookieGrid[currRow + 1][currCol]);
+				if (!(orphanDown.getCookiesDiscovered() < currCookies)) {
+					// Orphan isn't dead! WOOOO
+					q.add(orphanDown);
+					if (max < orphanDown.getCookiesDiscovered()) {
+						max = orphanDown.getCookiesDiscovered();
 					}
-
 				}
 
 			}
@@ -142,35 +142,35 @@ public class CookieMonster {
 	public int stackCookies() {
 		Stack<OrphanScout> bigStack = new Stack<OrphanScout>();
 		bigStack.add(new OrphanScout(0, 0, cookieGrid[0][0]));
-		int max = 0;
+		if (cookieGrid[0][0] == -1) {
+			return 0;
+		}
+		int max = cookieGrid[0][0];
 		while (!bigStack.isEmpty()) {
-			int processing = bigStack.size();
-			for (int i = 0; i < processing; i++) {
-				OrphanScout endingOrphan = bigStack.pop();
-				int currRow = endingOrphan.getEndingRow();
-				int currCol = endingOrphan.getEndingCol();
-				int currCookies = endingOrphan.getCookiesDiscovered();
-				if (validPoint(endingOrphan.getEndingRow(), endingOrphan.getEndingCol() + 1)) {
-					OrphanScout orphanRight = new OrphanScout(currRow, currCol + 1,
-							currCookies + cookieGrid[currRow][currCol + 1]);
-					if (orphanRight.getCookiesDiscovered() >= currCookies) {
-						bigStack.push(orphanRight);
-						if (max < orphanRight.getCookiesDiscovered()) {
-							max = orphanRight.getCookiesDiscovered();
-						}
+			OrphanScout endingOrphan = bigStack.pop();
+			int currRow = endingOrphan.getEndingRow();
+			int currCol = endingOrphan.getEndingCol();
+			int currCookies = endingOrphan.getCookiesDiscovered();
+			if (validPoint(endingOrphan.getEndingRow() + 1, endingOrphan.getEndingCol())) {
+				OrphanScout orphanDown = new OrphanScout(currRow + 1, currCol,
+						currCookies + cookieGrid[currRow + 1][currCol]);
+				if (orphanDown.getCookiesDiscovered() >= currCookies) {
+					bigStack.push(orphanDown);
+					if (max < orphanDown.getCookiesDiscovered()) {
+						max = orphanDown.getCookiesDiscovered();
 					}
+				}
+			}
+			if (validPoint(endingOrphan.getEndingRow(), endingOrphan.getEndingCol() + 1)) {
+				OrphanScout orphanRight = new OrphanScout(currRow, currCol + 1,
+						currCookies + cookieGrid[currRow][currCol + 1]);
+				if (orphanRight.getCookiesDiscovered() >= currCookies) {
+					bigStack.push(orphanRight);
+					if (max < orphanRight.getCookiesDiscovered()) {
+						max = orphanRight.getCookiesDiscovered();
+					}
+				}
 
-				}
-				if (validPoint(endingOrphan.getEndingRow() + 1, endingOrphan.getEndingCol())) {
-					OrphanScout orphanDown = new OrphanScout(currRow + 1, currCol,
-							currCookies + cookieGrid[currRow + 1][currCol]);
-					if (orphanDown.getCookiesDiscovered() >= currCookies) {
-						bigStack.push(orphanDown);
-						if (max < orphanDown.getCookiesDiscovered()) {
-							max = orphanDown.getCookiesDiscovered();
-						}
-					}
-				}
 			}
 		}
 		return max;

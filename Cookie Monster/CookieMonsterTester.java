@@ -18,7 +18,7 @@ public class CookieMonsterTester {
 	 * number of cookies.
 	 */
 	public static void main(String[] args) {
-		String[] fileNames = {"cookies0.txt", "cookies1.txt", "cookies2.txt"};
+		String[] fileNames = {"cookiesTest.txt", "cookies0.txt", "cookies1.txt", "cookies2.txt"};
 		ArrayDeque<Integer> h = new ArrayDeque<Integer>();
 		h.add(1);
 		h.add(2);
@@ -57,7 +57,9 @@ public class CookieMonsterTester {
 			int optstack = monster.stackCookies();
 			long end3 = System.currentTimeMillis();
 			System.out.println("Solved using stack");
-			System.out.println("Optimal path has " + optstack + " cookies, using a stack to search. TIME: " + (end3-end2) + " milliseconds");
+			System.out.println(
+					"Optimal path has " + optstack + " cookies, using a stack to search. TIME: "
+							+ (end3 - end2) + " milliseconds");
 		}
 	}
 
