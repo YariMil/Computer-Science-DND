@@ -100,13 +100,14 @@ public class CookieMonster {
 		while (!q.isEmpty()) {
 			int processing = q.size();
 			for (int i = 0; i < processing; i++) {
-				int currRow = q.peek().getEndingRow();
-				int currCol = q.peek().getEndingCol();
-				int currCookies = q.peek().getCookiesDiscovered();
+				OrphanScout removedOrphan = q.poll();
+				int currRow = removedOrphan.getEndingRow();
+				int currCol = removedOrphan.getEndingCol();
+				int currCookies = removedOrphan.getCookiesDiscovered();
 				if (validPoint(currRow, currCol + 1)) {
 					OrphanScout orphanRight = new OrphanScout(currRow, currCol + 1,
 							currCookies + cookieGrid[currRow][currCol + 1]);
-					if (!(orphanRight.getCookiesDiscovered() < q.peek().getCookiesDiscovered())) {
+					if (!(orphanRight.getCookiesDiscovered() < currCookies)) {
 						// Orphan isn't dead yet! WOOOO
 						if (max < orphanRight.getCookiesDiscovered()) {
 							max = orphanRight.getCookiesDiscovered();
@@ -117,7 +118,7 @@ public class CookieMonster {
 				if (validPoint(currRow + 1, currCol)) {
 					OrphanScout orphanDown = new OrphanScout(currRow + 1, currCol,
 							currCookies + cookieGrid[currRow + 1][currCol]);
-					if (!(orphanDown.getCookiesDiscovered() < q.peek().getCookiesDiscovered())) {
+					if (!(orphanDown.getCookiesDiscovered() < currCookies)) {
 						// Orphan isn't dead! WOOOO
 						q.add(orphanDown);
 						if (max < orphanDown.getCookiesDiscovered()) {
@@ -126,7 +127,7 @@ public class CookieMonster {
 					}
 
 				}
-				q.poll();
+
 			}
 		}
 		return max;
@@ -139,8 +140,40 @@ public class CookieMonster {
 	 */
 	/* From any given position, always add the path right before adding the path down */
 	public int stackCookies() {
-		Stack<Integer> bigStack = new Stack<Integer>();
-		return 0;
+		Stack<OrphanScout> bigStack = new Stack<OrphanScout>();
+		bigStack.add(new OrphanScout(0, 0, cookieGrid[0][0]));
+		int max = 0;
+		while (!bigStack.isEmpty()) {
+			int processing = bigStack.size();
+			for (int i = 0; i < processing; i++) {
+				OrphanScout endingOrphan = bigStack.pop();
+				int currRow = endingOrphan.getEndingRow();
+				int currCol = endingOrphan.getEndingCol();
+				int currCookies = endingOrphan.getCookiesDiscovered();
+				if (validPoint(endingOrphan.getEndingRow(), endingOrphan.getEndingCol() + 1)) {
+					OrphanScout orphanRight = new OrphanScout(currRow, currCol + 1,
+							currCookies + cookieGrid[currRow][currCol + 1]);
+					if (orphanRight.getCookiesDiscovered() >= currCookies) {
+						bigStack.push(orphanRight);
+						if (max < orphanRight.getCookiesDiscovered()) {
+							max = orphanRight.getCookiesDiscovered();
+						}
+					}
+
+				}
+				if (validPoint(endingOrphan.getEndingRow() + 1, endingOrphan.getEndingCol())) {
+					OrphanScout orphanDown = new OrphanScout(currRow + 1, currCol,
+							currCookies + cookieGrid[currRow + 1][currCol]);
+					if (orphanDown.getCookiesDiscovered() >= currCookies) {
+						bigStack.push(orphanDown);
+						if (max < orphanDown.getCookiesDiscovered()) {
+							max = orphanDown.getCookiesDiscovered();
+						}
+					}
+				}
+			}
+		}
+		return max;
 	}
 
 }

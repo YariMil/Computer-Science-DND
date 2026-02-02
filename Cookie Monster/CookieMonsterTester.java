@@ -21,7 +21,12 @@ public class CookieMonsterTester {
 		String[] fileNames = {"cookies0.txt", "cookies1.txt", "cookies2.txt"};
 		ArrayDeque<Integer> h = new ArrayDeque<Integer>();
 		h.add(1);
-		testingQueues(h);
+		h.add(2);
+		Stack<Integer> stackTest = new Stack<>();
+		stackTest.add(1);
+		stackTest.add(2);
+		System.out.println(h.poll());
+		System.out.println(stackTest.pop());
 
 		Scanner kboard = new Scanner(System.in);
 		System.out.print("Enter the cookies file name or press ENTER for 3 default test cases: ");
@@ -49,11 +54,10 @@ public class CookieMonsterTester {
 			System.out.println(
 					"Optimal path has " + optqueue + " cookies, using a queue to search.  TIME: "
 							+ (end2 - end1) + " milliseconds");
-			// int optstack = monster.stackCookies();
-			// long end3 = System.currentTimeMillis();
-			// System.out.println("Solved using stack");
-			// System.out.println("Optimal path has " + optstack + " cookies, using a stack to
-			// search. TIME: " + (end3-end2) + " milliseconds");
+			int optstack = monster.stackCookies();
+			long end3 = System.currentTimeMillis();
+			System.out.println("Solved using stack");
+			System.out.println("Optimal path has " + optstack + " cookies, using a stack to search. TIME: " + (end3-end2) + " milliseconds");
 		}
 	}
 
