@@ -69,9 +69,10 @@ public class ChocolateHashMap<K, V> {
         }
         BatchNode<ChocolateEntry<K, V>> temp = buckets[b];
         while (temp.getNext() != null) {
-            if (temp.equals(key)) {
+            if (temp.getEntry().equals(key)) {
                 return true;
             }
+            temp = temp.getNext();
         }
         return false;
     }
@@ -82,9 +83,10 @@ public class ChocolateHashMap<K, V> {
         for (int i = 0; i < buckets.length; i++) {
             BatchNode<ChocolateEntry<K, V>> temp = buckets[i];
             while (temp != null) {
-                if (temp.equals(value)) {
+                if (temp.getEntry().equals(value)) {
                     return true;
                 }
+                temp = temp.getNext();
             }
         }
         return false;
@@ -100,15 +102,30 @@ public class ChocolateHashMap<K, V> {
         if (containsKey(key)) {
             return false;
         }
-        
-        throw new UnsupportedOperationException("TODO: implement put");
+        int bucketIndex = whichBucket(key);
+        BatchNode<ChocolateEntry<K, V>> chocolateBucket = buckets[bucketIndex];
+        while (chocolateBucket.getNext() != null) {
+            chocolateBucket = chocolateBucket.getNext();
+        }
+        chocolateBucket
+                .setNext(new BatchNode<ChocolateEntry<K, V>>(new ChocolateEntry<K, V>(key, value)));
+        return true;
     }
 
     // Returns the value associated with the key in the map.
     // If the key is not in the map, then return null.
     public V get(K key) {
-        // TODO: implement
-        throw new UnsupportedOperationException("TODO: implement get");
+        if (containsKey(key)) {
+            return null;
+        }
+        int bucket = whichBucket(key);
+        BatchNode<ChocolateEntry<K, V>> chocolateBucket = buckets[bucket];
+        while (chocolateBucket != null) {
+            if (chocolateBucket.getEntry().equals(key)) {
+                return chocolateBucket.getEntry().getValue();
+            }
+        }
+        return null;
     }
 
     // Remove the pair associated with the key.
