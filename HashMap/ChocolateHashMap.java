@@ -83,7 +83,9 @@ public class ChocolateHashMap<K, V> {
         for (int i = 0; i < buckets.length; i++) {
             BatchNode<ChocolateEntry<K, V>> temp = buckets[i].getNext();
             while (!temp.isSentinel()) {
-                if (temp.getEntry().getValue().equals(value)) {
+                if (value == null && temp.getEntry().getValue() == null) {
+                    return true;
+                } else if (temp.getEntry().getValue().equals(value)) {
                     return true;
                 }
                 temp = temp.getNext();
@@ -104,9 +106,6 @@ public class ChocolateHashMap<K, V> {
         }
         int bucketIndex = whichBucket(key);
         BatchNode<ChocolateEntry<K, V>> chocolateBucket = buckets[bucketIndex];
-        // while (!chocolateBucket.getNext().isSentinel()) {
-        // chocolateBucket = chocolateBucket.getNext();
-        // }
         chocolateBucket.insertBefore(
                 new BatchNode<ChocolateEntry<K, V>>(new ChocolateEntry<K, V>(key, value)));
         objectCount++;
@@ -147,6 +146,7 @@ public class ChocolateHashMap<K, V> {
                 objectCount--;
                 return true;
             }
+            chocolateBucket = chocolateBucket.getNext();
         }
         return true;
 
@@ -191,7 +191,7 @@ public class ChocolateHashMap<K, V> {
                 while (!chocolateBucket.getNext().isSentinel()) {
                     chocolateBucket = chocolateBucket.getNext();
                     ChocolateEntry<K, V> entry = chocolateBucket.getEntry();
-                    str.append(entry.getKey() + "," + entry.getValue() + " ");
+                    str.append(entry.toString() + " ");
                 }
                 str.append("} ");
             }
