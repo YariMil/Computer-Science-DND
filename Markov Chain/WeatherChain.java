@@ -3,14 +3,13 @@ public class WeatherChain {
     private int numOfThisType;
     private double percentage;
 
-    public WeatherChain(String weather) {
+    public WeatherChain(String weather, int totalWeather) {
         this.weatherType = weather;
-        numOfThisType = 0;
-        updatePercentage(numOfThisType);
+        numOfThisType = 1;
+        updatePercentage(totalWeather);
     }
 
     public void updatePercentage(int totalWeather) {
-        numOfThisType++;
         percentage = (double) (numOfThisType) / totalWeather;
     }
 
@@ -20,5 +19,13 @@ public class WeatherChain {
 
     public double getPercent() {
         return percentage;
+    }
+
+    public void addOne() {
+        numOfThisType++;
+    }
+
+    public int getNumOfType() {
+        return numOfThisType;
     }
 }
