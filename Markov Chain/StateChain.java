@@ -1,9 +1,9 @@
-public class WeatherChain {
+public class StateChain {
     private String weatherType;
     private int numOfThisType;
     private double percentage;
 
-    public WeatherChain(String weather, int totalWeather) {
+    public StateChain(String weather, int totalWeather) {
         this.weatherType = weather;
         numOfThisType = 1;
         updatePercentage(totalWeather);
