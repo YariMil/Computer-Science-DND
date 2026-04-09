@@ -2,7 +2,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 public class RLECompression {
 
@@ -106,12 +109,38 @@ public class RLECompression {
 
         String[] rotations = new String[originalText.length()];
         rotations[0] = originalText.toString();
+        System.out.println(rotations[0]);
         // TO-DO
         // Now do the Burrows-Wheeler Transform
+        for (int i = 0; i < originalText.length() - 1; i++) {
+            char lastChar = rotations[i].charAt(rotations[i].length() - 1);
+            StringBuilder currentRotation = new StringBuilder();
+            currentRotation.append(lastChar);
+            currentRotation.append(rotations[i].substring(0, rotations[i].length() - 1));
+            rotations[i + 1] = currentRotation.toString();
+        }
 
+        // Sort by first letter
+        rotations = sortByFirst(rotations);
         // And then write the transformation into a file
         PrintWriter pw = new PrintWriter(fileName + ".bw");
+        for (int i = 0; i < rotations.length; i++) {
+            pw.write(rotations[i] + "\n");
+        }
         pw.close();
+    }
+
+    private static String[] sortByFirst(String[] rotations) {
+        ArrayList<String> sorting = new ArrayList<String>();
+        for (String rotation : rotations) {
+            sorting.add(rotation);
+        }
+        sorting.sort(String::compareTo);
+        String[] sortedArray = new String[sorting.size()];
+        for (int i = 0; i < sorting.size(); i++) {
+            sortedArray[i] = sorting.get(i);
+        }
+        return sortedArray;
     }
 
     public static void invertBWTransform(String fileName) throws IOException {
