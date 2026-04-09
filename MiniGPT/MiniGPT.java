@@ -50,9 +50,11 @@ public class MiniGPT {
 				writer.write(predictedState);
 				chain = chain.substring(1) + predictedState;
 			}
+			writer.close();
 		} catch (IOException e) {
 			System.out.println("IO Error occured");
 		}
+		
 	}
 
 	public String toString() {
