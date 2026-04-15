@@ -3,9 +3,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 
 public class RLECompression {
 
@@ -25,6 +22,9 @@ public class RLECompression {
     // single characters are left alone, and runs of 2+ characters are encoded as
     // that letter twice, followed by the length of the run, cast as a char
     public static void encode(String fileName) throws IOException {
+        if (fileName == null) {
+            throw new IllegalArgumentException();
+        }
         BufferedReader br = new BufferedReader(new FileReader(fileName));
         PrintWriter pw = new PrintWriter(fileName + ".rle");
 
@@ -40,7 +40,7 @@ public class RLECompression {
                 count++;
             } else {
                 if (count > 1) {
-                    pw.write("" + previousChar + previousChar + (char) (count));
+                    pw.write("" + previousChar + previousChar + (char) (count + '0'));
                 } else {
                     pw.write("" + previousChar);
                 }
@@ -49,7 +49,7 @@ public class RLECompression {
             previousChar = c;
         }
         if (count > 1) {
-            pw.write("" + previousChar + previousChar + (char) (count));
+            pw.write("" + previousChar + previousChar + (char) (count + '0'));
         } else {
             pw.write("" + previousChar);
         }
@@ -60,34 +60,32 @@ public class RLECompression {
 
     // Decodes the above scheme
     public static void decode(String fileName) throws IOException {
+        if (fileName == null) {
+            throw new IllegalArgumentException();
+        }
         BufferedReader br = new BufferedReader(new FileReader(fileName));
         PrintWriter pw = new PrintWriter(fileName.substring(0, fileName.length() - 4));
 
         char previousChar = (char) br.read();
-        boolean decodedADouble = false;
 
         while (br.ready()) {
             char c = (char) br.read();
-            decodedADouble = false;
             // TO-DO
             // Now here: do things with the char you just read, dependent on the char you
             // just read
             if (previousChar == c) {
                 // Repeated sequence
-                decodedADouble = false;
                 c = (char) br.read();
-                for (int i = 0; i < (int) c; i++) {
+                for (int i = 0; i < (int) (c - '0'); i++) {
                     pw.write(previousChar);
                 }
-                decodedADouble = true;
                 c = (char) br.read();
             } else {
                 pw.write(previousChar);
             }
             previousChar = c;
         }
-        System.out.println(decodedADouble);
-        if (!decodedADouble) {
+        if ((int) (previousChar) != 65535) {
             pw.write(previousChar);
         }
         br.close();
@@ -95,6 +93,9 @@ public class RLECompression {
     }
 
     public static void bwTransform(String fileName) throws IOException {
+        if (fileName == null) {
+            throw new IllegalArgumentException();
+        }
         BufferedReader br = new BufferedReader(new FileReader(fileName));
 
         // Add a null character at the beginning, as a
@@ -109,7 +110,6 @@ public class RLECompression {
 
         String[] rotations = new String[originalText.length()];
         rotations[0] = originalText.toString();
-        System.out.println(rotations[0]);
         // TO-DO
         // Now do the Burrows-Wheeler Transform
         for (int i = 0; i < originalText.length() - 1; i++) {
@@ -123,10 +123,12 @@ public class RLECompression {
         // Sort by first letter
         rotations = sortByFirst(rotations);
         // And then write the transformation into a file
-        PrintWriter pw = new PrintWriter(fileName + ".bw");
-        for (int i = 0; i < rotations.length; i++) {
-            pw.write(rotations[i] + "\n");
+        StringBuilder sb = new StringBuilder();
+        for (String rotation : rotations) {
+            sb.append(rotation.charAt(rotation.length() - 1));
         }
+        PrintWriter pw = new PrintWriter(fileName + ".bw");
+        pw.write(sb.toString());
         pw.close();
     }
 
@@ -143,7 +145,23 @@ public class RLECompression {
         return sortedArray;
     }
 
+    private static StringBuilder[] sortByFirst(StringBuilder[] rotations) {
+        ArrayList<String> sorting = new ArrayList<String>();
+        for (StringBuilder rotation : rotations) {
+            sorting.add(rotation.toString());
+        }
+        sorting.sort(String::compareTo);
+        StringBuilder[] sortedArray = new StringBuilder[sorting.size()];
+        for (int i = 0; i < sorting.size(); i++) {
+            sortedArray[i] = new StringBuilder(sorting.get(i));
+        }
+        return sortedArray;
+    }
+
     public static void invertBWTransform(String fileName) throws IOException {
+        if (fileName == null) {
+            throw new IllegalArgumentException();
+        }
         BufferedReader br = new BufferedReader(new FileReader(fileName));
 
         StringBuilder originalText = new StringBuilder();
@@ -160,10 +178,21 @@ public class RLECompression {
         }
         // TO-DO
         // Now undo the Burrows-Wheeler transform
-
+        for (int i = 0; i < reconstructions.length - 1; i++) {
+            reconstructions = sortByFirst(reconstructions);
+            for (int j = 0; j < reconstructions.length; j++) {
+                reconstructions[j] =
+                        new StringBuilder(originalText.charAt(j) + reconstructions[j].toString());
+            }
+        }
         // TO-DO
         // And write the appropriate reconstruction into the file, without the null char
         PrintWriter pw = new PrintWriter(fileName.substring(0, fileName.length() - 3));
+        for (int i = 0; i < reconstructions.length; i++) {
+            if (reconstructions[i].charAt(0) == '\0') {
+                pw.write(reconstructions[i].toString().substring(1));
+            }
+        }
         pw.close();
     }
 }
