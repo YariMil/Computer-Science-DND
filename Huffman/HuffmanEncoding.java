@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 
 public class HuffmanEncoding {
-    public static void countFrequency(String fileName) throws IOException {
+    public static HashMap<Character, Integer> countFrequency(String fileName) throws IOException {
         if (fileName == null) {
             throw new IllegalArgumentException();
         }
@@ -19,7 +19,7 @@ public class HuffmanEncoding {
             map.put(c, map.get(c) + 1);
         }
         map.put((char) br.read(), 1);
-        System.out.println(map.toString());
         br.close();
+        return map;
     }
 }
