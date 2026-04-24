@@ -83,6 +83,10 @@ public class HuffmanNode implements Comparable {
         this.parent = parent;
     }
 
+    public String toString() {
+        return "char " + c + "; frequency: " + frequency;
+    }
+
 
 
 }

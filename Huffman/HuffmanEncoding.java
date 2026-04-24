@@ -49,13 +49,19 @@ public class HuffmanEncoding {
         return heap;
     }
 
-    public void buildTree(PriorityQueue<HuffmanNode> heap) {
+    public void buildTree() {
         while (!heap.isEmpty()) {
             HuffmanNode leftChild = heap.poll();
-            HuffmanNode rightChild = heap.poll();
-            HuffmanNode placeHolderNode = new HuffmanNode(
-                    leftChild.getFrequency() + rightChild.getFrequency(), leftChild, rightChild);
-            heap.add(placeHolderNode);
+            if (!heap.isEmpty()) {
+                HuffmanNode rightChild = heap.poll();
+                HuffmanNode placeHolderNode =
+                        new HuffmanNode(leftChild.getFrequency() + rightChild.getFrequency(),
+                                leftChild, rightChild);
+                heap.add(placeHolderNode);
+            } else {
+                root = leftChild;
+                return;
+            }
         }
     }
 
@@ -63,8 +69,19 @@ public class HuffmanEncoding {
         return map.toString();
     }
 
-    public String printTree() {
-        StringBuilder b = new StringBuilder();
-        return b.toString();
+    public String showSorted() {
+        HuffmanNode[] arr = new HuffmanNode[map.size()];
+        for (int i = 0; i < map.size(); i++) {
+            arr[i] = heap.poll();
+        }
+        StringBuilder sorted = new StringBuilder("[");
+        for (HuffmanNode node : arr) {
+            sorted.append(node.toString());
+            sorted.append(", ");
+        }
+        String sortedString = sorted.toString();
+        // Recreating the heap because the toString destroys it
+        heap = sort(map);
+        return sortedString.substring(0, sortedString.length() - 2) + "]";
     }
 }
