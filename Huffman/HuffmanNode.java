@@ -3,6 +3,7 @@ public class HuffmanNode implements Comparable {
     private int frequency;
     private HuffmanNode leftChild;
     private HuffmanNode rightChild;
+    private StringBuilder code;
 
 
     private HuffmanNode parent;
@@ -14,6 +15,7 @@ public class HuffmanNode implements Comparable {
         leftChild = null;
         rightChild = null;
         parent = null;
+        code = new StringBuilder();
     }
 
     public HuffmanNode(int frequency, HuffmanNode leftChild, HuffmanNode rightChild) {
@@ -24,7 +26,15 @@ public class HuffmanNode implements Comparable {
         this.rightChild = rightChild;
         leftChild.setParent(this);
         rightChild.setParent(this);
+        code = new StringBuilder();
+    }
 
+    public void addToCode(String c) {
+        code.append(c);
+    }
+
+    public String getCode() {
+        return code.toString();
     }
 
     @Override
@@ -87,6 +97,7 @@ public class HuffmanNode implements Comparable {
         return "char " + c + "; frequency: " + frequency;
     }
 
-
-
+    public boolean isLeaf() {
+        return leftChild == null && rightChild == null;
+    }
 }

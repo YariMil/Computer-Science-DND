@@ -4,10 +4,12 @@ public class HuffmanTester {
     public static void main(String[] args) {
         try {
             // File has 2 a, 1 b, 3 c, 5 t
-            HuffmanEncoding encoding = new HuffmanEncoding("S");
+            HuffmanCodeGenerator encoding = new HuffmanCodeGenerator("huffmanTest.txt");
+            encoding.makeCodeFile("huffmanDictionary.txt");
             // This is the file sorted by frequency
-            System.out.println(encoding.showSorted());
-            // encoding.buildTree();
+            HuffmanEncoder encoder = new HuffmanEncoder("huffmanDictionary.txt");
+            // encoding.printDictionary();
+            
         } catch (Exception e) {
             System.out.println(e);
         }
