@@ -1,0 +1,16 @@
+This is a file that just documents the procedure that the simplified huffman encoder uses for my sake.
+
+So, first we take a file and count up all of the characters within it along with their frequencies
+We then store it in a data structure (HashMap so its O(1))
+Then:
+    We sort the data according to frequencies
+    We then put take the two characters with the lowest frequencies
+    We make a new node with a null character and a combined frequency of those characters
+    We then start making a tree, the two characters are the child nodes and the new node is the parent node
+    We reinstert the parent node and do the whole thing again
+Once there is nothing left to do in that step and the tree is made, we go down the tree recursively and assign codes
+If we go left, the code of that node is the code of the parent + 0
+If right, code of the parent + 1
+We then go through the tree and put all the leaf nodes into a dictionary with the chars and the frequency.
+We go through the original file and make a new file replacing the chars with the codes
+Chop up into 8 1s and 0s each, make chars out of that. We done

@@ -9,7 +9,10 @@ public class HuffmanTester {
             // This is the file sorted by frequency
             HuffmanEncoder encoder = new HuffmanEncoder("huffmanDictionary.txt");
             // encoding.printDictionary();
-            
+            encoder.encodeFileToHuffmanCodes("huffmanTest.txt", "huffmanEncoded.txt");
+            HuffmanDecoder decoder = new HuffmanDecoder("huffmanDictionary.txt");
+            decoder.decodeFileFromHuffmanCodes("huffmanEncoded.txt", "huffmanDecoded.txt");
+
         } catch (Exception e) {
             System.out.println(e);
         }

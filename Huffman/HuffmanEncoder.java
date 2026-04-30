@@ -1,5 +1,7 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -7,6 +9,7 @@ public class HuffmanEncoder {
     private HashMap<Character, String> dictionary;
     private HuffmanCodeGenerator codeGen;
 
+    // Assuming we already have a codeFile created
     public HuffmanEncoder(String codeFile) {
         try {
             makeDictionary(codeFile);
@@ -23,7 +26,6 @@ public class HuffmanEncoder {
         while (br.ready()) {
             String readLine = br.readLine();
             if (!readLine.equals("")) {
-                System.out.println(readLine);
                 dictionary.put((char) line, readLine);
             }
             line++;
@@ -32,9 +34,74 @@ public class HuffmanEncoder {
     }
 
     public String encodeChar(char input) {
-        return "";
+        if (!dictionary.containsKey(input)) {
+            return "";
+        }
+        return dictionary.get(input);
     }
 
+    public void encodeFileToHuffmanCodes(String fileToCompress, String encodedFile)
+            throws IOException {
+        int charsWritten = 0;
+        BufferedReader br = new BufferedReader(new FileReader(fileToCompress));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(encodedFile));
+        StringBuilder totalString = new StringBuilder();
+        while (br.ready()) {
+            char c = (char) br.read();
+            totalString.append(dictionary.get(c));
+            charsWritten += dictionary.get(c).length();
+        }
+        totalString.append(dictionary.get((char) 26));
+        charsWritten += dictionary.get((char) 26).length();
+        String str = totalString.toString();
+        int zeroesAdded = 0;
+        while ((charsWritten + zeroesAdded) % 8 != 0) {
+            str += "0";
+            zeroesAdded++;
+        }
+        bw.write(str);
+        br.close();
+        bw.close();
+    }
+
+    public void encodeFile(String fileToCompress) throws IOException {
+        int charsWritten = 0;
+        BufferedReader br = new BufferedReader(new FileReader(fileToCompress));
+        BufferedWriter bw = new BufferedWriter(
+                new FileWriter(fileToCompress.substring(0, fileToCompress.length() - 4) + ".huf"));
+        StringBuilder totalString = new StringBuilder();
+        while (br.ready()) {
+            char c = (char) br.read();
+            totalString.append(dictionary.get(c));
+            charsWritten += dictionary.get(c).length();
+        }
+        totalString.append(dictionary.get((char) 26));
+        charsWritten += dictionary.get((char) 26).length();
+        int zeroesAdded = 0;
+        while ((charsWritten + zeroesAdded) % 8 != 0) {
+            totalString.append(zeroesAdded);
+            zeroesAdded++;
+        }
+        String str = totalString.toString();
+        String currChar = "";
+        for (int i = 0; i < str.length(); i++) {
+            currChar += str.charAt(i);
+            if (currChar.length() == 8) {
+                int charAscii = convertCodeToBaseTen(currChar);
+                bw.write((char) charAscii);
+            }
+        }
+    }
+
+    public int convertCodeToBaseTen(String code) {
+        int codeInt = 0;
+        for (int i = 0; i < code.length(); i++) {
+            if (code.charAt(i) == '1') {
+                codeInt += Math.pow(2, i);
+            }
+        }
+        return codeInt;
+    }
 
 
 }
