@@ -115,29 +115,29 @@ public class HuffmanCodeGenerator {
     }
 
     // public String showSorted() {
-    //     if (heap.size() == 0) {
-    //         System.out.println(
-    //                 "Can't print the sorted frequencies because you already made the tree!");
-    //         return "";
-    //     }
-    //     HuffmanNode[] arr = new HuffmanNode[map.size()];
-    //     for (int i = 0; i < map.size(); i++) {
-    //         arr[i] = heap.poll();
-    //     }
-    //     StringBuilder sorted = new StringBuilder("[");
-    //     for (HuffmanNode node : arr) {
-    //         sorted.append(node.toString());
-    //         sorted.append(", ");
-    //     }
-    //     String sortedString = sorted.toString();
-    //     // Recreating the heap because the toString destroys it
-    //     heap = sort(map);
-    //     return sortedString.substring(0, sortedString.length() - 2) + "]";
+    // if (heap.size() == 0) {
+    // System.out.println(
+    // "Can't print the sorted frequencies because you already made the tree!");
+    // return "";
+    // }
+    // HuffmanNode[] arr = new HuffmanNode[map.size()];
+    // for (int i = 0; i < map.size(); i++) {
+    // arr[i] = heap.poll();
+    // }
+    // StringBuilder sorted = new StringBuilder("[");
+    // for (HuffmanNode node : arr) {
+    // sorted.append(node.toString());
+    // sorted.append(", ");
+    // }
+    // String sortedString = sorted.toString();
+    // // Recreating the heap because the toString destroys it
+    // heap = sort(map);
+    // return sortedString.substring(0, sortedString.length() - 2) + "]";
     // }
 
     public void makeCodeFile(String codeFile) throws IOException {
         BufferedWriter bw = new BufferedWriter(new FileWriter(codeFile));
-        for (int i = 0; i < 127; i++) {
+        for (int i = 0; i < 128; i++) {
             if (dictionary.containsKey((char) i)) {
                 bw.write(dictionary.get((char) i) + "\n");
             } else {
@@ -152,6 +152,9 @@ public class HuffmanCodeGenerator {
     }
 
     public int getFrequency(char c) {
+        if (!map.containsKey(c)) {
+            return 0;
+        }
         return map.get(c);
     }
 

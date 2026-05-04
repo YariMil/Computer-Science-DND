@@ -61,4 +61,37 @@ public class HuffmanDecoder {
         br.close();
         bw.close();
     }
+
+    public void decodeFile(String encodedFile) throws IOException {
+        if (encodedFile.indexOf(".huf", encodedFile.length() - 4) == -1) {
+            throw new IllegalArgumentException();
+        }
+        BufferedReader br = new BufferedReader(new FileReader(encodedFile));
+        BufferedWriter bw = new BufferedWriter(
+                new FileWriter(encodedFile.substring(0, encodedFile.length() - 4)));
+        StringBuilder charsToInts = new StringBuilder();
+        while (br.ready()) {
+            int c = br.read();
+            String toBinary = Integer.toBinaryString(c);
+            while (toBinary.length() < 8) {
+                toBinary = "0" + toBinary;
+            }
+            charsToInts.append(toBinary);
+        }
+        String currCode = "";
+        for (int i = 0; i < charsToInts.length(); i++) {
+            currCode += charsToInts.charAt(i);
+            if (isCode(currCode)) {
+                if (decodeChar(currCode) == (char) 26) {
+                    br.close();
+                    bw.close();
+                    return;
+                }
+                bw.write(decodeChar(currCode));
+                currCode = "";
+            }
+        }
+        br.close();
+        bw.close();
+    }
 }

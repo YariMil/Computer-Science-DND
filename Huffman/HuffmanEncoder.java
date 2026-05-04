@@ -73,13 +73,14 @@ public class HuffmanEncoder {
         while (br.ready()) {
             char c = (char) br.read();
             totalString.append(dictionary.get(c));
+
             charsWritten += dictionary.get(c).length();
         }
         totalString.append(dictionary.get((char) 26));
         charsWritten += dictionary.get((char) 26).length();
         int zeroesAdded = 0;
         while ((charsWritten + zeroesAdded) % 8 != 0) {
-            totalString.append(zeroesAdded);
+            totalString.append("0");
             zeroesAdded++;
         }
         String str = totalString.toString();
@@ -89,15 +90,18 @@ public class HuffmanEncoder {
             if (currChar.length() == 8) {
                 int charAscii = convertCodeToBaseTen(currChar);
                 bw.write((char) charAscii);
+                currChar = "";
             }
         }
+        br.close();
+        bw.close();
     }
 
     public int convertCodeToBaseTen(String code) {
         int codeInt = 0;
         for (int i = 0; i < code.length(); i++) {
             if (code.charAt(i) == '1') {
-                codeInt += Math.pow(2, i);
+                codeInt += Math.pow(2, code.length() - i - 1);
             }
         }
         return codeInt;
