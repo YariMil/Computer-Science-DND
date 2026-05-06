@@ -21,14 +21,14 @@ public class HuffmanTester {
                 }
             }
             br.close();
-            // This is the file sorted by frequency
+            // // This is the file sorted by frequency
             HuffmanEncoder encoder = new HuffmanEncoder("huffmanDictionary.txt");
             // encoding.printDictionary();
             encoder.encodeFileToHuffmanCodes("huffmanTest.txt", "huffmanEncoded.txt");
             HuffmanDecoder decoder = new HuffmanDecoder("huffmanDictionary.txt");
             decoder.decodeFileFromHuffmanCodes("huffmanEncoded.txt", "huffmanDecoded.txt");
             encoder.encodeFile("huffmanTest.txt");
-            decoder.decodeFile("huffmanTest.huf");
+            decoder.decodeFile("huffmanTest.txt.huf");
 
         } catch (Exception e) {
             System.out.println(e);

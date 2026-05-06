@@ -32,6 +32,9 @@ public class HuffmanCodeGenerator {
         while (br.ready()) {
             Character c = (char) br.read();
             if (!map.containsKey(c)) {
+                if (c == '\n') {
+                    c = (char) 1;
+                }
                 map.put(c, 0);
             }
             map.put(c, map.get(c) + 1);

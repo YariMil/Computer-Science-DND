@@ -30,7 +30,7 @@ public class HuffmanEncoder {
             }
             line++;
         }
-        System.out.println(dictionary.toString());
+        br.close();
     }
 
     public String encodeChar(char input) {
@@ -48,6 +48,9 @@ public class HuffmanEncoder {
         StringBuilder totalString = new StringBuilder();
         while (br.ready()) {
             char c = (char) br.read();
+            if (c == '\n') {
+                c = (char) 1;
+            }
             totalString.append(dictionary.get(c));
             charsWritten += dictionary.get(c).length();
         }
@@ -71,8 +74,10 @@ public class HuffmanEncoder {
         StringBuilder totalString = new StringBuilder();
         while (br.ready()) {
             char c = (char) br.read();
+            if (c == '\n') {
+                c = (char) 1;
+            }
             totalString.append(dictionary.get(c));
-
             charsWritten += dictionary.get(c).length();
         }
         totalString.append(dictionary.get((char) 26));
@@ -103,6 +108,9 @@ public class HuffmanEncoder {
         StringBuilder totalString = new StringBuilder();
         while (br.ready()) {
             char c = (char) br.read();
+            if (c == '\n') {
+                c = (char) 1;
+            }
             totalString.append(dictionary.get(c));
             charsWritten += dictionary.get(c).length();
         }

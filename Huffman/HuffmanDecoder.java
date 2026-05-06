@@ -30,7 +30,7 @@ public class HuffmanDecoder {
             }
             line++;
         }
-        System.out.println(dictionary.toString());
+        br.close();
     }
 
     public boolean isCode(String binary) {
@@ -49,12 +49,15 @@ public class HuffmanDecoder {
         while (br.ready()) {
             currCode += (char) br.read();
             if (isCode(currCode)) {
-                if (decodeChar(currCode) == (char) 26) {
+                if (decodeChar(currCode) == (char) 1) {
+                    bw.write("\n");
+                } else if (decodeChar(currCode) == (char) 26) {
                     br.close();
                     bw.close();
                     return;
+                } else {
+                    bw.write(decodeChar(currCode));
                 }
-                bw.write(decodeChar(currCode));
                 currCode = "";
             }
         }
@@ -82,12 +85,15 @@ public class HuffmanDecoder {
         for (int i = 0; i < charsToInts.length(); i++) {
             currCode += charsToInts.charAt(i);
             if (isCode(currCode)) {
-                if (decodeChar(currCode) == (char) 26) {
+                if (decodeChar(currCode) == (char) 1) {
+                    bw.write("\n");
+                } else if (decodeChar(currCode) == (char) 26) {
                     br.close();
                     bw.close();
                     return;
+                } else {
+                    bw.write(decodeChar(currCode));
                 }
-                bw.write(decodeChar(currCode));
                 currCode = "";
             }
         }
