@@ -11,6 +11,9 @@ public class HuffmanEncoder {
 
     // Assuming we already have a codeFile created
     public HuffmanEncoder(String codeFile) {
+        if (codeFile == null) {
+            throw new IllegalArgumentException();
+        }
         try {
             makeDictionary(codeFile);
         } catch (Exception e) {
@@ -20,6 +23,9 @@ public class HuffmanEncoder {
     }
 
     public void makeDictionary(String codeFile) throws IOException {
+        if (codeFile == null) {
+            throw new IllegalArgumentException();
+        }
         BufferedReader br = new BufferedReader(new FileReader(codeFile));
         dictionary = new HashMap<Character, String>();
         int line = 0;
@@ -42,6 +48,11 @@ public class HuffmanEncoder {
 
     public void encodeFileToHuffmanCodes(String fileToCompress, String encodedFile)
             throws IOException {
+        if (fileToCompress == null) {
+            throw new IllegalArgumentException();
+        } else if (encodedFile == null) {
+            throw new IllegalArgumentException();
+        }
         int charsWritten = 0;
         BufferedReader br = new BufferedReader(new FileReader(fileToCompress));
         BufferedWriter bw = new BufferedWriter(new FileWriter(encodedFile));
@@ -49,7 +60,7 @@ public class HuffmanEncoder {
         while (br.ready()) {
             char c = (char) br.read();
             if (c == '\n') {
-                c = (char) 1;
+                c = (char) 10;
             }
             totalString.append(dictionary.get(c));
             charsWritten += dictionary.get(c).length();
@@ -68,6 +79,9 @@ public class HuffmanEncoder {
     }
 
     public void encodeFile(String fileToCompress) throws IOException {
+        if (fileToCompress == null) {
+            throw new IllegalArgumentException();
+        }
         int charsWritten = 0;
         BufferedReader br = new BufferedReader(new FileReader(fileToCompress));
         BufferedWriter bw = new BufferedWriter(new FileWriter(fileToCompress + ".huf"));
@@ -75,7 +89,7 @@ public class HuffmanEncoder {
         while (br.ready()) {
             char c = (char) br.read();
             if (c == '\n') {
-                c = (char) 1;
+                c = (char) 10;
             }
             totalString.append(dictionary.get(c));
             charsWritten += dictionary.get(c).length();
@@ -101,33 +115,7 @@ public class HuffmanEncoder {
         bw.close();
     }
 
-    public void encodeLong(String fileToCompress, String encodedFile) throws IOException {
-        int charsWritten = 0;
-        BufferedReader br = new BufferedReader(new FileReader(fileToCompress));
-        BufferedWriter bw = new BufferedWriter(new FileWriter(encodedFile));
-        StringBuilder totalString = new StringBuilder();
-        while (br.ready()) {
-            char c = (char) br.read();
-            if (c == '\n') {
-                c = (char) 1;
-            }
-            totalString.append(dictionary.get(c));
-            charsWritten += dictionary.get(c).length();
-        }
-        totalString.append(dictionary.get((char) 26));
-        charsWritten += dictionary.get((char) 26).length();
-        String str = totalString.toString();
-        int zeroesAdded = 0;
-        while ((charsWritten + zeroesAdded) % 8 != 0) {
-            str += "0";
-            zeroesAdded++;
-        }
-        bw.write(str);
-        br.close();
-        bw.close();
-    }
-
-    public int convertCodeToBaseTen(String code) {
+    private int convertCodeToBaseTen(String code) {
         int codeInt = 0;
         for (int i = 0; i < code.length(); i++) {
             if (code.charAt(i) == '1') {

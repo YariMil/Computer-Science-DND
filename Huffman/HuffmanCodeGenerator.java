@@ -13,6 +13,9 @@ public class HuffmanCodeGenerator {
     private HashMap<Character, String> dictionary;
 
     public HuffmanCodeGenerator(String fileName) {
+        if (fileName == null) {
+            throw new IllegalArgumentException();
+        }
         try {
             map = countFrequency(fileName);
             heap = sort(map);
@@ -33,7 +36,7 @@ public class HuffmanCodeGenerator {
             Character c = (char) br.read();
             if (!map.containsKey(c)) {
                 if (c == '\n') {
-                    c = (char) 1;
+                    c = (char) 10;
                 }
                 map.put(c, 0);
             }
@@ -139,6 +142,9 @@ public class HuffmanCodeGenerator {
     // }
 
     public void makeCodeFile(String codeFile) throws IOException {
+        if (codeFile == null) {
+            throw new IllegalArgumentException();
+        }
         BufferedWriter bw = new BufferedWriter(new FileWriter(codeFile));
         for (int i = 0; i < 128; i++) {
             if (dictionary.containsKey((char) i)) {

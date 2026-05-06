@@ -49,7 +49,7 @@ public class HuffmanDecoder {
         while (br.ready()) {
             currCode += (char) br.read();
             if (isCode(currCode)) {
-                if (decodeChar(currCode) == (char) 1) {
+                if (decodeChar(currCode) == (char) 10) {
                     bw.write("\n");
                 } else if (decodeChar(currCode) == (char) 26) {
                     br.close();
@@ -85,7 +85,7 @@ public class HuffmanDecoder {
         for (int i = 0; i < charsToInts.length(); i++) {
             currCode += charsToInts.charAt(i);
             if (isCode(currCode)) {
-                if (decodeChar(currCode) == (char) 1) {
+                if (decodeChar(currCode) == (char) 10) {
                     bw.write("\n");
                 } else if (decodeChar(currCode) == (char) 26) {
                     br.close();
