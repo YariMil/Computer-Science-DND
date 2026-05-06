@@ -67,8 +67,7 @@ public class HuffmanEncoder {
     public void encodeFile(String fileToCompress) throws IOException {
         int charsWritten = 0;
         BufferedReader br = new BufferedReader(new FileReader(fileToCompress));
-        BufferedWriter bw = new BufferedWriter(
-                new FileWriter(fileToCompress.substring(0, fileToCompress.length() - 4) + ".huf"));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(fileToCompress + ".huf"));
         StringBuilder totalString = new StringBuilder();
         while (br.ready()) {
             char c = (char) br.read();
@@ -93,6 +92,29 @@ public class HuffmanEncoder {
                 currChar = "";
             }
         }
+        br.close();
+        bw.close();
+    }
+
+    public void encodeLong(String fileToCompress, String encodedFile) throws IOException {
+        int charsWritten = 0;
+        BufferedReader br = new BufferedReader(new FileReader(fileToCompress));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(encodedFile));
+        StringBuilder totalString = new StringBuilder();
+        while (br.ready()) {
+            char c = (char) br.read();
+            totalString.append(dictionary.get(c));
+            charsWritten += dictionary.get(c).length();
+        }
+        totalString.append(dictionary.get((char) 26));
+        charsWritten += dictionary.get((char) 26).length();
+        String str = totalString.toString();
+        int zeroesAdded = 0;
+        while ((charsWritten + zeroesAdded) % 8 != 0) {
+            str += "0";
+            zeroesAdded++;
+        }
+        bw.write(str);
         br.close();
         bw.close();
     }
