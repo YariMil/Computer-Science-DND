@@ -33,7 +33,7 @@ public class HuffmanTester {
             encoder.encodeFile("smallHuffmanTest.txt");
             decoder.decodeFile("smallHuffmanTest.txt.huf");
 
-            // Big file - The Great Gatsby 
+            // Big file - The Great Gatsby
             HuffmanCodeGenerator bigEncoding = new HuffmanCodeGenerator("huffmanTest.txt");
             bigEncoding.makeCodeFile("huffmanDictionary.txt");
             HuffmanEncoder bigEncoder = new HuffmanEncoder("huffmanDictionary.txt");
@@ -43,6 +43,8 @@ public class HuffmanTester {
             bigEncoder.encodeFile("huffmanTest.txt");
             bigDecoder.decodeFile("huffmanTest.txt.huf");
 
+            // --------- TESTING HUFFMANENCODINGFULL ---------- //
+            HuffmanEncodingFull.encode("quickTest.txt");
         } catch (Exception e) {
             System.out.println(e);
         }

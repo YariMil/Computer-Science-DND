@@ -7,7 +7,6 @@ import java.util.HashMap;
 
 public class HuffmanDecoder {
     private HashMap<String, Character> dictionary;
-    private HuffmanCodeGenerator codeGen;
 
     // Assuming we already have a codeFile created
     public HuffmanDecoder(String codeFile) {
