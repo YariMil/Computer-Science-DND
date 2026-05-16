@@ -75,7 +75,46 @@ public class DynamicProgramming {
     // have to choose!
     // Write a method that returns the maximum POINTS you can get.
     public static int scavHunt(int[] times, int[] points) {
-        return 0;
+        HashMap<Integer, Integer> rewardsMap = new HashMap<Integer, Integer>();
+        int index = 0;
+        rewardsMap.put(times[0], 0);
+        return scavHuntHelper(times, points, index, times[index], rewardsMap);
+    }
+
+    private static int scavHuntHelper(int[] times, int[] points, int currIndex, int minute,
+            HashMap<Integer, Integer> pointsMap) {
+        // Broken one
+        // ArrayList<Integer> maxRewards = new ArrayList<Integer>();
+        // int index = currIndex - 1;
+        // while (index >= 0 && minute - times[index] < 5) {
+        //     // Only way we could have gotten here is if we were at these minutes and didn't take
+        //     // treasure
+        //     maxRewards.add(pointsMap.get(times[index]));
+        //     index--;
+        // }
+        // if (index != -1) {
+        //     maxRewards.add(pointsMap.get(times[index]) + points[index]);
+        // }
+        // int max = maxRewards.get(0);
+        // for (int i = 1; i < maxRewards.size(); i++) {
+        //     max = Math.max(max, maxRewards.get(i));
+        // }
+        // pointsMap.put(minute, max);
+        // currIndex++;
+        // if (currIndex >= times.length) {
+        //     maxRewards.clear();
+        //     index = currIndex - 1;
+        //     while (minute - times[index] < 5) {
+        //         maxRewards.add(pointsMap.get(times[index]) + points[index]);
+        //         index--;
+        //     }
+        //     max = maxRewards.get(0);
+        //     for (int i = 1; i < maxRewards.size(); i++) {
+        //         max = Math.max(max, maxRewards.get(i));
+        //     }
+        //     return max;
+        // }
+        return scavHuntHelper(times, points, currIndex, times[currIndex], pointsMap);
     }
 
 
