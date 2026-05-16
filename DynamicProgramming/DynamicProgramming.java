@@ -83,38 +83,76 @@ public class DynamicProgramming {
 
     private static int scavHuntHelper(int[] times, int[] points, int currIndex, int minute,
             HashMap<Integer, Integer> pointsMap) {
+
+        // Ok so we have the time we're currently on:
+        // Two possibilities: Take or no take
+        // If we take, we update the next treasure time 5 mins from now with the max we can have by
+        // that time
+        // If we don't take, update the next available time in general with the max we can have by
+        // that time
+        // Go to next time
+        if (currIndex >= times.length) {
+            return pointsMap.get(times[currIndex - 1] + 1);
+        }
+        // Option 1: Take
+        int maxPointsGotten = pointsMap.get(times[currIndex]) + points[currIndex];
+        int index = currIndex + 1;
+        while (index < times.length && times[index] - times[currIndex] < 5) {
+            index++;
+        }
+        if (index >= times.length) {
+            // We've run out of time, create a fictional "end time" where we consolidate everything
+            pointsMap.put(times[index - 1] + 1,
+                    Math.max(maxPointsGotten, pointsMap.getOrDefault(times[index - 1] + 1, -10)));
+        } else {
+            pointsMap.put(times[index],
+                    Math.max(maxPointsGotten, pointsMap.getOrDefault(times[index], -10)));
+        }
+
+        // Option 2: No take
+        maxPointsGotten = pointsMap.get(times[currIndex]);
+        if (currIndex + 1 >= times.length) {
+            pointsMap.put(times[currIndex] + 1,
+                    Math.max(maxPointsGotten, pointsMap.getOrDefault(times[index - 1] + 1, -10)));
+            // Call the recursive method early because we're done by this point
+            return scavHuntHelper(times, points, currIndex + 1, 0, pointsMap);
+        } else if (pointsMap.get(times[currIndex + 1]) != null) {
+            maxPointsGotten =
+                    Math.max(pointsMap.get(times[currIndex]), pointsMap.get(times[currIndex + 1]));
+        }
+        pointsMap.put(times[currIndex + 1], maxPointsGotten);
         // Broken one
         // ArrayList<Integer> maxRewards = new ArrayList<Integer>();
         // int index = currIndex - 1;
         // while (index >= 0 && minute - times[index] < 5) {
-        //     // Only way we could have gotten here is if we were at these minutes and didn't take
-        //     // treasure
-        //     maxRewards.add(pointsMap.get(times[index]));
-        //     index--;
+        // // Only way we could have gotten here is if we were at these minutes and didn't take
+        // // treasure
+        // maxRewards.add(pointsMap.get(times[index]));
+        // index--;
         // }
         // if (index != -1) {
-        //     maxRewards.add(pointsMap.get(times[index]) + points[index]);
+        // maxRewards.add(pointsMap.get(times[index]) + points[index]);
         // }
         // int max = maxRewards.get(0);
         // for (int i = 1; i < maxRewards.size(); i++) {
-        //     max = Math.max(max, maxRewards.get(i));
+        // max = Math.max(max, maxRewards.get(i));
         // }
         // pointsMap.put(minute, max);
         // currIndex++;
         // if (currIndex >= times.length) {
-        //     maxRewards.clear();
-        //     index = currIndex - 1;
-        //     while (minute - times[index] < 5) {
-        //         maxRewards.add(pointsMap.get(times[index]) + points[index]);
-        //         index--;
-        //     }
-        //     max = maxRewards.get(0);
-        //     for (int i = 1; i < maxRewards.size(); i++) {
-        //         max = Math.max(max, maxRewards.get(i));
-        //     }
-        //     return max;
+        // maxRewards.clear();
+        // index = currIndex - 1;
+        // while (minute - times[index] < 5) {
+        // maxRewards.add(pointsMap.get(times[index]) + points[index]);
+        // index--;
         // }
-        return scavHuntHelper(times, points, currIndex, times[currIndex], pointsMap);
+        // max = maxRewards.get(0);
+        // for (int i = 1; i < maxRewards.size(); i++) {
+        // max = Math.max(max, maxRewards.get(i));
+        // }
+        // return max;
+        // }
+        return scavHuntHelper(times, points, currIndex + 1, 0, pointsMap);
     }
 
 
