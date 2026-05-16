@@ -7,5 +7,10 @@ public class DynamicTester {
         System.out.println(DynamicProgramming.hiLoStress(arr1, arr2));
         System.out.println(DynamicProgramming.scavHunt(arr1, arr2));
 
+        int[][] cookies = {{5, 9, -1}, 
+                            {3, 1, 4}, 
+                            {6, 8, 3}};
+        System.out.println(DynamicProgramming.dynamicCookies(cookies));
+
     }
 }
