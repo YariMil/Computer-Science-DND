@@ -23,7 +23,9 @@ public class DynamicTester {
         // Cookie test, should be 26 cookies
         // int[][] cookies = {{5, 9, -1, 10, 11, 234, 12, 445, 21, 213, 401, 21},
         // {3, 1, 4, 2, 1, 4, 10, 11, 0, -1, 5, 6}, {6, 8, 3, 4, 5, 1, 3, 5, 1, 10, 11, 122}};
-        int[][] cookies2 = {{1, 2, 2}, {1, -1, 6}, {1, 5, 4}};
+        int[][] cookies2 = {{1, 2, 2}, 
+                            {1, 0, -1}, 
+                            {1, -1, 0}};
         // System.out.println(DynamicProgramming.dynamicCookies(cookies));
         System.out.println(DynamicProgramming.dynamicCookies(cookies2));
 

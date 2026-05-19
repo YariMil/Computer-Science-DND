@@ -184,33 +184,29 @@ public class DynamicProgramming {
     private static int dynamicCookiesHelper(int[][] cookieGrid, String coords,
             HashMap<String, Integer> map) {
         // Coordinates are (x, y)
-        try {
-            int commaIndex = coords.indexOf(",");
-            int currX = Integer.parseInt(coords.substring(0, commaIndex));
-            int currY = Integer.parseInt(coords.substring(commaIndex + 1));
-            if (cookieGrid[currY][currX] == -1) {
-                // Bomb
-                map.put(coords, -1);
-            } else {
-                String upRow = String.valueOf(currX) + "," + String.valueOf(currY - 1);
-                String leftColumn = String.valueOf(currX - 1) + "," + String.valueOf(currY);
-                map.put(coords, Math.max(getCookies(cookieGrid, upRow, map),
-                        getCookies(cookieGrid, leftColumn, map)));
-            }
-            if (currX + 1 < cookieGrid[currY].length) {
-                String rightColumn = String.valueOf(currX + 1) + "," + String.valueOf(currY);
-                return dynamicCookiesHelper(cookieGrid, rightColumn, map);
-            } else if (currY + 1 < cookieGrid.length) {
-                String newRow = "0," + (currY + 1);
-                return dynamicCookiesHelper(cookieGrid, newRow, map);
-            } else {
-                return map.get(coords) + cookieGrid[currY][currX];
-            }
-        } catch (StackOverflowError e) {
-            System.out.println(e);
-            System.out.println(coords);
-            return -1;
+        // For some
+        int commaIndex = coords.indexOf(",");
+        int currX = Integer.parseInt(coords.substring(0, commaIndex));
+        int currY = Integer.parseInt(coords.substring(commaIndex + 1));
+        if (cookieGrid[currY][currX] == -1) {
+            // Bomb
+            map.put(coords, -1);
+        } else {
+            String upRow = String.valueOf(currX) + "," + String.valueOf(currY - 1);
+            String leftColumn = String.valueOf(currX - 1) + "," + String.valueOf(currY);
+            map.put(coords, Math.max(getCookies(cookieGrid, upRow, map),
+                    getCookies(cookieGrid, leftColumn, map)));
         }
+        if (currX + 1 < cookieGrid[currY].length) {
+            String rightColumn = String.valueOf(currX + 1) + "," + String.valueOf(currY);
+            return dynamicCookiesHelper(cookieGrid, rightColumn, map);
+        } else if (currY + 1 < cookieGrid.length) {
+            String newRow = "0," + (currY + 1);
+            return dynamicCookiesHelper(cookieGrid, newRow, map);
+        } else {
+            return map.get(coords) + cookieGrid[currY][currX];
+        }
+
     }
 
     private static int getCookies(int[][] cookieGrid, String coords, HashMap<String, Integer> map) {
