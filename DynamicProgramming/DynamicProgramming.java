@@ -16,10 +16,7 @@ public class DynamicProgramming {
         // This is a hashMap of money BY a certain day, the money amount
         // Day 0 we have nothing
         rewardsMap.put(0, 0);
-        // Only way we can get to day 2 and be able to choose something is if we take the low paying
-        // job on day 1
-        rewardsMap.put(1, lowPayouts[0]);
-        return hiLoStressHelper(lowPayouts, highPayouts, 2, rewardsMap);
+        return hiLoStressHelper(lowPayouts, highPayouts, 0, rewardsMap);
     }
 
     private static int hiLoStressHelper(int[] lowPayouts, int[] highPayouts, int day,
@@ -29,13 +26,31 @@ public class DynamicProgramming {
          * x - 2 in the HashMap The way to get to day x is either day x - 2 + high paying or day x -
          * 1 + lowPaying // We check which is bigger and add that to the HashMap
          */
-        int withHighPaying = rewardsMap.get(day - 2) + highPayouts[day - 2];
-        if (day >= lowPayouts.length + 1) {
-            return Math.max(withHighPaying, rewardsMap.get(day - 1));
+        // I decided to try it a different way because I had no idea what was wrong with the first
+        // version
+        if (day >= lowPayouts.length) {
+            return rewardsMap.get(day);
         }
-        int withLowPaying = rewardsMap.get(day - 1) + lowPayouts[day - 1];
-        rewardsMap.put(day, Math.max(withHighPaying, withLowPaying));
+        int today = rewardsMap.get(day);
+        int withHighPaying = today + highPayouts[day];
+        int withLowPaying = today + lowPayouts[day];
+        if (day + 2 >= lowPayouts.length) {
+            rewardsMap.put(lowPayouts.length,
+                    Math.max(withHighPaying, rewardsMap.getOrDefault(lowPayouts.length, -10)));
+        } else {
+            rewardsMap.put(day + 2,
+                    Math.max(withHighPaying, rewardsMap.getOrDefault(lowPayouts.length, -10)));
+        }
+        rewardsMap.put(day + 1, Math.max(withLowPaying, rewardsMap.getOrDefault(day + 1, -10)));
         return hiLoStressHelper(lowPayouts, highPayouts, day + 1, rewardsMap);
+        // Broken apparently
+        // int withHighPaying = rewardsMap.get(day - 2) + highPayouts[day - 2];
+        // if (day >= lowPayouts.length + 1) {
+        // return Math.max(withHighPaying, rewardsMap.get(day - 1));
+        // }
+        // int withLowPaying = rewardsMap.get(day - 1) + lowPayouts[day - 1];
+        // rewardsMap.put(day, Math.max(withHighPaying, withLowPaying));
+        // return hiLoStressHelper(lowPayouts, highPayouts, day + 1, rewardsMap);
         // Recursive method
         // // Determine what job we took today.
         // // Add to our salary
@@ -169,25 +184,32 @@ public class DynamicProgramming {
     private static int dynamicCookiesHelper(int[][] cookieGrid, String coords,
             HashMap<String, Integer> map) {
         // Coordinates are (x, y)
-        int currX = Integer.parseInt(coords.substring(0, coords.indexOf(",")));
-        int currY = Integer.parseInt(coords.substring(2));
+        int commaIndex = 0;
+        try {
+            commaIndex = coords.indexOf(",");
+        } catch (Exception e) {
+            System.out.println(coords);
+            return -1;
+        }
+        int currX = Integer.parseInt(coords.substring(0, commaIndex));
+        int currY = Integer.parseInt(coords.substring(commaIndex + 1));
         String downRow = String.valueOf(currX) + "," + String.valueOf(currY + 1);
         String rightColumn = String.valueOf(currX + 1) + "," + String.valueOf(currY);
-        int cookiesHere = map.get(coords) + cookieGrid[currY][currX];
-        // Checking y first
-        if (currY + 1 < cookieGrid.length) {
-            map.put(downRow, Math.max(cookiesHere, map.getOrDefault(downRow, -1)));
-        }
-        if (currX + 1 < cookieGrid[0].length) {
-            map.put(rightColumn, Math.max(cookiesHere, map.getOrDefault(rightColumn, -1)));
-        }
+        // int cookiesHere = map.get(coords) + cookieGrid[currY][currX];
+        // // Checking y first
+        // if (currY + 1 < cookieGrid.length) {
+        // map.put(downRow, Math.max(cookiesHere, map.getOrDefault(downRow, -1)));
+        // }
+        // if (currX + 1 < cookieGrid[0].length) {
+        // map.put(rightColumn, Math.max(cookiesHere, map.getOrDefault(rightColumn, -1)));
+        // }
         if (currX + 1 < cookieGrid[0].length) {
             return dynamicCookiesHelper(cookieGrid, rightColumn, map);
-        } else if (currY + 1 < cookieGrid.length) {
-            String newRow = "0," + String.valueOf(currY + 1);
-            return dynamicCookiesHelper(cookieGrid, newRow, map);
+            // } else if (currY + 1 < cookieGrid.length) {
+            // String newRow = "0," + String.valueOf(currY + 1);
+            // return dynamicCookiesHelper(cookieGrid, newRow, map);
         } else {
-            return cookiesHere;
+            return 0;
         }
     }
 

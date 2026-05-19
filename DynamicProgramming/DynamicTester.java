@@ -3,8 +3,8 @@ import java.util.HashMap;
 public class DynamicTester {
     public static void main(String[] args) {
         // hiLoStress test, should be 17
-        int[] lowPayouts = {1, 5, 3, 4, 2, 1};
-        int[] highPayouts = {4, 7, 3, 6, 3, 2};
+        int[] lowPayouts = {1, 3, 10};
+        int[] highPayouts = {1, 6, 15};
         System.out.println(DynamicProgramming.hiLoStress(lowPayouts, highPayouts));
         // System.out.println(DynamicProgramming.hiLoStress(arr1, arr2));
         // Scav hunt test, should be 28 points by taking the 10, the 8, and then the 10
@@ -21,7 +21,9 @@ public class DynamicTester {
         int[] points3 = {4, 10, 8, 1, 10, 9};
         System.out.println(DynamicProgramming.scavHunt(times3, points3));
         // Cookie test, should be 26 cookies
-        int[][] cookies = {{5, 9, -1}, {3, 1, 4}, {6, 8, 3}};
+        int[][] cookies = {{5, 9, -1, 10, 11, 234, 12, 445, 21, 213, 401, 21}, 
+                           {3, 1, 4, 2, 1, 4, 10, 11, 0, -1, 5, 6}, 
+                           {6, 8, 3, 4, 5, 1, 3, 5, 1, 10, 11, 12}};
         System.out.println(DynamicProgramming.dynamicCookies(cookies));
 
     }
