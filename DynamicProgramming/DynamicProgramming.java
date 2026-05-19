@@ -185,34 +185,55 @@ public class DynamicProgramming {
             HashMap<String, Integer> map) {
         // Coordinates are (x, y)
         int commaIndex = 0;
-        try {
-            commaIndex = coords.indexOf(",");
-        } catch (Exception e) {
-            System.out.println(coords);
-            return -1;
-        }
+        commaIndex = coords.indexOf(",");
         int currX = Integer.parseInt(coords.substring(0, commaIndex));
         int currY = Integer.parseInt(coords.substring(commaIndex + 1));
         String downRow = String.valueOf(currX) + "," + String.valueOf(currY + 1);
         String rightColumn = String.valueOf(currX + 1) + "," + String.valueOf(currY);
-        // int cookiesHere = map.get(coords) + cookieGrid[currY][currX];
-        // // Checking y first
-        // if (currY + 1 < cookieGrid.length) {
-        // map.put(downRow, Math.max(cookiesHere, map.getOrDefault(downRow, -1)));
-        // }
-        // if (currX + 1 < cookieGrid[0].length) {
-        // map.put(rightColumn, Math.max(cookiesHere, map.getOrDefault(rightColumn, -1)));
-        // }
-        if (currX + 1 < cookieGrid[0].length) {
+        int cookiesHere = map.get(coords) + cookieGrid[currY][currX];
+        // Checking y first
+        if (allowedSquare(downRow, cookieGrid)) {
+            map.put(downRow, Math.max(cookiesHere, map.getOrDefault(downRow, -1)));
+        }
+        if (allowedSquare(rightColumn, cookieGrid)) {
+            map.put(rightColumn, Math.max(cookiesHere, map.getOrDefault(rightColumn, -1)));
+        }
+        if (allowedSquare(rightColumn, cookieGrid)) {
             return dynamicCookiesHelper(cookieGrid, rightColumn, map);
-            // } else if (currY + 1 < cookieGrid.length) {
-            // String newRow = "0," + String.valueOf(currY + 1);
-            // return dynamicCookiesHelper(cookieGrid, newRow, map);
         } else {
-            return 0;
+            if (!allowedSquare(downRow, cookieGrid)) {
+                String endCoord = String.valueOf(cookieGrid.length) + ","
+                        + String.valueOf(cookieGrid[cookieGrid.length - 1].length);
+                map.put(endCoord, Math.max(cookiesHere, map.getOrDefault(endCoord, -1)));
+            }
+            String newRow = "0," + String.valueOf(currY + 1);
+            if (allowedSquare(newRow, cookieGrid)) {
+                return dynamicCookiesHelper(cookieGrid, newRow, map);
+            } else {
+                String endCoord = String.valueOf(cookieGrid.length) + ","
+                        + String.valueOf(cookieGrid[cookieGrid.length - 1].length);
+                map.put(endCoord, Math.max(cookiesHere, map.getOrDefault(endCoord, -1)));
+                return map.get(endCoord);
+            }
         }
     }
 
-
+    private static boolean allowedSquare(String coords, int[][] cookieGrid) {
+        int commaIndex = coords.indexOf(",");
+        int currX = Integer.parseInt(coords.substring(0, commaIndex));
+        int currY = Integer.parseInt(coords.substring(commaIndex + 1));
+        if (currY >= cookieGrid.length) {
+            return false;
+        }
+        if (currX >= cookieGrid[currY].length) {
+            return false;
+        }
+        if (cookieGrid[currY][currX] == -1) {
+            return false;
+        }
+        return true;
+    }
 
 }
+
+
