@@ -1,8 +1,6 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DynamicProgramming {
-    private HashMap<Integer[][], Integer> hiLoStressMap;
 
     // Every day for the rest of the year, you're going to be given a choice between two jobs to do:
     // one that is LOW stress, and one that is HIGH stress. Each job pays out a dollar amount;
