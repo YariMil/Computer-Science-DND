@@ -2,7 +2,7 @@ import java.util.HashMap;
 
 public class DynamicTester {
     public static void main(String[] args) {
-        // hiLoStress test, should be 17
+        // hiLoStress test, should be 19
         int[] lowPayouts = {1, 3, 10};
         int[] highPayouts = {1, 6, 15};
         System.out.println(DynamicProgramming.hiLoStress(lowPayouts, highPayouts));
@@ -20,14 +20,19 @@ public class DynamicTester {
         int[] times3 = {3, 5, 16, 25, 26, 27};
         int[] points3 = {4, 10, 8, 1, 10, 9};
         System.out.println(DynamicProgramming.scavHunt(times3, points3));
-        // Cookie test, should be 26 cookies
-        // int[][] cookies = {{5, 9, -1, 10, 11, 234, 12, 445, 21, 213, 401, 21},
-        // {3, 1, 4, 2, 1, 4, 10, 11, 0, -1, 5, 6}, {6, 8, 3, 4, 5, 1, 3, 5, 1, 10, 11, 122}};
-        int[][] cookies2 = {{1, 2, 2}, 
-                            {1, 0, -1}, 
-                            {1, -1, 0}};
-        // System.out.println(DynamicProgramming.dynamicCookies(cookies));
+        // Cookie test, should be 196 cookies
+        int[][] cookies = {{5, 9, -1, 10, 11, 234, 12, 445, 21, 213, 401, 21},
+                {3, 1, 4, 2, 1, 4, 10, 11, 0, -1, 5, 6}, {6, 8, 3, 4, 5, 1, 3, 5, 1, 10, 11, 122}};
+        // Should return 10 cookies, testing out a ton of edge cases
+        int[][] cookies2 = {{10, 0}, {-1, -1, 1000}, {-1, 99, -1}};
+        // also edge cases, should return 111 cookies
+        int[][] cookies3 = {{10, 0}, {-1, 2, 10}, {-1, 99, -1}};
+        // Testing a start case of -1
+        int[][] cookies4 = {{-1, 0, 10}, {-1, 2, 10}, {-1, 99, -1}};
+        System.out.println(DynamicProgramming.dynamicCookies(cookies));
         System.out.println(DynamicProgramming.dynamicCookies(cookies2));
+        System.out.println(DynamicProgramming.dynamicCookies(cookies3));
+        System.out.println(DynamicProgramming.dynamicCookies(cookies4));
 
     }
 }

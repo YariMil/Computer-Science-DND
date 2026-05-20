@@ -12,6 +12,11 @@ public class DynamicProgramming {
 
     // You can assume lowPayouts.length == highPayouts.length
     public static int hiLoStress(int[] lowPayouts, int[] highPayouts) {
+        if (lowPayouts == null || highPayouts == null) {
+            return -1;
+        } else if (lowPayouts.length != highPayouts.length) {
+            return -1;
+        }
         HashMap<Integer, Integer> rewardsMap = new HashMap<Integer, Integer>();
         // This is a hashMap of money BY a certain day, the money amount
         // Day 0 we have nothing
@@ -88,6 +93,12 @@ public class DynamicProgramming {
     // have to choose!
     // Write a method that returns the maximum POINTS you can get.
     public static int scavHunt(int[] times, int[] points) {
+        if (times == null || points == null) {
+            return -1;
+        }
+        if (times.length != points.length) {
+            return -1;
+        }
         HashMap<Integer, Integer> rewardsMap = new HashMap<Integer, Integer>();
         int index = 0;
         rewardsMap.put(times[0], 0);
@@ -175,16 +186,21 @@ public class DynamicProgramming {
      * only going right or down at each point
      */
     public static int dynamicCookies(int[][] cookieGrid) {
-        String startCoords = "1,0";
+        if (cookieGrid == null) {
+            return -1;
+        } else if (cookieGrid[0][0] == -1) {
+            return -1;
+        }
+        String startCoords = "0,0";
         HashMap<String, Integer> map = new HashMap<String, Integer>();
-        map.put("0,0", 0);
+        // Entering at an invalid index so we can start at 0.
+        map.put("-1,0", 0);
         return dynamicCookiesHelper(cookieGrid, startCoords, map);
     }
 
     private static int dynamicCookiesHelper(int[][] cookieGrid, String coords,
             HashMap<String, Integer> map) {
         // Coordinates are (x, y)
-        // For some
         int commaIndex = coords.indexOf(",");
         int currX = Integer.parseInt(coords.substring(0, commaIndex));
         int currY = Integer.parseInt(coords.substring(commaIndex + 1));
@@ -198,13 +214,34 @@ public class DynamicProgramming {
                     getCookies(cookieGrid, leftColumn, map)));
         }
         if (currX + 1 < cookieGrid[currY].length) {
+            if (cookieGrid[currY][currX + 1] == -1
+                    && (currY + 1 >= cookieGrid.length || cookieGrid[currY + 1][currX] == -1)) {
+                // Dead end
+                if (map.get(coords) != -1) {
+                    consolidateCookies(cookieGrid, map.get(coords) + cookieGrid[currY][currX], map);
+                } else {
+                    consolidateCookies(cookieGrid, -1, map);
+                }
+            }
             String rightColumn = String.valueOf(currX + 1) + "," + String.valueOf(currY);
             return dynamicCookiesHelper(cookieGrid, rightColumn, map);
         } else if (currY + 1 < cookieGrid.length) {
+            if (currX >= cookieGrid[currY + 1].length || cookieGrid[currY + 1][currX] == -1) {
+                // Dead end or blocked off by a bomb.
+                if (map.get(coords) != -1) {
+                    consolidateCookies(cookieGrid, map.get(coords) + cookieGrid[currY][currX], map);
+                } else {
+                    consolidateCookies(cookieGrid, -1, map);
+                }
+
+            }
             String newRow = "0," + (currY + 1);
             return dynamicCookiesHelper(cookieGrid, newRow, map);
         } else {
-            return map.get(coords) + cookieGrid[currY][currX];
+            consolidateCookies(cookieGrid, map.get(coords) + cookieGrid[currY][currX], map);
+            String consolidatingCoords =
+                    cookieGrid[cookieGrid.length - 1].length + "," + cookieGrid.length;
+            return map.get(consolidatingCoords);
         }
 
     }
@@ -214,11 +251,19 @@ public class DynamicProgramming {
         int currX = Integer.parseInt(coords.substring(0, commaIndex));
         int currY = Integer.parseInt(coords.substring(commaIndex + 1));
         if (currY < 0 || currX < 0) {
-            return -1;
-        } else if (map.get(coords) == -1) {
+            return map.getOrDefault(coords, -1);
+        } else if (map.getOrDefault(coords, -1) == -1) {
             return -1;
         }
         return map.get(coords) + cookieGrid[currY][currX];
+    }
+
+    private static void consolidateCookies(int[][] cookieGrid, int cookiesHere,
+            HashMap<String, Integer> map) {
+        String consolidatingCoords =
+                cookieGrid[cookieGrid.length - 1].length + "," + cookieGrid.length;
+        map.put(consolidatingCoords,
+                Math.max(cookiesHere, map.getOrDefault(consolidatingCoords, -1)));
     }
 
 
